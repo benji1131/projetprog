@@ -9,3 +9,5 @@ plt.axes().set_aspect('equal')
 plt.title('Plausibilité')
 plt.pcolormesh(x, y, plausibilite)
 plt.show()
+
+print()
