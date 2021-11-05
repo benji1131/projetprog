@@ -11,6 +11,7 @@ struct pays{
   int population;
   int pourcentage_vaccine;
   int densite_pop;
+  double r0;
 };
 
 //------------------------------------------------------------------------------------------------
@@ -26,6 +27,7 @@ struct pays{
   // R + V = Herve
   //rate epidemic R0 < 1
                 //R0 > 1 epidemic
+                //R = R(0)*x -> x = susceptible population -> (saint + %petit personne vaccinées/retablies)
 
 
 //-----------------------------------------------------------------------------------------------
@@ -39,15 +41,32 @@ struct pays{
 // pourcentage de gens qui rechoppe le covid
 
 
+// re suisse = (1.15 - 1.35) varie
+
 // definir condition de propagation
 
-void propagation(Ben){
+int propagation(Ben, int infecte, int immunisé, double * pays){ // par personnes comment propage
+
+  srand(time(NULL));
+  double = randomDomain = RAND_MAX +1.0;
+  double r0 = 115(rand()/randomDomain * 20)/100;
+
+  double superpropagateur_prob;
+  if(superporg = true)
+    return 
+  return nbr_personne_inf_par_1_personne_infectee_de_base; // 1 personne infecte 0.5pers
+//-> cb une personne infecte de personne selon temps t
+
   //1 individus cb de personne il peut toucher
+
   // mettre une proba aléatoire de grand porteur
   // temps ou t es infectueux
   // taux vaccination / taux des gens deja rétablis
   // confinement -> ! personne malade mais non déclarée !! ne sont pas confinée
   // densité popo
+
+
+
 }
 
 //------------------------------
@@ -67,7 +86,21 @@ void temp_retablissement(){
 }
 
 
-void population(lola){
+void population(struct pays nom, double time){
+  int saine = nom.population - 1;
+  int infectee = 1 ;
+  int immunise = 0 ;
+  int dead = 0 ;
+  int vaccine = 0 ;
+  for (int i = 0; i < time; i++) {
+
+    for (int j = 0; j < infectee; j++) {
+        infectee +=  propagation
+
+    }
+  }
+
+
   //nbr_initale_inf t=0
   //nbr infecte après temps t
   // en pourcentage 1 = M + R + V + S + D
@@ -97,5 +130,22 @@ void variant_potentiels(){
 
 
 
-//-----------------------------------------------------------------------------------------------
-//ETAPE1
+//-------------------------------------------------------------------------------------------
+int main(int argc, char const *argv[]) {
+  totale  = []
+  infecte = []   // axes y
+  retablis= [] // si pas immun -> peut redevenir saint
+  dead    = []  // si pas retablis
+  immun   = []  // (infecté + retablis) + dead
+  sain =[] //  pas touche
+  temps   = []  // axe x --> definie selon boucle for
+
+
+
+
+
+
+
+
+  return 0;
+}
