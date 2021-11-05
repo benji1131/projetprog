@@ -45,16 +45,22 @@ struct pays{
 
 // definir condition de propagation
 
-int propagation(Ben, int infecte, int immunisé, double * pays){ // par personnes comment propage
+int propagation(Ben, int infecte, double * pays){ // par personnes comment propage
 
   srand(time(NULL));
   double = randomDomain = RAND_MAX +1.0;
-  double r0 = 115(rand()/randomDomain * 20)/100;
+  double r0 = 115+(rand()/randomDomain * 20)/100;
 
-  double superpropagateur_prob;
-  if(superporg = true)
-    return 
-  return nbr_personne_inf_par_1_personne_infectee_de_base; // 1 personne infecte 0.5pers
+  double superpropagateur_prob = rand()/randomDomain * 100;
+
+  if(superporgpagateur_prob <=1){
+    return 10 + rand()/randomDomain*10;
+  }
+  else{
+    return rand()/randomDomain * 3; //->0,73 à 2,8 selon gestes barrière moyenne de 1,18
+  }
+
+    return return nbr_personne_inf_par_1_personne_infectee_de_base; // 1 personne infecte 0.5pers
 //-> cb une personne infecte de personne selon temps t
 
   //1 individus cb de personne il peut toucher
@@ -64,10 +70,9 @@ int propagation(Ben, int infecte, int immunisé, double * pays){ // par personne
   // taux vaccination / taux des gens deja rétablis
   // confinement -> ! personne malade mais non déclarée !! ne sont pas confinée
   // densité popo
-
-
-
 }
+
+
 
 //------------------------------
 //((((void pourcentage_vacine(){
@@ -77,12 +82,12 @@ int propagation(Ben, int infecte, int immunisé, double * pays){ // par personne
 //})))))
 //------------------------------
 
-void temp_retablissement(){
+void retablissement(){
   //aléatoire selon moyenne de temp_retablissement
   // mortatlité -> si pas rétablis !!
   // vacciné/remalade retablisssement plus rapide et PAS mortalité
 
-
+  return infcté-retablis /unitétmeps
 }
 
 
@@ -93,10 +98,13 @@ void population(struct pays nom, double time){
   int dead = 0 ;
   int vaccine = 0 ;
   for (int i = 0; i < time; i++) {
+    infectee = infectee * propagation(infectee, immunise, nom) ;
 
-    for (int j = 0; j < infectee; j++) {
-        infectee +=  propagation
+    }
+  }
 
+
+        for (int w = 0; w < 5)
     }
   }
 
