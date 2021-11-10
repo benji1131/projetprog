@@ -4,6 +4,22 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
+//--------------------------------------------------------------------------------------------
+//Simulation très intéressante !
+//Modèle
+dS/dt = – β I S   + R / τ       //S saint
+dC/dt = β I S – C / ν         //C contaminé
+dI/dt = C / ν – I / λ – μ I   //infecté après période d'incubation
+dR/dt = I / λ                 //Rétablis
+
+// Pop totale diminue avec cet Simulation - > somme de tout le intéressante
+
+// malade λ jours, I / λ est, à tout instant ->  λ=15-20
+//β > 0, appelé taux d’incidence (0-1)
+//μ > 0 prop virulence de l’agent contaminant. 2 à 3personne sans gestes, mais valeur de 0-0.1 -> 0.03?
+//ν est la durée, en jours, de la période d’incubation. -> estimée à 3-5 jours mais peut aller jusqu’à 14 jours.
+//temps moyen d’immunisation τ -> 1année ?
+
 //-----------------------------------------------------------------------------------------------
 // STRUCTURE
 struct pays{
