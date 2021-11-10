@@ -31,10 +31,15 @@ class Personne:
         #attention de pas dépasser la fenetre
         #attention à quand ca change de direction -> changement de vitesse
         #condition vx^2 + vy^2 = vitesse
-        #condition de mouvement selon statu ! infecté bouge plus, dead bouge plus
+        #condition de mouvement selon statu ! infecté/dead bouge plus
 
 
     def apparance(self):
         #pygame.circle(surface, color, center, radius) -> color change suivant le statut ! C,I,S,R,D
         # I = S = R = D = C = ??
         pygame.cricle(fenetre,[S,C,I,D,R], (self.x,self.y), TESTER)
+
+#3. condition pour changer de statut
+
+
+#4. run the file
