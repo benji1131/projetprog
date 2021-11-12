@@ -40,3 +40,10 @@ def infection:
     if certain temps dans certaine zone -> Saint becomes infectée
 
 #4. run the file
+
+
+
+
+Grille avec des carré qui changent de couleur avec le temps
+    funcanimation ou alors turtle ou pygame mais marche pas !!
+    
