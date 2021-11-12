@@ -5,20 +5,43 @@
 #include <time.h>
 #include <math.h>
 //--------------------------------------------------------------------------------------------
-//Simulation très intéressante !
-//Modèle
-dS/dt = – β I S   + R / τ       //S saint
-dC/dt = β I S – C / ν         //C contaminé
-dI/dt = C / ν – I / λ – μ I   //infecté après période d'incubation
-dR/dt = I / λ                 //Rétablis
 
-// Pop totale diminue avec cet Simulation - > somme de tout le intéressante
+void simulation_covid(xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,){
+  //Paramètre constantes
+  double beta = $$$$$$$$ ; //taux d'incidence => $
+  double lambda = 17 ; //nbr de jour malade -> infecte/lamba donne à tout instant (15-20 covid)
+  double incub = 4 ;   //incub est la durée, en jours, de la période d’incubation.
+                  //-> estimée à 3-5 jours mais peut aller jusqu’à 14 jours.
+  double tau1 = 6 * 30 ; //6mois immunisé si chopé le covid
+  double tau2 = 12 * 30 ;   // 12 mois immunisé si vacciné
+  double mu_sans_gestes = 0,03; //mu > 0 prop virulence de l’agent contaminant. 2 à 3personne sans gestes, mais valeur de 0-0.1 -> 0.03?
+  doube mu_avec_geste = 0,02; //On met dans la fonction ou alors dans le int ? pour faire les deux cas de figure
 
-// malade λ jours, I / λ est, à tout instant ->  λ=15-20
-//β > 0, appelé taux d’incidence (0-1)
-//μ > 0 prop virulence de l’agent contaminant. 2 à 3personne sans gestes, mais valeur de 0-0.1 -> 0.03?
-//ν est la durée, en jours, de la période d’incubation. -> estimée à 3-5 jours mais peut aller jusqu’à 14 jours.
-//temps moyen d’immunisation τ -> 1année ?
+  // Initialisation des valeurs -->TABLEAU !!!!!!!!!!!-> par pays : I,C,
+  int s0 = ; //saint
+  int c0 = ; // contamine
+  int i0 = ;  // infecté après période d'incubation
+  int r0 = 0; //rétabli-> = 0 ca on veut  voir 'évolution' de ce facteur au temps t
+  int d0 = 0; // mort initalisé a 0 pour avoir la valeur
+  double pourcentage_vaccine = ;
+  int population_totale = ;
+
+  //Soit variation des valeurs selon le modèle SIR étendu
+  // Population totale diminue avec cet Simulation
+  double ds_/dt = – beta * i0 * s0   + r0 / tau1  + immun/tau2;
+  double dc_/dt = beta * i0 * s0 – c0 / incub;
+  double di_/dt = c0 / incub – i0 / lambda – mu*i0;
+  double dr_/dt = i0 / lambda;
+  double dd_/dt = mu * i0;
+  double immun  = pourcentage_vacine * population_totale;  //!!!!! à travailer dans notre tableau
+
+   // changement des valeurs à mettre dans matrices pour les graphs
+   xxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
+   population_totale = population_totale - d0;
+}
+
 
 //-----------------------------------------------------------------------------------------------
 // STRUCTURE
@@ -57,36 +80,7 @@ struct pays{
 // pourcentage de gens qui rechoppe le covid
 
 
-// re suisse = (1.15 - 1.35) varie
 
-// definir condition de propagation
-
-int propagation(Ben, int infecte, double * pays){ // par personnes comment propage
-
-  srand(time(NULL));
-  double = randomDomain = RAND_MAX +1.0;
-  double r0 = 115+(rand()/randomDomain * 20)/100;
-
-  double superpropagateur_prob = rand()/randomDomain * 100;
-
-  if(superporgpagateur_prob <=1){
-    return 10 + rand()/randomDomain*10;
-  }
-  else{
-    return rand()/randomDomain * 3; //->0,73 à 2,8 selon gestes barrière moyenne de 1,18
-  }
-
-    return return nbr_personne_inf_par_1_personne_infectee_de_base; // 1 personne infecte 0.5pers
-//-> cb une personne infecte de personne selon temps t
-
-  //1 individus cb de personne il peut toucher
-
-  // mettre une proba aléatoire de grand porteur
-  // temps ou t es infectueux
-  // taux vaccination / taux des gens deja rétablis
-  // confinement -> ! personne malade mais non déclarée !! ne sont pas confinée
-  // densité popo
-}
 
 
 
@@ -107,7 +101,7 @@ void retablissement(){
 }
 
 
-void population(struct pays nom, double time){
+void population(struct pays nom, double time){ oublie j ai fais la focntion selon le modèle de SIR
   int saine = nom.population - 1;
   int infectee = 1 ;
   int immunise = 0 ;
