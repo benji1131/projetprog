@@ -1,15 +1,25 @@
 import numpy as np
 from matplotlib import pyplot as plt
-
+import turtle
 #Création visuelle de la propagation d'une épidemie
 #Pygame marche pas, du coup je fais avec quel site ?
+
+
+#idee 2: faire une grille avec à chaque changement
+#une proba de contaminer les carré autour qui n'on pas déjà été infecté
+
+#1. Faire une grille:
+
+
+
+
 #------------------------------------------------------------------------
 # 1.Création de la fenetre
-pygame.init()
+
 #taille fenetre
-fenetre = pygame.display.set_mode([800,600])
+
 #couleur fenetre
-fenetre.fill((255, 255, 255))#--> tester les tailles
+
 
 
 #2. Création des personnes movement, position, couleur suivant le statut
@@ -33,7 +43,7 @@ class Personne:
     def apparance(self):
         #pygame.circle(surface, color, center, radius) -> color change suivant le statut ! C(255, 255, 0),I(255, 0, 0),S(0, 0, 255),R(0, 255, 0),D(0, 0, 0)
         # I = S = R = D = C = ??
-        pygame.cricle(fenetre,[S,C,I,D,R], (self.x,self.y), TESTER_radius)
+
 
 #3. condition pour changer de statut
 def infection:
@@ -46,4 +56,3 @@ def infection:
 
 Grille avec des carré qui changent de couleur avec le temps
     funcanimation ou alors turtle ou pygame mais marche pas !!
-    
