@@ -1,58 +1,95 @@
 import numpy as np
-from matplotlib import pyplot as plt
-import turtle
-#Création visuelle de la propagation d'une épidemie
-#Pygame marche pas, du coup je fais avec quel site ?
+import math
+import random
+from random import *
+import matplotlib.pyplot as plt
+
+#------------------------------------------------------------------------------
+def infection(): #sans geste barrières
+    n = random()
+    if n < 0.4:  #valeur qui montre bien la propagation du virus plutot virulant
+        return 1 #pour dire infecté
+    else:
+        return 0 #pour dire saint
+
+def infection2(): #avec geste barrières
+    n = random()
+    if n < 0.3:  #valeur plus petite car les gestes barrières sont inclus dans le modèle
+        return 1 #pour dire infecté
+    else:
+        return 0 #pour dire saint
+#------------------------------------------------------------------------------
+def couleur_valeur(valeur): #dans le graph, je veux une certaine couleur pour une certaine valeur
+    if valeur == 0:
+        couleur = "w" #saint blanc
+
+    elif valeur ==1:
+        couleur = "r" #infecté red
+
+    else:
+        couleur = "m" #retablis magenta
+
+    return couleur
+
+#------------------------------------------------------------------------------
+#1.Sans gestes barrière
+
+#Grille de 100 "personnes"
+population = np.zeros([100,100])
+
+#random patient zéro
+#infecte0_x = math.floor(random()*100)
+#infecte0_y = math.floor(random()*100)
+#print(infecte0_x, infecte0_y)
+
+#patient zero dans population
+#population[infecte0_x,infecte0_y] = 1
+population[50,50] = 1
 
 
-#idee 2: faire une grille avec à chaque changement
-#une proba de contaminer les carré autour qui n'on pas déjà été infecté
+#Epidemie
+#choisir condition d'arret de la boucle
+for w in range(100):
+    population_copy = np.copy(population) #crée copy pour chercher les valeurs des infecté sans les modifs
+    for i in range(1,100):
+        for j in range (1,100):
+            if population_copy[i,j] == 1:
+                population[i,j] = 2  #valeur = 2 --> Retablis voir si on veut le moment d'incubation !!
+                for x in range(-1,2):
+                    for y in range(-1,2):
+                        if population[i+x,j+y] == 2 :
+                            pass
+                        else:
+                            population[i+x,j+y] = infection()
 
-#1. Faire une grille:
-
-
-
-
-#------------------------------------------------------------------------
-# 1.Création de la fenetre
-
-#taille fenetre
-
-#couleur fenetre
-
-
-
-#2. Création des personnes movement, position, couleur suivant le statut
-class Personne:
-    def __init__(self,x,y,vx,vy, statut):
-        self.x = x
-        self.y = y
-
-    def mouvement(self):
-        #attention de pas dépasser la fenetre
-        #attention à quand ca change de direction -> changement de vitesse
-        #condition vx^2 + vy^2 = vitesse
-        #condition de mouvement selon statu ! infecté/dead bouge plus
-        if self.x =
-        if self.y =
-        if self.statut =
-        if self.statut =
-        else pass
+    print(population)
+#------------------------------------------------------------------------------
+#2. Avec gestes Barrière
 
 
-    def apparance(self):
-        #pygame.circle(surface, color, center, radius) -> color change suivant le statut ! C(255, 255, 0),I(255, 0, 0),S(0, 0, 255),R(0, 255, 0),D(0, 0, 0)
-        # I = S = R = D = C = ??
+population2 = np.zeros([100,100])
 
 
-#3. condition pour changer de statut
-def infection:
-    if certain temps dans certaine zone -> Saint becomes infectée
-
-#4. run the file
+population2[50,50] = 1
 
 
+#Epidemie
+#choisir condition d'arret de la boucle
+for w in range(100):
+    population2_copy = np.copy(population2) #crée copy pour chercher les valeurs des infecté sans les modifs
+    for i in range(1,100):
+        for j in range (1,100):
+            if population2_copy[i,j] == 1:
+                population2[i,j] = 2  #valeur = 2 --> Retablis voir si on veut le moment d'incubation !!
+                for x in range(-1,2):
+                    for y in range(-1,2):
+                        if population2[i+x,j+y] == 2 :
+                            pass
+                        else:
+                            population2[i+x,j+y] = infection2()
 
-
-Grille avec des carré qui changent de couleur avec le temps
-    funcanimation ou alors turtle ou pygame mais marche pas !!
+    print(population2)
+#------------------------------------------------------------------------------
+#faire les plots !!
+#Comment animer tout ca ?
+#ajouter count infecté et rétablis à chaque instant
