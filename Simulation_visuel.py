@@ -93,3 +93,5 @@ for w in range(100):
 #faire les plots !!
 #Comment animer tout ca ?
 #ajouter count infecté et rétablis à chaque instant
+#ajouter temps incubation ?
+#ajouter vaccination !!
