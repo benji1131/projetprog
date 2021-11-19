@@ -35,14 +35,18 @@ list_pop = []
 for w in range(40):
     population_copy = np.copy(population) #crée copy pour chercher les valeurs des infecté sans les modifs
     list_pop.append(population.copy())
-    for i in range(1,25):
-        for j in range (1,25):
+    for i in range(1,24):
+        for j in range (1,24):
+
             if population_copy[i,j] == 1:
                 population[i,j] = 2  #valeur = 2 --> Retablis voir si on veut le moment d'incubation !!
+
                 for x in range(-1,2):
                     for y in range(-1,2):
+
                         if population[i+x,j+y] == 2 :
                             pass
+
                         else:
                             population[i+x,j+y] = infection()
 
@@ -63,7 +67,7 @@ list_popu = []
 for w in range(40):
     population2_copy = np.copy(population2)#crée copy pour chercher les valeurs dess infecté sans les modifs
     list_popu.append(population2.copy())
-    for i in range(1,24):
+    for i in range(1,24): #pour eviter les problème de bords
         for j in range (1,24):
             if population2_copy[i,j] == 1:
                 population2[i,j] = 2  #valeur = 2 --> Retablis voir si on veut le moment d'incubation !!
@@ -121,11 +125,13 @@ for w in range(40):
 n_frames = 40           #nbr de "plots" qui s'affiches
 c = mpl.colors.ListedColormap(['white', 'red', 'blue', 'black']) #couleurs
 n = mpl.colors.Normalize(vmin=0,vmax=3)#répartir couleurs selon valeurs
-
 #-----------------------------------------------------------------------------
 #1 Pas de geste Barrière
 fig1 = plt.figure()
 plot1 = plt.matshow(list_pop[0], fignum=0, cmap=c, norm=n)
+fig1.patch.set_facecolor('lightgrey')
+plt.axis("off")
+plt.title("Propagation Visuel du COVID")
 
 
 def init1():
@@ -181,3 +187,41 @@ anim3 = FuncAnimation(fig3, update3, init_func = init3, frames=n_frames, interva
 #Mais ca marche !! continue comme ca !! :)
 # :)
 #Courage :) !!
+
+#peut faire un plt.ion pour modifier la valeurs de notre propagation en directe !
+#------------------------------------------------------------------------------------------
+#mettre tout ensemble
+def init_overall():
+    plot[0].set_data(list_pop[0])
+    plot[1].set_data(list_popu[0])
+    plot[2].set_data(list_popu3[0])
+    plot[3].set_data(list_popu3[0])
+
+    return plot
+
+def update_overall(j):
+    plot[0].set_data(list_pop[j])
+    plot[1].set_data(list_popu[j])
+    plot[2].set_data(list_popu3[j])
+    plot[3].set_data(list_popu3[j])
+
+    return plot
+
+fig_overall = plt.figure()
+
+fig, (plot_overall[0], plot_overall[1], plot_overall[3], plot_overall[4]) = plt.subplots(2, 2)
+axs[0, 0].plot_overall[0]
+axs[0, 0].set_title("Sans Geste Barrière")
+axs[1, 0].plot_overall[1]
+axs[1, 0].set_title("Avec Gestes Barrières")
+axs[1, 0].sharex(axs[0, 0])
+axs[0, 1].plot_overall[2]
+axs[0, 1].set_title("10 % de Vaccination et Gestes Barrière")
+axs[1, 1].plot_overall[3]
+axs[1, 1].set_title("Variable")
+
+plot_overall = [plt.matshow(list_pop[0], fignum=0, cmap=c, norm=n),plt.matshow(list_popu[0], fignum=0, cmap=c, norm=n),plt.matshow(list_popu3[0], fignum=0, cmap=c, norm=n),plt.matshow(list_popu3[0], fignum=0, cmap=c, norm=n)]
+
+
+anim = FuncAnimation(fig_overall, update_overall, init_func = init_overall, frames=n_frames, interval =300, blit=False)
+plt.show()
