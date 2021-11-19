@@ -6,19 +6,18 @@
 #include <math.h>
 //--------------------------------------------------------------------------------------------
 
-void simulation_covid(xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx){
+void simulation_covid(struct pays, s, c, i, r, d, Re0, gesteBarriere, confinement){
   //Paramètre constantes
   double incidence = pays.incidence ; // taux d'incidence
-  double Re0 = ; // taux de propagation, change tous les 7 jours
-  double beta = incidence * Re0 ; //
-  double lambda = 17 ; //nbr de jour malade -> infecte/lamba donne à tout instant (15-20 covid)
-  double incub = 4 ;   //incub est la durée, en jours, de la période d’incubation.
+  // double Re0 = ; // taux de propagation (change tous les 7 jours)
+  int lambda = 17 ; //nbr de jour malade -> infecte/lamba donne à tout instant (15-20 covid)
+  int incub = 5 ;   //incub est la durée, en jours, de la période d’incubation.
                   //-> estimée à 3-5 jours mais peut aller jusqu’à 14 jours.
-  double tau1 = 6 * 30 ; //6mois immunisé si chopé le covid [jours]
-  double tau2 = 12 * 30 ;   // 12 mois immunisé si vacciné [jours]
+  int tau1 = 6 * 30 ; //6mois immunisé si chopé le covid [jours]
+  int tau2 = 12 * 30 ;   // 12 mois immunisé si vacciné [jours]
   double mu = 0,03 ; // taux de mortalité en suisse
 
-  if(gesteBarrière == True){
+  if(gesteBarriere == True){
     double Re -= Re0 * 0,7 ; // les gestes barrières réduisent de 30% le taux de propagation
   }
   else {
@@ -32,30 +31,30 @@ void simulation_covid(xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx){
     double Re = Re0 ;
   }
 
-  // Initialisation des valeurs -->TABLEAU !!!!!!!!!!!-> par pays : I,C,
-  int s0 = &pays.population - 1 ; //saines
-  int c0 = 1 ; // contaminées
-  int i0 = 0 ;  // infectées après période d'incubation
-  int r0 = 0 ; //rétablies-> = 0 ca on veut  voir 'évolution' de ce facteur au temps t
-  int d0 = 0 ; // mort initalisé a 0 pour avoir la valeur
-  double immun0  = pourcentage_vaccine * population_totale ;  //!!!!! à travailer dans notre tableau
+  double beta = incidence * Re ; //
 
-  double pourcentage_vaccine = pays.pourcentage_vaccine ;
-  int population_totale = s + c + i + r + immun0 - d ;
+  // Initialisation des valeurs -->TABLEAU !!!!!!!!!!!-> par pays : I,C,
+  // int s0 = &pays.population - 1 ; //saines
+  // int c0 = 1 ; // contaminées
+  // int i0 = 0 ;  // infectées après période d'incubation
+  // int r0 = 0 ; //rétablies-> = 0 ca on veut  voir 'évolution' de ce facteur au temps t
+  // int d0 = 0 ; // mort initalisé a 0 pour avoir la valeur
+  // int immun  = pays.vaccine ;  //!!!!! à travailer dans notre tableau
+  int population_totale = s + c + i + r + immun - d ;
 
   //Soit variation des valeurs selon le modèle SIR étendu
   // Population totale diminue avec cet Simulation
-  double ds_/dt = - beta * i0 * s0 + r0 / tau1 + immun / tau2 ;
-  double dc_/dt = beta * i0 * s0 – c0 / incub ;
-  double di_/dt = c0 / incub - i0 / lambda - mu * i0 ;
-  double dr_/dt = i0 / lambda - r0 / tau1 ;
-  double dd_/dt = mu * i0 ;
-  double dimmun_/dt = imun0 - imun0 / tau2 ;
+  int ds_/dt = - beta * i * s + r / tau1 + immun / tau2 ;
+  int dc_/dt = beta * i * s – c / incub ;
+  int di_/dt = c / incub - i / lambda - mu * i ;
+  int dr_/dt = i / lambda - r / tau1 ;
+  int dd_/dt = mu * i ;
+  int dimmun_/dt = imun - imun / tau2 ;
    // changement des valeurs à mettre dans matrices pour les graphs
-   xxxxxxxxxxxxxxxxxxxxxxxxxx
 
+   population_totale -= dd_/dt ;
 
-   population_totale = population_totale - d0;
+   printf ("%d %d %d %d %d %d", ds_/dt, dc_/dt, di_/dt, dr_/dt, dd_/dt, dimmun_/dt)
 }
 
 
@@ -64,7 +63,7 @@ void simulation_covid(xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx){
 struct pays{
   char* nom;
   int population;
-  int pourcentage_vaccine;
+  int vaccine;
   int densite_pop;
   double r0;
   int incidence ;
