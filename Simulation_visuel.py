@@ -50,6 +50,32 @@ for w in range(40):
                         else:
                             population[i+x,j+y] = infection()
 
+#Plot
+#Paramètres
+n_frames = 40           #nbr de "plots" qui s'affiches
+c = mpl.colors.ListedColormap(['white', 'red', 'blue', 'black']) #couleurs
+n = mpl.colors.Normalize(vmin=0,vmax=3)#répartir couleurs selon valeurs
+
+fig1 = plt.figure()
+fig1.patch.set_facecolor('lightgrey')
+plt.axis("off")
+plt.title("Propagation Visuel du COVID Sans Geste Barrière")
+
+
+#---
+
+plot1 = plt.matshow(list_pop[0], fignum=0, cmap=c, norm=n)
+
+def init1():
+    plot1.set_data(list_pop[0])
+    return plot1
+
+def update1(j):
+    plot1.set_data(list_pop[j])
+    return plot1
+
+anim1 = FuncAnimation(fig1, update1, init_func = init1, frames=n_frames, interval =300, blit=False)
+
 
 
 #------------------------------------------------------------------------------
@@ -78,6 +104,32 @@ for w in range(40):
                         else:
                             population2[i+x,j+y] = infection2()
 
+#Plot
+#Paramètres
+n_frames = 40           #nbr de "plots" qui s'affiches
+c = mpl.colors.ListedColormap(['white', 'red', 'blue', 'black']) #couleurs
+n = mpl.colors.Normalize(vmin=0,vmax=3)#répartir couleurs selon valeurs
+
+fig2 = plt.figure()
+fig2.patch.set_facecolor('lightgrey')
+plt.axis("off")
+plt.title("Propagation Visuel du COVID Avec Gestes Barrière")
+
+#---
+
+plot2 = plt.matshow(list_popu[0], fignum=0, cmap=c, norm=n)
+
+
+def init2():
+    plot2.set_data(list_popu[0])
+    return plot2
+
+def update2(j):
+    plot2.set_data(list_popu[j])
+    return plot2
+
+anim2 = FuncAnimation(fig2, update2, init_func = init2, frames=n_frames, interval =300, blit=False)
+plt.show()
 
 
 #------------------------------------------------------------------------------
@@ -111,58 +163,21 @@ for w in range(40):
                         else:
                             population3[i+x,j+y] = infection2()
 
-
-
-#------------------------------------------------------------------------------
-
-#faire les plots !!
-#Comment animer tout ca ?
-#ajouter count infecté et rétablis à chaque instant
-#-----------------------------------------------------------------------------
-#Graphw
-
+#Plot
 #Paramètres
 n_frames = 40           #nbr de "plots" qui s'affiches
 c = mpl.colors.ListedColormap(['white', 'red', 'blue', 'black']) #couleurs
 n = mpl.colors.Normalize(vmin=0,vmax=3)#répartir couleurs selon valeurs
-#-----------------------------------------------------------------------------
-#1 Pas de geste Barrière
-fig1 = plt.figure()
-plot1 = plt.matshow(list_pop[0], fignum=0, cmap=c, norm=n)
-fig1.patch.set_facecolor('lightgrey')
-plt.axis("off")
-plt.title("Propagation Visuel du COVID")
 
 
-def init1():
-    plot1.set_data(list_pop[0])
-    return plot1
-
-def update1(j):
-    plot1.set_data(list_pop[j])
-    return plot1
-
-anim1 = FuncAnimation(fig1, update1, init_func = init1, frames=n_frames, interval =300, blit=False)
-
-#2 Gestes Barrières
-fig2 = plt.figure()
-plot2 = plt.matshow(list_popu[0], fignum=0, cmap=c, norm=n)
-
-
-def init2():
-    plot2.set_data(list_popu[0])
-    return plot2
-
-def update2(j):
-    plot2.set_data(list_popu[j])
-    return plot2
-
-anim2 = FuncAnimation(fig2, update2, init_func = init2, frames=n_frames, interval =300, blit=False)
-plt.show()
-
-
-#3 Avec Vaccination
 fig3 = plt.figure()
+
+fig3.patch.set_facecolor('lightgrey')
+plt.axis("off")
+plt.title("Propagation Visuel du COVID avec 10% Vaccination")
+
+
+#---
 plot3 = plt.matshow(list_popu3[0], fignum=0, cmap=c, norm=n)
 
 
@@ -175,6 +190,15 @@ def update3(j):
     return plot3
 
 anim3 = FuncAnimation(fig3, update3, init_func = init3, frames=n_frames, interval =300, blit=False)
+
+
+#------------------------------------------------------------------------------
+
+#ajouter count infecté et rétablis à chaque instant
+#-----------------------------------------------------------------------------
+
+
+
 
 
 
@@ -191,37 +215,44 @@ anim3 = FuncAnimation(fig3, update3, init_func = init3, frames=n_frames, interva
 #peut faire un plt.ion pour modifier la valeurs de notre propagation en directe !
 #------------------------------------------------------------------------------------------
 #mettre tout ensemble
-def init_overall():
-    plot[0].set_data(list_pop[0])
-    plot[1].set_data(list_popu[0])
-    plot[2].set_data(list_popu3[0])
-    plot[3].set_data(list_popu3[0])
 
-    return plot
+#Subplot ca marche pas avec matshow et animé ...
+def init_overall():
+    plot_overall[0].set_data(list_pop[0])
+    plot_overall[1].set_data(list_popu[0])
+    plot_overall[2].set_data(list_popu3[0])
+    plot_overall[3].set_data(list_popu3[0])
+
+    return plot_overall
 
 def update_overall(j):
-    plot[0].set_data(list_pop[j])
-    plot[1].set_data(list_popu[j])
-    plot[2].set_data(list_popu3[j])
-    plot[3].set_data(list_popu3[j])
+    plot_overall[0].set_data(list_pop[j])
+    plot_overall[1].set_data(list_popu[j])
+    plot_overall[2].set_data(list_popu3[j])
+    plot_overall[3].set_data(list_popu3[j])
 
-    return plot
-
-fig_overall = plt.figure()
-
-fig, (plot_overall[0], plot_overall[1], plot_overall[3], plot_overall[4]) = plt.subplots(2, 2)
-axs[0, 0].plot_overall[0]
-axs[0, 0].set_title("Sans Geste Barrière")
-axs[1, 0].plot_overall[1]
-axs[1, 0].set_title("Avec Gestes Barrières")
-axs[1, 0].sharex(axs[0, 0])
-axs[0, 1].plot_overall[2]
-axs[0, 1].set_title("10 % de Vaccination et Gestes Barrière")
-axs[1, 1].plot_overall[3]
-axs[1, 1].set_title("Variable")
+    return plot_overall
 
 plot_overall = [plt.matshow(list_pop[0], fignum=0, cmap=c, norm=n),plt.matshow(list_popu[0], fignum=0, cmap=c, norm=n),plt.matshow(list_popu3[0], fignum=0, cmap=c, norm=n),plt.matshow(list_popu3[0], fignum=0, cmap=c, norm=n)]
 
+# create a figure with 4 subplots
 
-anim = FuncAnimation(fig_overall, update_overall, init_func = init_overall, frames=n_frames, interval =300, blit=False)
+fig, ax = plt.subplots(1,4)
+# fig.suptitle('Using matshow to plot a previously created 2D-histogram')
+
+ax[0].matshow(list_pop[0], cmap=c, norm=n)
+ax[0].set_title('matshow')
+
+ax[1].matshow(list_popu[0], cmap=c, norm=n)
+ax[1].set_title('matshow (explicit extent)')
+
+ax[2].mathsow(list_popu3[0],cmap=c, norm=n)
+ax[2].set_title('imshow')
+
+ax[3].mathsow(list_popu3[0], cmap=c, norm=n)
+ax[3].set_title('imshow')
+
+
+
+anim = FuncAnimation(fig, update_overall, init_func = init_overall, frames=n_frames, interval =300, blit=False)
 plt.show()
