@@ -2,307 +2,183 @@ import numpy as np
 import secrets
 import matplotlib.pyplot as plt
 import matplotlib as mpl
+#from matplotlib import animation if save the gif
 from matplotlib.animation import FuncAnimation
-#------------------------------------------------------------------------------
-def infection(): #sans geste barrières
-    n =secrets.randbelow(101)/100
-    if n < 0.4:  #valeur qui montre bien la propagation du virus plutot virulant
-        return 1 #pour dire infecté
-    else:
-        return 0 #pour dire saint
-
-def infection2(): #avec geste barrières
-    n = secrets.randbelow(101)/100
-    if n < 0.36:  #valeur plus petite car les gestes barrières sont inclus dans le modèle
-        return 1 #pour dire infecté
-    else:
-        return 0 #pour dire saint
-
-#------------------------------------------------------------------------------
-#1.Sans gestes barrière
-
-#Grille de 25^2 "personnes"
-population = np.zeros([50,50])
 
 
-population[25,25] = 1
-list_pop = []
+#-----------------------------------------------------------------------------
+#faire une classe pour tou ca !!
+class Population:
+    def __init__(self, population_nbr, pourcentage_propa, pourcentage_mort,frames, pourcentage_vacc):
+        self.population_nbr = population_nbr
+        self.population = np.zeros([population_nbr, population_nbr])    # matrice qui représente notre population
+        self.population[population_nbr//2,population_nbr//2] = 1          #patient 0
+        self.list_population = []                                       #Initialise la list
+        self.list_poss = [-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10] #dans carré de largeur 10
+        self.propagation = pourcentage_propa
+        self.pourcentage_mort = pourcentage_mort
+        self.pourcentage_vacc = pourcentage_vacc
+        self.frames = frames
+
+        #pour les graph mtn
+                                         #répartir couleurs selon valeurs
+
+    def infection(self, pourcentage_propa, pourcentage_mort):
+        n =secrets.randbelow(101)/100
+        if n < pourcentage_propa and n > pourcentage_mort:  #valeur qui montre bien la propagation du virus plutot virulant
+            return 1    #pour dire infecté
+        elif n < pourcentage_mort:
+            return 3    #pour dire dead
+        else:
+            return 0    #pour dire saint
+
+    def vaccination(self): #10% vaccination pour voir l'effet
+        for i in range(0,50):
+            for j in range (0,50):
+                n = secrets.randbelow(11)/10
+                if n < self.pourcentage_vacc:
+                    self.population[i,j] = 4
+
+    def voisinage(self, population_nbr):
+        for w in range(self.frames):
+            population_copy = np.copy(self.population)#crée copy pour chercher les valeurs dess infecté sans les modifs
+            self.list_population.append(self.population.copy())
+            for i in range(1,population_nbr-1):
+                for j in range (1, population_nbr-1):
+                    if population_copy[i,j] == 1 :
+                        self.population[i,j] = 2  #valeur = 2 --> Retablis voir si on veut le moment d'incubation !!
+                        for x in range(-1,2):
+                            for y in range(-1,2):
+                                if self.population[i+x,j+y] == 2 or self.population[i+x,j+y]==3 or self.population[i+x,j+y] == 4:
+                                    pass
+                                else:
+                                    self.population[i+x,j+y] = self.infection(self.propagation, self.pourcentage_mort)
 
 
-for w in range(100):
-    population_copy = np.copy(population) #crée copy pour chercher les valeurs des infecté sans les modifs
-    list_pop.append(population.copy())
-    for i in range(1,49):
-        for j in range (1,49):
+    def voyages(self, population_nbr): #soit une personne voit en moyenne 5 mêmes personnes par jour qui n'habitent pas à coté de chez lui
 
-            if population_copy[i,j] == 1:
-                population[i,j] = 2  #valeur = 2 --> Retablis voir si on veut le moment d'incubation !!
+        for w in range(self.frames):
+            population_copy = np.copy(self.population)#crée copy pour chercher les valeurs dess infecté sans les modifs
+            self.list_population.append(self.population.copy())
+            for i in range(1,population_nbr-1): #pour eviter les problème de bords
+                for j in range (1,population_nbr-1):
+                    if population_copy[i,j] == 1:
+                       self.population[i,j] = 2  #valeur = 2 --> Retablis voir si on veut le moment d'incubation !!
+                       for count in range(6):
+                            x = secrets.choice(self.list_poss)
+                            y = secrets.choice(self.list_poss)
 
-                for x in range(-1,2):
-                    for y in range(-1,2):
+                            if ((i+x < 1 or i+x > population_nbr-1) or (j+y < 1 or j+y > population_nbr-1)):
+                                pass
 
-                        if population[i+x,j+y] == 2 :
-                            pass
+                            elif(self.population[i+x,j+y]== 2 or self.population[i+x,j+y]==3):
+                                pass
 
-                        else:
-                            population[i+x,j+y] = infection()
+                            else:
+                                self.population[i+x,j+y] = self.infection(self.propagation, self.pourcentage_mort)
 
-#Plot
-#Paramètres
-n_frames = 100          #nbr de "plots" qui s'affiches
-c = mpl.colors.ListedColormap(['white', 'red', 'blue', 'black']) #couleurs
-n = mpl.colors.Normalize(vmin=0,vmax=3)#répartir couleurs selon valeurs
+#-----------------------------------------------------------------------------
+#paramètre pour les animations
+c = mpl.colors.ListedColormap(['white', 'red', 'blue', 'black','cyan']) #couleurs white Saint, red Infecté, blue Retablis, black Dead, cyan Vacciné donc immunisé
+n = mpl.colors.Normalize(vmin=0,vmax=4)
 
+
+
+
+#NOTES: il faut lancer les figure 1 par 1 sinon cela ne marche pas ! (selectionner entre les --- et runner la selection)
+#----------------------------------------------------------------------------
+#Figure 1. Sans geste barrière ni vaccination
+def initialisation_graph():
+    plot.set_data(cas_1.list_population[0])
+    return plot
+
+def update(j):
+    plot.set_data(cas_1.list_population[j])
+    return plot
+
+cas_1 = Population(50, 0.45, 0.01,70,0.1)
+cas_1.voisinage(50)
 fig1 = plt.figure()
+
 fig1.patch.set_facecolor('lightgrey')
 plt.axis("off")
-plt.title("Propagation Visuel du COVID Sans Geste Barrière")
+plt.title("Propagation Visuel Sans gestes Barrières")
 
+plot = plt.matshow(cas_1.list_population[0], fignum=0, cmap=c, norm=n)
 
-#---
-
-plot1 = plt.matshow(list_pop[0], fignum=0, cmap=c, norm=n)
-
-def init1():
-    plot1.set_data(list_pop[0])
-    return plot1
-
-def update1(j):
-    plot1.set_data(list_pop[j])
-    return plot1
-
-anim1 = FuncAnimation(fig1, update1, init_func = init1, frames=n_frames, interval =300, blit=False)
-
-
-
-#------------------------------------------------------------------------------
-#2. Avec gestes Barrière
-
-
-population2 = np.zeros([50,50])
-
-
-population2[25,25] = 1
-
-
-list_popu = []
-
-for w in range(100):
-    population2_copy = np.copy(population2)#crée copy pour chercher les valeurs dess infecté sans les modifs
-    list_popu.append(population2.copy())
-    for i in range(1,49): #pour eviter les problème de bords
-        for j in range (1,49):
-            if population2_copy[i,j] == 1:
-                population2[i,j] = 2  #valeur = 2 --> Retablis voir si on veut le moment d'incubation !!
-                for x in range(-1,2):
-                    for y in range(-1,2):
-                        if population2[i+x,j+y] == 2 :
-                            pass
-                        else:
-                            population2[i+x,j+y] = infection2()
-
-#Plot
-#Paramètres
-n_frames = 100           #nbr de "plots" qui s'affiches
-c = mpl.colors.ListedColormap(['white', 'red', 'blue', 'black']) #couleurs
-n = mpl.colors.Normalize(vmin=0,vmax=3)#répartir couleurs selon valeurs
-
-fig2 = plt.figure()
-fig2.patch.set_facecolor('lightgrey')
-plt.axis("off")
-plt.title("Propagation Visuel du COVID Avec Gestes Barrière")
-
-#---
-
-plot2 = plt.matshow(list_popu[0], fignum=0, cmap=c, norm=n)
-
-
-def init2():
-    plot2.set_data(list_popu[0])
-    return plot2
-
-def update2(j):
-    plot2.set_data(list_popu[j])
-    return plot2
-
-anim2 = FuncAnimation(fig2, update2, init_func = init2, frames=n_frames, interval =300, blit=False)
+anim1= FuncAnimation(fig1, update, init_func = initialisation_graph, frames=cas_1.frames, interval =300, blit=False, repeat =True)
 plt.show()
 
+#f = r"C:\Users\gremi\Desktop\Covid"
+#writergif = animation.PillowWriter(fps=30)
+#anim1.save(f, writer=writergif) To save the gif
 
-#------------------------------------------------------------------------------
-#3. Avec vaccination (10%) séléctionné aléatoirement
-population3 = np.zeros([50,50])
+#----------------------------------------------------------------------------
+#Figure 2. Avec geste barrière mais pas vaccination
+def initialisation_graph2():
+    plot.set_data(cas_2.list_population[0])
+    return plot
 
-#30% vacciné aléatoirement
+def update2(j):
+    plot.set_data(cas_2.list_population[j])
+    return plot
 
-for i in range(0,50):
-        for j in range (0,50):
-            n = secrets.randbelow(11)/10
-            if n < 0.1:
-                population3[i,j] = 3
+cas_2 = Population(50, 0.36, 0.01,70,0.1)
+cas_2.voisinage(50)
+fig2 = plt.figure()
 
+fig2.patch.set_facecolor('lightgrey')
+plt.axis("off")
+plt.title("Propagation Visuel Avec gestes Barrières")
 
-population3[25,25] = 1 #patient 0
+plot = plt.matshow(cas_2.list_population[0], fignum=0, cmap=c, norm=n)
 
-list_popu3 = []
+anim2= FuncAnimation(fig2, update2, init_func = initialisation_graph2, frames=cas_2.frames, interval =300, blit=False, repeat =True)
+plt.show()
 
-for w in range(100):
-    population3_copy = np.copy(population3)#crée copy pour chercher les valeurs dess infecté sans les modifs
-    list_popu3.append(population3.copy())
-    for i in range(1,49):
-        for j in range (1,49):
-            if population3_copy[i,j] == 1 :
-                population3[i,j] = 2  #valeur = 2 --> Retablis voir si on veut le moment d'incubation !!
-                for x in range(-1,2):
-                    for y in range(-1,2):
-                        if population3[i+x,j+y] == 2 or population3[i+x,j+y]==3 :
-                            pass
-                        else:
-                            population3[i+x,j+y] = infection2()
+#----------------------------------------------------------------------------
+#Figure 3. Avec geste barrière et 10% vaccination
+def initialisation_graph3():
+    plot.set_data(cas_3.list_population[0])
+    return plot
 
-#Plot
-#Paramètres
-n_frames = 100         #nbr de "plots" qui s'affiches
-c = mpl.colors.ListedColormap(['white', 'red', 'blue', 'black']) #couleurs
-n = mpl.colors.Normalize(vmin=0,vmax=3)#répartir couleurs selon valeurs
+def update3(j):
+    plot.set_data(cas_3.list_population[j])
+    return plot
 
-
+cas_3 = Population(50, 0.36, 0.01,70,0.1)
+cas_3.vaccination()#Vaccination ne marche pas !!
+cas_3.voisinage(50)
 fig3 = plt.figure()
 
 fig3.patch.set_facecolor('lightgrey')
 plt.axis("off")
-plt.title("Propagation Visuel du COVID avec 10% Vaccination")
+plt.title("Propagation Visuel Avec gestes Barrières et 10% Vaccination")
 
+plot = plt.matshow(cas_3.list_population[0], fignum=0, cmap=c, norm=n)
 
-#---
-plot3 = plt.matshow(list_popu3[0], fignum=0, cmap=c, norm=n)
+anim3= FuncAnimation(fig3, update3, init_func = initialisation_graph3, frames=cas_3.frames, interval =300, blit=False, repeat =True)
+plt.show()
 
-
-def init3():
-    plot3.set_data(list_popu3[0])
-    return plot3
-
-def update3(j):
-    plot3.set_data(list_popu3[j])
-    return plot3
-
-anim3 = FuncAnimation(fig3, update3, init_func = init3, frames=n_frames, interval =300, blit=False)
-
-
-#------------------------------------------------------------------------------
-
-#ajouter count infecté et rétablis à chaque instant
-#-----------------------------------------------------------------------------
-#On met en place le voyage, et on assume que 1 personne peut contaminer 5 personne par jour
-#soit on induit un carré 10 case qui représente la zone ou 1 personne peut en contaminer d'autre
-population4 = np.zeros([50,50])
-
-
-population4[25,25] = 1
-
-list_poss = [-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10]
-list_popu4 = []
-counting = 0
-for w in range(100):
-    population4_copy = np.copy(population4)#crée copy pour chercher les valeurs dess infecté sans les modifs
-    list_popu4.append(population4.copy())
-    for i in range(1,49): #pour eviter les problème de bords
-        for j in range (1,49):
-            if population4_copy[i,j] == 1:
-                population4[i,j] = 2  #valeur = 2 --> Retablis voir si on veut le moment d'incubation !!
-                for count in range(6):
-                    x = secrets.choice(list_poss)
-                    y = secrets.choice(list_poss)
-
-                    if ((i+x < 1 or i+x > 49) or (j+y < 1 or j+y > 49)):
-                        pass
-
-                    elif(population4[i+x,j+y]== 2 or population4[i+x,j+y]==3):
-                        pass
-
-                    else:
-                        population4[i+x,j+y] = infection2()
-counting +=1
-
-
-#Plot
-#Paramètre
-n_frames = 100           #nbr de "plots" qui s'affiches
-c = mpl.colors.ListedColormap(['white', 'red', 'blue', 'black']) #couleurs
-n = mpl.colors.Normalize(vmin=0,vmax=3)#répartir couleurs selon valeurs
-
-fig4 = plt.figure()
-fig4.patch.set_facecolor('lightgrey')
-plt.axis("off")
-plt.title("Propagation Visuel du COVID Avec Gestes Barrière et Transport")
-
-#---
-
-plot4 = plt.matshow(list_popu4[0], fignum=0, cmap=c, norm=n)
-
-
-def init4():
-    plot4.set_data(list_popu4[0])
-    return plot4
+#----------------------------------------------------------------------------
+#Figure 4. Soit les gens bougent dans la ville mais peuvent infecter 6 personnes (les amis qu'ils cottoyent régulièrement)
+def initialisation_graph4():
+    plot.set_data(cas_4.list_population[0])
+    return plot
 
 def update4(j):
-    plot4.set_data(list_popu4[j])
-    return plot4
+    plot.set_data(cas_4.list_population[j])
+    return plot
 
-anim4 = FuncAnimation(fig4, update4, init_func = init4, frames=n_frames, interval =300, blit=False)
-plt.show()
+cas_4 = Population(50, 0.45, 0.01,70,0.1)
+cas_4.voyages(50)
+fig4 = plt.figure()
 
+fig4.patch.set_facecolor('lightgrey')
+plt.axis("off")
+plt.title("Propagation Visuel Avec gestes Barrières et Trajets")
 
+plot = plt.matshow(cas_4.list_population[0], fignum=0, cmap=c, norm=n)
 
-#-----------------------------------------------------------------------------
-# Changer le nbr de personnes
-#changer le nbr de frames
-# ajouter les morts et peut faire une différence entre incubaition et infecté
-
-#Mais ca marche !! continue comme ca !! :)
-# :)
-#Courage :) !
-
-#------------------------------------------------------------------------------------------
-#mettre tout ensemble
-
-#Subplot ca marche pas avec matshow et animé ...
-def init_overall():
-    plot_overall[0].set_data(list_pop[0])
-    plot_overall[1].set_data(list_popu[0])
-    plot_overall[2].set_data(list_popu3[0])
-    plot_overall[3].set_data(list_popu3[0])
-
-    return plot_overall
-
-def update_overall(j):
-    plot_overall[0].set_data(list_pop[j])
-    plot_overall[1].set_data(list_popu[j])
-    plot_overall[2].set_data(list_popu3[j])
-    plot_overall[3].set_data(list_popu3[j])
-
-    return plot_overall
-
-plot_overall = [plt.matshow(list_pop[0], fignum=0, cmap=c, norm=n),plt.matshow(list_popu[0], fignum=0, cmap=c, norm=n),plt.matshow(list_popu3[0], fignum=0, cmap=c, norm=n),plt.matshow(list_popu3[0], fignum=0, cmap=c, norm=n)]
-
-# create a figure with 4 subplots
-
-fig, ax = plt.subplots(1,4)
-# fig.suptitle('Using matshow to plot a previously created 2D-histogram')
-
-ax[0].matshow(list_pop[0], cmap=c, norm=n)
-ax[0].set_title('matshow')
-
-ax[1].matshow(list_popu[0], cmap=c, norm=n)
-ax[1].set_title('matshow (explicit extent)')
-
-ax[2].mathsow(list_popu3[0],cmap=c, norm=n)
-ax[2].set_title('imshow')
-
-ax[3].mathsow(list_popu3[0], cmap=c, norm=n)
-ax[3].set_title('imshow')
-
-
-
-anim = FuncAnimation(fig, update_overall, init_func = init_overall, frames=n_frames, interval =300, blit=False)
-plt.show()
+anim4= FuncAnimation(fig4, update4, init_func = initialisation_graph4, frames=cas_4.frames, interval =300, blit=False,repeat =True)
+plt.show()  
