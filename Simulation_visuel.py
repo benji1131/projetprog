@@ -85,16 +85,15 @@ n = mpl.colors.Normalize(vmin=0,vmax=4)
 
 
 
-#NOTES: il faut lancer les figure 1 par 1 sinon cela ne marche pas ! (selectionner entre les --- et runner la selection)
 #----------------------------------------------------------------------------
 #Figure 1. Sans geste barrière ni vaccination
 def initialisation_graph():
-    plot.set_data(cas_1.list_population[0])
-    return plot
+    plot1.set_data(cas_1.list_population[0])
+    return plot1
 
 def update(j):
-    plot.set_data(cas_1.list_population[j])
-    return plot
+    plot1.set_data(cas_1.list_population[j])
+    return plot1
 
 cas_1 = Population(50, 0.45, 0.01,70,0.1)
 cas_1.voisinage(50)
@@ -104,7 +103,7 @@ fig1.patch.set_facecolor('lightgrey')
 plt.axis("off")
 plt.title("Propagation Visuel Sans gestes Barrières")
 
-plot = plt.matshow(cas_1.list_population[0], fignum=0, cmap=c, norm=n)
+plot1 = plt.matshow(cas_1.list_population[0], fignum=0, cmap=c, norm=n)
 
 anim1= FuncAnimation(fig1, update, init_func = initialisation_graph, frames=cas_1.frames, interval =300, blit=False, repeat =True)
 plt.show()
@@ -116,12 +115,12 @@ plt.show()
 #----------------------------------------------------------------------------
 #Figure 2. Avec geste barrière mais pas vaccination
 def initialisation_graph2():
-    plot.set_data(cas_2.list_population[0])
-    return plot
+    plot2.set_data(cas_2.list_population[0])
+    return plot2
 
 def update2(j):
-    plot.set_data(cas_2.list_population[j])
-    return plot
+    plot2.set_data(cas_2.list_population[j])
+    return plot2
 
 cas_2 = Population(50, 0.36, 0.01,70,0.1)
 cas_2.voisinage(50)
@@ -131,7 +130,7 @@ fig2.patch.set_facecolor('lightgrey')
 plt.axis("off")
 plt.title("Propagation Visuel Avec gestes Barrières")
 
-plot = plt.matshow(cas_2.list_population[0], fignum=0, cmap=c, norm=n)
+plot2 = plt.matshow(cas_2.list_population[0], fignum=0, cmap=c, norm=n)
 
 anim2= FuncAnimation(fig2, update2, init_func = initialisation_graph2, frames=cas_2.frames, interval =300, blit=False, repeat =True)
 plt.show()
@@ -139,12 +138,12 @@ plt.show()
 #----------------------------------------------------------------------------
 #Figure 3. Avec geste barrière et 10% vaccination
 def initialisation_graph3():
-    plot.set_data(cas_3.list_population[0])
-    return plot
+    plot3.set_data(cas_3.list_population[0])
+    return plot3
 
 def update3(j):
-    plot.set_data(cas_3.list_population[j])
-    return plot
+    plot3.set_data(cas_3.list_population[j])
+    return plot3
 
 cas_3 = Population(50, 0.36, 0.01,70,0.1)
 cas_3.vaccination()#Vaccination ne marche pas !!
@@ -155,7 +154,7 @@ fig3.patch.set_facecolor('lightgrey')
 plt.axis("off")
 plt.title("Propagation Visuel Avec gestes Barrières et 10% Vaccination")
 
-plot = plt.matshow(cas_3.list_population[0], fignum=0, cmap=c, norm=n)
+plot3 = plt.matshow(cas_3.list_population[0], fignum=0, cmap=c, norm=n)
 
 anim3= FuncAnimation(fig3, update3, init_func = initialisation_graph3, frames=cas_3.frames, interval =300, blit=False, repeat =True)
 plt.show()
@@ -163,12 +162,12 @@ plt.show()
 #----------------------------------------------------------------------------
 #Figure 4. Soit les gens bougent dans la ville mais peuvent infecter 6 personnes (les amis qu'ils cottoyent régulièrement)
 def initialisation_graph4():
-    plot.set_data(cas_4.list_population[0])
-    return plot
+    plot4.set_data(cas_4.list_population[0])
+    return plot4
 
 def update4(j):
-    plot.set_data(cas_4.list_population[j])
-    return plot
+    plot4.set_data(cas_4.list_population[j])
+    return plot4
 
 cas_4 = Population(50, 0.45, 0.01,70,0.1)
 cas_4.voyages(50)
@@ -178,7 +177,7 @@ fig4.patch.set_facecolor('lightgrey')
 plt.axis("off")
 plt.title("Propagation Visuel Avec gestes Barrières et Trajets")
 
-plot = plt.matshow(cas_4.list_population[0], fignum=0, cmap=c, norm=n)
+plot4 = plt.matshow(cas_4.list_population[0], fignum=0, cmap=c, norm=n)
 
 anim4= FuncAnimation(fig4, update4, init_func = initialisation_graph4, frames=cas_4.frames, interval =300, blit=False,repeat =True)
 plt.show()  
