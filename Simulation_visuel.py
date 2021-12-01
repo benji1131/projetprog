@@ -180,4 +180,4 @@ plt.title("Propagation Visuel Avec gestes Barrières et Trajets")
 plot4 = plt.matshow(cas_4.list_population[0], fignum=0, cmap=c, norm=n)
 
 anim4= FuncAnimation(fig4, update4, init_func = initialisation_graph4, frames=cas_4.frames, interval =300, blit=False,repeat =True)
-plt.show()  
+plt.show()
