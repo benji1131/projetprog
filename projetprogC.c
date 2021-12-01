@@ -26,10 +26,6 @@ void simulation_population(double *population, struct pays nom, double s, double
 	double D = d + mu * i ;
 	double IMMUN = immun - immun / tau2 ;
 
-	//if (S <= 0) S = 0 ;
-	//if (C >= nom.population) C = 1 ;
-	//if (C <= 0) C = 0;
-
 	population[0] = S ;
 	population[1] = C ;
 	population[2] = I ;
@@ -40,7 +36,7 @@ void simulation_population(double *population, struct pays nom, double s, double
 
 }
 
-int fichier(char * filename, int * values, int x, int y){
+double fichier(char * filename, double * S, double * C, double * I, double * R, double * IMMUN, double * D, double * pop_tot, int t){
 
 	FILE * fichier = fopen (filename, "w") ;
 
@@ -48,17 +44,13 @@ int fichier(char * filename, int * values, int x, int y){
 		printf("Ouverture impossible\n") ;
 		return 1 ;
 	}
-	for (int i = 0; i <= x; i++) {
-		for (int j = 0; j <= y; j++) {
-			if (j > 0) fprintf(fichier, ",") ;
-			fprintf (fichier, "%d", values) ;
-		}
-		fprintf(fichier, "\n") ;
+	for (int i = 0; i <= t; i++) {
+			fprintf(fichier, "%.5f, %.5f, %.5f, %.5f, %.5f, %.5f, %.5f ", S[i], C[i], I[i], R[i], IMMUN[i], D[i], pop_tot[i]) ;
+			fprintf(fichier, "\n");
 	}
 	fclose(fichier) ;
 	return 0 ;
 }
-
 
 int main(int argc, char const *argv[]) {
 
@@ -152,9 +144,7 @@ int main(int argc, char const *argv[]) {
 		printf ("jour : %d = %.5f population_totale\n", i, population_totale[i]);
 	}
 
-
-
-
+	fichier("covid.csv", saines, contaminees, infectees, retablies, immunisees, decedees, population_totale, t-1) ;
 
 	return 0;
 }
