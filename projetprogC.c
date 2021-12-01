@@ -1,6 +1,5 @@
 #include <stdio.h>
 
-
 struct pays{
 	char* nom;
 	int population;
@@ -103,46 +102,6 @@ int main(int argc, char const *argv[]) {
 		immunisees[i] = IMMUN ;
 		decedees[i] = D ;
 		population_totale[i] = pop_tot ;
-
-
-		printf ("S = %.5f, C = %.5f, I = %.5f, R = %.5f, D = %.5f, IMMUN = %.5f, pop_tot = %.5f\n", S, C, I, R, D, IMMUN, pop_tot) ;
-
-	}
-	printf ("\n") ;
-
-	for (int i = 0 ; i < t; i++) {
-		printf ("jour : %d = %.5f saines\n", i, saines[i]);
-	}
-	printf ("\n") ;
-
-	for (int i = 0 ; i < t; i++) {
-		printf ("jour : %d = %.5f contaminees\n", i, contaminees[i]);
-	}
-	printf ("\n") ;
-
-	for (int i = 0 ; i < t; i++) {
-		printf ("jour : %d = %.5f infectees\n", i, infectees[i]);
-	}
-	printf ("\n") ;
-
-	for (int i = 0 ; i < t; i++) {
-		printf ("jour : %d = %.5f retablies\n", i, retablies[i]);
-	}
-	printf ("\n") ;
-
-	for (int i = 0 ; i < t; i++) {
-		printf ("jour : %d = %.5f immunisees\n", i, immunisees[i]);
-	}
-	printf ("\n") ;
-
-	for (int i = 0 ; i < t; i++) {
-		printf ("jour : %d = %.5f decedees\n", i, decedees[i]);
-	}
-	printf ("\n") ;
-
-	for (int i = 0 ; i < t; i++) {
-		printf ("jour : %d = %.5f population_totale\n", i, population_totale[i]);
-	}
 
 	fichier("covid.csv", saines, contaminees, infectees, retablies, immunisees, decedees, population_totale, t-1) ;
 
