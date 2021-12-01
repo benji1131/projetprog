@@ -18,24 +18,22 @@ inf = []    #Infecté
 r = []      #Retablis
 immun = []  #Immunisé
 d = []      #dead
-v = []      #Vacciné
 pop_tot = []#population totale
-n = 10      #nombre d'itération
+n = 28     #nombre d'itération
 
 
 #remplis les listes (y axis)
 for i in range(n):
-    s.append(data_covid[i,1])
-    c.append(data_covid[i,2])
-    inf.append(data_covid[i,3])
-    r.append(data_covid[i,4])
-    immun.append(data_covid[i,5])
-    d.append(data_covid[i,6])
-    v.append(data_covid[i,7])
-    pop_tot.append(data_covid[i,8])
+    s.append(data_covid[i,0])
+    c.append(data_covid[i,1])
+    inf.append(data_covid[i,2])
+    r.append(data_covid[i,3])
+    immun.append(data_covid[i,4])
+    d.append(data_covid[i,5])
+    pop_tot.append(data_covid[i,6])
 
 #crée notre x axis
-temp = np.linspace(0,n,n)  
+temp = np.linspace(0,n,n)
 
 # Plot les courbes sur un graph
 plt.plot(temp, s, color='b', label='Saint')
@@ -44,7 +42,6 @@ plt.plot(temp, inf, color='r', label='Infecté')
 plt.plot(temp, r, color='cyan', label='Rétabli')
 plt.plot(temp, immun, color='y', label='Immunisé')
 plt.plot(temp, d, color='black', label='Mort')
-plt.plot(temp, v, color='g', label='Vacciné')
 plt.plot(temp, pop_tot, color='gray', label='Population Totale')
 
 
