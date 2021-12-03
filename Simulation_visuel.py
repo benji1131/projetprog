@@ -2,7 +2,7 @@ import numpy as np
 import secrets
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-#from matplotlib import animation if save the gif
+#from matplotlib import animation #if save the gif
 from matplotlib.animation import FuncAnimation
 
 
@@ -28,7 +28,7 @@ class Population:
         if n < pourcentage_propa and n > pourcentage_mort:  #valeur qui montre bien la propagation du virus plutot virulant
             return 1    #pour dire infecté
         elif n < pourcentage_mort:
-            return 3    #pour dire dead
+            return 5    #pour dire dead
         else:
             return 0    #pour dire saint
 
@@ -37,7 +37,7 @@ class Population:
             for j in range (0,50):
                 n = secrets.randbelow(11)/10
                 if n < self.pourcentage_vacc:
-                    self.population[i,j] = 4
+                    self.population[i,j] = 6
 
     def voisinage(self, population_nbr):
         for w in range(self.frames):
@@ -49,10 +49,14 @@ class Population:
                         self.population[i,j] = 2  #valeur = 2 --> Retablis voir si on veut le moment d'incubation !!
                         for x in range(-1,2):
                             for y in range(-1,2):
-                                if self.population[i+x,j+y] == 2 or self.population[i+x,j+y]==3 or self.population[i+x,j+y] == 4:
+                                if self.population[i+x,j+y] == 2 or self.population[i+x,j+y]==3 or self.population[i+x,j+y] == 4 or self.population[i+x,j+y] == 5 or self.population[i+x,j+y] ==6:
                                     pass
                                 else:
                                     self.population[i+x,j+y] = self.infection(self.propagation, self.pourcentage_mort)
+                    if population_copy[i,j] == 2:
+                        self.population[i,j] = 3
+                    if population_copy[i,j] == 3:
+                        self.population[i,j] = 4
 
 
     def voyages(self, population_nbr): #soit une personne voit en moyenne 5 mêmes personnes par jour qui n'habitent pas à coté de chez lui
@@ -64,24 +68,27 @@ class Population:
                 for j in range (1,population_nbr-1):
                     if population_copy[i,j] == 1:
                        self.population[i,j] = 2  #valeur = 2 --> Retablis voir si on veut le moment d'incubation !!
-                       for count in range(6):
+                       for count in range(5):
                             x = secrets.choice(self.list_poss)
                             y = secrets.choice(self.list_poss)
 
                             if ((i+x < 1 or i+x > population_nbr-1) or (j+y < 1 or j+y > population_nbr-1)):
                                 pass
 
-                            elif(self.population[i+x,j+y]== 2 or self.population[i+x,j+y]==3):
+                            elif(self.population[i+x,j+y]== 2 or self.population[i+x,j+y]==3 or self.population[i+x,j+y] == 4 or self.population[i+x,j+y] == 5 or self.population[i+x,j+y] ==6):
                                 pass
 
                             else:
                                 self.population[i+x,j+y] = self.infection(self.propagation, self.pourcentage_mort)
+                    if population_copy[i,j] == 2:
+                        self.population[i,j] = 3
+                    if population_copy[i,j] == 3:
+                        self.population[i,j] = 4
 
 #-----------------------------------------------------------------------------
 #paramètre pour les animations
-c = mpl.colors.ListedColormap(['white', 'red', 'blue', 'black','cyan']) #couleurs white Saint, red Infecté, blue Retablis, black Dead, cyan Vacciné donc immunisé
-n = mpl.colors.Normalize(vmin=0,vmax=4)
-
+c = mpl.colors.ListedColormap(['white', 'red',"darkorange","orange",'blue', 'black','cyan']) #couleurs white Saint, red Infecté, blue Retablis, black Dead, cyan Vacciné donc immunisé
+n = mpl.colors.Normalize(vmin=0,vmax=6)
 
 
 
@@ -108,9 +115,12 @@ plot1 = plt.matshow(cas_1.list_population[0], fignum=0, cmap=c, norm=n)
 anim1= FuncAnimation(fig1, update, init_func = initialisation_graph, frames=cas_1.frames, interval =300, blit=False, repeat =True)
 plt.show()
 
-#f = r"C:\Users\gremi\Desktop\Covid"
-#writergif = animation.PillowWriter(fps=30)
-#anim1.save(f, writer=writergif) To save the gif
+#save image
+#writer= animation.PillowWriter(fps=70)
+#anim1.save(r'C:\Users\gremi\Desktop\Prog_pour_Ingenieur\projet\projetprog\Animated_plots\animation.gif', writer= writer)
+
+
+#Attention le save gif ne marche pas !!!!!!! comment save le gif ??!
 
 #----------------------------------------------------------------------------
 #Figure 2. Avec geste barrière mais pas vaccination
@@ -134,6 +144,8 @@ plot2 = plt.matshow(cas_2.list_population[0], fignum=0, cmap=c, norm=n)
 
 anim2= FuncAnimation(fig2, update2, init_func = initialisation_graph2, frames=cas_2.frames, interval =300, blit=False, repeat =True)
 plt.show()
+
+#anim2.save(r'C:\Users\gremi\Desktop\Prog_pour_Ingenieur\projet\projetprog\Animated_plots\animation2.gif', writer= writer)
 
 #----------------------------------------------------------------------------
 #Figure 3. Avec geste barrière et 10% vaccination
@@ -159,6 +171,8 @@ plot3 = plt.matshow(cas_3.list_population[0], fignum=0, cmap=c, norm=n)
 anim3= FuncAnimation(fig3, update3, init_func = initialisation_graph3, frames=cas_3.frames, interval =300, blit=False, repeat =True)
 plt.show()
 
+#anim3.save(r'C:\Users\gremi\Desktop\Prog_pour_Ingenieur\projet\projetprog\Animated_plots\animation3.gif', writer= writer)
+
 #----------------------------------------------------------------------------
 #Figure 4. Soit les gens bougent dans la ville mais peuvent infecter 6 personnes (les amis qu'ils cottoyent régulièrement)
 def initialisation_graph4():
@@ -181,3 +195,5 @@ plot4 = plt.matshow(cas_4.list_population[0], fignum=0, cmap=c, norm=n)
 
 anim4= FuncAnimation(fig4, update4, init_func = initialisation_graph4, frames=cas_4.frames, interval =300, blit=False,repeat =True)
 plt.show()
+
+#anim4.save(r'C:\Users\gremi\Desktop\Prog_pour_Ingenieur\projet\projetprog\Animated_plots\animation4.gif', writer= writer)
