@@ -183,7 +183,7 @@ def update4(j):
     plot4.set_data(cas_4.list_population[j])
     return plot4
 
-cas_4 = Population(50, 0.45, 0.01,70,0.1)
+cas_4 = Population(50, 0.36, 0.01,70,0.1)
 cas_4.voyages(50)
 fig4 = plt.figure()
 

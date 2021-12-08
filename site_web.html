@@ -25,15 +25,23 @@
 
     <p>
       Soit nous avons modélisé une population par une matrice de taille 50x50 où chaque cellules représente une personne. Chacunes des case comporte un nombre entre 0 et 
-      et 6 qui représente sont statut et sera représenté par une couleur différente dans nos graphes. 
+      et 6 qui représente le statut médicale de la personne et sera représenté par une couleur différente dans nos graphes. 
       Soit:<br></br>
       <br>- 0 (blanc) = Saint</br><br>- 1 (rouge) = Contaminé</br><br>- 2 (orange foncé) = infecté</br><br>- 3 (orange) = infecté</br><br>- 4 (bleu) = rétabli</br><br>- 5 (noir) = mort</br><br>- 6 (cyan) = Vacciné (considéré comme immunisé)</br>
       <br></br>
       Chaque modèle commence dans une situation initale avec une matrice nulle où l'on ajoute le patient zéros au millieu de la population(c'est à dire qu'on initialise la case [25,25] avec 1).
-       
+      <br></br>
+      A chaque itération, on observe le statu de chaque case et suivant la valeur de cette case, différent scénario se passe:
+      <br>- Si la valeur est de 1, on fait appelle une une fonction dites "infection" qui va étudier les case environnantes et infecter les case de saines avec une certaine propabilités</br>
+      <br>- Si la valeur est différente de 1, alors rien ne se passe.</br>
     </p>
-
-<!--Figure 1-->
+    <p>Il est à noter que cette première partie ne représente pas un modèle très complet. Le but n'est pas d'être précis mais d'observer et sensibiliser les gens en visualisant la propagation d'un virus dans différentes situations. </p>
+	
+<!--Figure 1-->	
+	<h3>Situation 1: Propagation Sans Geste Barrière ni Vaccination</h3>
+	<p> Pour la première figure, nous souhaitons simuler un cas classique de propagation de virus sans qu'il n'y ait aucun gestes barrière ni d'immunnité(vaccination) dans la société.
+	C'est en d'autres terme une simulation qui représente l'apparition d'une nouvelle épidémie.</p>
+	<p>Pour la première figure, nous avons fixé une probabilité d'être infecté de </p>
     <div><img src="C:\Users\gremi\Desktop\Prog_pour_Ingenieur\projet\projetprog\Animated_plots\animation.gif" /> 
     </div>
         <div style="color: #666; font-size: 13px">
@@ -46,6 +54,8 @@
 
 
 <!--Figure 2-->
+	<h3>Situation 2 : Propagation avec Gestes Barrières </h3>
+	<p></p>
     <div><img src="C:\Users\gremi\Desktop\Prog_pour_Ingenieur\projet\projetprog\Animated_plots\animation2.gif" /> 
     </div>
         <div style="color: #666; font-size: 13px">
@@ -57,6 +67,8 @@
     </p> 
        
  <!--Figure 3-->
+ 	<h3>Situation 3: Propagation avec Gestes Barrières et Vaccination (10%)</h3>
+	<p></p>
     <div><img src="C:\Users\gremi\Desktop\Prog_pour_Ingenieur\projet\projetprog\Animated_plots\animation3.gif" /> 
     </div>
         <div style="color: #666; font-size: 13px">
@@ -66,7 +78,10 @@
     <p>
       explicationd de ce qu on observe
     </p> 
+    
 <!--Figure 4-->
+	<h3>Situation 4; Propagation avec voyage</h3>
+	<p></p>
     <div><img src="C:\Users\gremi\Desktop\Prog_pour_Ingenieur\projet\projetprog\Animated_plots\animation4.gif" /> 
     </div>
         <div style="color: #666; font-size: 13px">
@@ -79,12 +94,12 @@
     
 <!--Discussion-->  
     <p>
-      explicationd de ce qu on observe
+      explication de ce qu on observe
     </p>
 
 <!--Conclusion--> 
     <p>
-      explicationd de ce qu on observe
+      explication de ce qu on observe
     </p>
     
  
