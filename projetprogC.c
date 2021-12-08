@@ -31,7 +31,7 @@ void simulation_population_Q(double *population, struct pays nom, double s, doub
 	double population_totale = s + e + i + r ;
 	// 2 facteurs sont dépendant du temps//
 	double k_t = k0*exp(-k1*t); //mortality rate //faudra rajouter un facteur temps dans la fonction qui varie en fct de loop
-	double lamda_t = lambda0*(1-exp(-lambda1*t)) //recovery rate
+	double lamda_t = lambda0*(1-exp(-lambda1*t)); //recovery rate
 
 /*
 beta = Infection rate
@@ -58,47 +58,41 @@ tau = length of protection
 	population[5] = population_totale ;
 
 }
-void simulation_population_Q(double *population, struct pays nom, double s, double c, double i, double r, double d, int t){
 
-	double lambda0 = nom.lambda0 ;
-	double lambda1 = nom.lambda1 ;
-	double k0 = nom.k0 ;
-	double k1 = nom.k1 ;
+
+void simuulation_covid2(double *population, struct pays nom, double s, double c, double i, double r, double d, int t){
+
+	double lambda = nom.lambda  ;
+	double upsilon = nom.upsilon ;
 	double beta = nom.beta ;
 	double gamma = nom.gamma ;
 	double delta = nom.delta ;
-	double tau = nom.tau ;
 
-	double population_totale = s + e + i + r ;
-	// 2 facteurs sont dépendant du temps//
-	double k_t = k0*exp(-k1*t); //mortality rate //faudra rajouter un facteur temps dans la fonction qui varie en fct de loop
-	double lamda_t = lambda0*(1-exp(-lambda1*t)) //recovery rate
+	/*delta = rate de perte immun -> assume de environ 10 mois
+		upsilon = vaccination
+	*/
 
-/*
-beta = Infection rate
-gamma = incubation rate
-delta = quarantine rate
-lambda = recovery rate
-k = mortality rate
-tau = length of protection
-*/
-
-	double S = s - (beta*s*i)/population_totale;
-	double E = e - e*gamma + (beta*s*i)/population_totale;
-	double I = i + e*gamma - delta *i;
-	double Q = q + delta * i - lambda_t *q -k_t*q;
-	double R = r + lambda_t * q  ;
-	double D = d + k_t*q;
+	double S = s - beta*s*i - alpha* s;
+	double E = e - e*gamma + beta*s*i + upsilon*beta*s*i;
+	double I = i + e*gamma - delta * i ;
+	double Q = q + delta * i - (1-k)*mah*q-k*rho*q
+	double R = r +(1-k)*mah*q ;
+	double D = k*rho*q
+	double V = v+apha*s- upsilon*beta *v*i;
+	double pop_totale = S+E+I+Q+R+D+V
 
 
-	population[0] = S ;
+
+	population[0] = S ;*i
 	population[1] = E ;
 	population[2] = I ;
 	population[3] = R ;
-	population[4] = D ;
-	population[5] = population_totale ;
-
+	population[4] = population_totale ;
 }
+
+
+
+
 
 double fichier(char * filename, double * S, double * C, double * I, double * R, double * D, double * pop_tot, int t){
 
