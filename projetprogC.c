@@ -1,41 +1,106 @@
 #include <stdio.h>
+#include <math.h>
+
 
 struct pays{
 	char* nom;
 	int population;
 	double vaccine;
-	double incidence ;
+	double beta ;
+	double gamma ;
+	double delta ;
+	double lamda0 ;
+	double lambda1 ;
+	double k0 ;
+	double k1 ;
+	double tau ;
+
 };
 
-void simulation_population(double *population, struct pays nom, double s, double c, double i, double r, double d, double immun, double Re, int t){
+void simulation_population_Q(double *population, struct pays nom, double s, double c, double i, double r, double d, int t){
 
-	int lambda = 17 ;
-	double incub = 5 ;
-	int tau1 = 6 * 30 ;
-	int tau2 = 12 * 30 ;
-	double mu = 0.03 ;
-	double incidence = nom.incidence ;
-	double beta = incidence * Re ;
-	double population_totale = s + c + i + r + immun ;
+	double lambda0 = nom.lambda0 ;
+	double lambda1 = nom.lambda1 ;
+	double k0 = nom.k0 ;
+	double k1 = nom.k1 ;
+	double beta = nom.beta ;
+	double gamma = nom.gamma ;
+	double delta = nom.delta ;
+	double tau = nom.tau ;
 
-	double S = s - beta * i * s + r / tau1 + immun / tau2 ;
-	double C = c + beta * i * s - c / incub ;
-	double I = i + c / incub - i / lambda - mu * i ;
-	double R = r + i / lambda - r / tau1 ;
-	double D = d + mu * i ;
-	double IMMUN = immun - immun / tau2 ;
+	double population_totale = s + e + i + r ;
+	// 2 facteurs sont dépendant du temps//
+	double k_t = k0*exp(-k1*t); //mortality rate //faudra rajouter un facteur temps dans la fonction qui varie en fct de loop
+	double lamda_t = lambda0*(1-exp(-lambda1*t)) //recovery rate
+
+/*
+beta = Infection rate
+gamma = incubation rate
+delta = quarantine rate
+lambda = recovery rate
+k = mortality rate
+tau = length of protection
+*/
+
+	double S = s - (beta*s*i)/population_totale;
+	double E = e - e*gamma + (beta*s*i)/population_totale;
+	double I = i + e*gamma - delta *i;
+	double Q = q + delta * i - lambda_t *q -k_t*q;
+	double R = r + lambda_t * q  ;
+	double D = d + k_t*q;
+
 
 	population[0] = S ;
-	population[1] = C ;
+	population[1] = E ;
 	population[2] = I ;
 	population[3] = R ;
 	population[4] = D ;
-	population[5] = IMMUN ;
-	population[6] = population_totale ;
+	population[5] = population_totale ;
+
+}
+void simulation_population_Q(double *population, struct pays nom, double s, double c, double i, double r, double d, int t){
+
+	double lambda0 = nom.lambda0 ;
+	double lambda1 = nom.lambda1 ;
+	double k0 = nom.k0 ;
+	double k1 = nom.k1 ;
+	double beta = nom.beta ;
+	double gamma = nom.gamma ;
+	double delta = nom.delta ;
+	double tau = nom.tau ;
+
+	double population_totale = s + e + i + r ;
+	// 2 facteurs sont dépendant du temps//
+	double k_t = k0*exp(-k1*t); //mortality rate //faudra rajouter un facteur temps dans la fonction qui varie en fct de loop
+	double lamda_t = lambda0*(1-exp(-lambda1*t)) //recovery rate
+
+/*
+beta = Infection rate
+gamma = incubation rate
+delta = quarantine rate
+lambda = recovery rate
+k = mortality rate
+tau = length of protection
+*/
+
+	double S = s - (beta*s*i)/population_totale;
+	double E = e - e*gamma + (beta*s*i)/population_totale;
+	double I = i + e*gamma - delta *i;
+	double Q = q + delta * i - lambda_t *q -k_t*q;
+	double R = r + lambda_t * q  ;
+	double D = d + k_t*q;
+
+
+	population[0] = S ;
+	population[1] = E ;
+	population[2] = I ;
+	population[3] = R ;
+	population[4] = D ;
+	population[5] = population_totale ;
 
 }
 
-double fichier(char * filename, double * S, double * C, double * I, double * R, double * IMMUN, double * D, double * pop_tot, int t){
+double fichier(char * filename, double * S, double * C, double * I, double * R, double * D, double * pop_tot, int t){
 
 	FILE * fichier = fopen (filename, "w") ;
 
@@ -44,7 +109,7 @@ double fichier(char * filename, double * S, double * C, double * I, double * R, 
 		return 1 ;
 	}
 	for (int i = 0; i <= t; i++) {
-			fprintf(fichier, "%.5f, %.5f, %.5f, %.5f, %.5f, %.5f, %.5f ", S[i], C[i], I[i], R[i], IMMUN[i], D[i], pop_tot[i]) ;
+			fprintf(fichier, "%.5f, %.5f, %.5f, %.5f, %.5f, %.5f ", S[i], E[i], I[i], R[i], D[i], pop_tot[i]) ;
 			fprintf(fichier, "\n");
 	}
 	fclose(fichier) ;
