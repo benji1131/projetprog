@@ -59,42 +59,75 @@ tau = length of protection
 
 }
 
+struct Parametre{
+	int population;
+	double upsilon;
+	double alpha;
+	double beta ;
+	double gamma ;
+	double delta ;
+	double rho ;
+	double mu ;
+	double new_people ;
+	double k ;
+	double mah ;
 
-void simuulation_covid2(double *population, struct pays nom, double s, double c, double i, double r, double d, int t){
+};
 
-	double lambda = nom.lambda  ;
-	double upsilon = nom.upsilon ;
-	double beta = nom.beta ;
-	double gamma = nom.gamma ;
-	double delta = nom.delta ;
+
+void simulation_covid2(double *population, struct pays nom, double s, double c, double i, double r, double d, int t){
+
+	double upsilon = nom.upsilon ; // vaccine inefficacy -> (1-upsilon) = vaccine efficiency
+	double alpha = nom.alpha ; //vaccination rate
+	double beta = nom.beta ; //tranmsission rate divided by total amount of population
+	double gamma = nom.gamma ;//average latent time
+	double delta = nom.delta ;// average quarantine time
+	double rho = nom.rho; //average days until death
+	double mu = nom.mu; // natural death
+	double new_people = nom.new_people; // birth and new résident
+	double k = nom.k; //mortality rate
+	double mah = nom.mah;	//average days until recovery
+
 
 	/*delta = rate de perte immun -> assume de environ 10 mois
 		upsilon = vaccination
+
+
 	*/
 
-	double S = s - beta*s*i - alpha* s;
-	double E = e - e*gamma + beta*s*i + upsilon*beta*s*i;
-	double I = i + e*gamma - delta * i ;
-	double Q = q + delta * i - (1-k)*mah*q-k*rho*q
-	double R = r +(1-k)*mah*q ;
-	double D = k*rho*q
-	double V = v+apha*s- upsilon*beta *v*i;
-	double pop_totale = S+E+I+Q+R+D+V
+	double S = s*(1 - beta * i - alpha - mu )+ new_people;
+	double E = e - e * gamma + beta * s * i + upsilon * beta * v * i + beta * s * i - mu * e;
+	double I = i + e * gamma - delta * i  - mu * i;
+	double Q = q + delta * i - (1-k) * mah * q - k * rho * q - mu * q ;
+	double R = r + (1-k) * mah * q  - mu * r;
+	double D = k * rho * q ;
+	double V = v + apha * s - upsilon * beta * v * i - mu * v;
+	double pop_totale = S+E+I+Q+R+D+V ;
+	double r0 =beta * birth *gamma *(mu + alpa * upsilon)/(mu * (mu + gamma) * (mu + delta) * (mu + alpha));
 
-
-
-	population[0] = S ;*i
+	population[0] = S ;
 	population[1] = E ;
 	population[2] = I ;
-	population[3] = R ;
-	population[4] = population_totale ;
+	population[3] = Q ;
+	population[4] = R ;
+	population[5] = D ;
+	population[6] = V ;
+	population[7] = population_totale ;
+	population[8] = r0;
 }
+/*
+3 scénario différent
+- simulation d'une épidémie à ses début
+- simulation avec un taux de vaccination qui varie
+- simulation avec un variant légèrement plus puissant
+
+-> pk pas faire en sorte que le prof choissisent parmis une certaine range ou on aura testé les graphs ?
+*/
 
 
 
 
-
-double fichier(char * filename, double * S, double * C, double * I, double * R, double * D, double * pop_tot, int t){
+double fichier(char * filename, double * S, double * C, double * I, double * R, double * D,double * V, double * population_totale, double * r0, int t){
 
 	FILE * fichier = fopen (filename, "w") ;
 
@@ -103,7 +136,7 @@ double fichier(char * filename, double * S, double * C, double * I, double * R, 
 		return 1 ;
 	}
 	for (int i = 0; i <= t; i++) {
-			fprintf(fichier, "%.5f, %.5f, %.5f, %.5f, %.5f, %.5f ", S[i], E[i], I[i], R[i], D[i], pop_tot[i]) ;
+			fprintf(fichier, "%.5f, %.5f, %.5f, %.5f, %.5f, %.5f, %.5f, %.5f, %.5f ", S[i], E[i], I[i], R[i], D[i],V[i], population_totale[i], r0[i] );
 			fprintf(fichier, "\n");
 	}
 	fclose(fichier) ;
