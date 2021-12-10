@@ -146,7 +146,7 @@ int main(int argc, char const *argv[]) {
 
 	//double beta = R0 *(mu * (mu + gamma) * (mu + delta) * (mu + alpha) /(new_people *gamma *(mu + alpha * upsilon)) -> a faire avec les valeur de la structure et un tableau
 
-	struct Parametre figure_1 = {"Début du Covid (Arabie Saoudite)", 34810000, 0.05, 0.00035, 0.00000000343, 0.33, 8, 0.066667, 0.00003, 2300, 0.014, 0.1};
+	struct Parametre figure_1 = {"Début du Covid (Arabie Saoudite)", 34810000, 0.05, 0.00035, 0.00000000343, 0.182, 0.26, 0.066667, 0.00003, 2300, 0.014, 0.1};
 
 
 	double s_t[t] ;
