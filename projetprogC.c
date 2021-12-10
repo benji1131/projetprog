@@ -1,66 +1,12 @@
 #include <stdio.h>
 #include <math.h>
 
-
-struct pays{
-	char* nom;
-	int population;
-	double vaccine;
-	double beta ;
-	double gamma ;
-	double delta ;
-	double lamda0 ;
-	double lambda1 ;
-	double k0 ;
-	double k1 ;
-	double tau ;
-
-};
-
-void simulation_population_Q(double *population, struct pays nom, double s, double c, double i, double r, double d, int t){
-
-	double lambda0 = nom.lambda0 ;
-	double lambda1 = nom.lambda1 ;
-	double k0 = nom.k0 ;
-	double k1 = nom.k1 ;
-	double beta = nom.beta ;
-	double gamma = nom.gamma ;
-	double delta = nom.delta ;
-	double tau = nom.tau ;
-
-	double population_totale = s + e + i + r ;
-	// 2 facteurs sont dépendant du temps//
-	double k_t = k0*exp(-k1*t); //mortality rate //faudra rajouter un facteur temps dans la fonction qui varie en fct de loop
-	double lamda_t = lambda0*(1-exp(-lambda1*t)); //recovery rate
-
-/*
-beta = Infection rate
-gamma = incubation rate
-delta = quarantine rate
-lambda = recovery rate
-k = mortality rate
-tau = length of protection
-*/
-
-	double S = s - (beta*s*i)/population_totale;
-	double E = e - e*gamma + (beta*s*i)/population_totale;
-	double I = i + e*gamma - delta *i;
-	double Q = q + delta * i - lambda_t *q -k_t*q;
-	double R = r + lambda_t * q  ;
-	double D = d + k_t*q;
-
-
-	population[0] = S ;
-	population[1] = E ;
-	population[2] = I ;
-	population[3] = R ;
-	population[4] = D ;
-	population[5] = population_totale ;
-
-}
-
 struct Parametre{
-	int population;
+	//paramètre situation initale
+	char* nom;
+	int population0;
+
+	//paramètres du modèle
 	double upsilon;
 	double alpha;
 	double beta ;
@@ -75,7 +21,7 @@ struct Parametre{
 };
 
 
-void simulation_covid2(double *population, struct pays nom, double s, double c, double i, double r, double d, int t){
+void simulation_covid2(double *population, struct Parametre nom, double s, double e, double i,double q, double r, double d, double v, int t){
 
 	double upsilon = nom.upsilon ; // vaccine inefficacy -> (1-upsilon) = vaccine efficiency
 	double alpha = nom.alpha ; //vaccination rate
@@ -92,6 +38,7 @@ void simulation_covid2(double *population, struct pays nom, double s, double c, 
 	/*delta = rate de perte immun -> assume de environ 10 mois
 		upsilon = vaccination
 
+     double r0 =beta * new_people *gamma *(mu + alpha * upsilon)/(mu * (mu + gamma) * (mu + delta) * (mu + alpha)); XXXXX
 
 	*/
 
@@ -101,9 +48,9 @@ void simulation_covid2(double *population, struct pays nom, double s, double c, 
 	double Q = q + delta * i - (1-k) * mah * q - k * rho * q - mu * q ;
 	double R = r + (1-k) * mah * q  - mu * r;
 	double D = k * rho * q ;
-	double V = v + apha * s - upsilon * beta * v * i - mu * v;
-	double pop_totale = S+E+I+Q+R+D+V ;
-	double r0 =beta * birth *gamma *(mu + alpa * upsilon)/(mu * (mu + gamma) * (mu + delta) * (mu + alpha));
+	double V = v + alpha * s - upsilon * beta * v * i - mu * v;
+	double population_totale = S+E+I+Q+R+V ;
+
 
 	population[0] = S ;
 	population[1] = E ;
@@ -112,9 +59,10 @@ void simulation_covid2(double *population, struct pays nom, double s, double c, 
 	population[4] = R ;
 	population[5] = D ;
 	population[6] = V ;
-	population[7] = population_totale ;
-	population[8] = r0;
+	population[7] = population_totale;
+
 }
+
 /*
 3 scénario différent
 - simulation d'une épidémie à ses début
@@ -127,7 +75,7 @@ void simulation_covid2(double *population, struct pays nom, double s, double c, 
 
 
 
-double fichier(char * filename, double * S, double * C, double * I, double * R, double * D,double * V, double * population_totale, double * r0, int t){
+double fichier(char * filename, double * S, double * E, double * I, double * Q, double * R, double * D, double * V, double * population_totale, int t){
 
 	FILE * fichier = fopen (filename, "w") ;
 
@@ -136,66 +84,110 @@ double fichier(char * filename, double * S, double * C, double * I, double * R, 
 		return 1 ;
 	}
 	for (int i = 0; i <= t; i++) {
-			fprintf(fichier, "%.5f, %.5f, %.5f, %.5f, %.5f, %.5f, %.5f, %.5f, %.5f ", S[i], E[i], I[i], R[i], D[i],V[i], population_totale[i], r0[i] );
+			fprintf(fichier, "%.5f, %.5f, %.5f, %.5f, %.5f, %.5f, %.5f, %.5f ", S[i], E[i], I[i], Q[i], R[i], D[i],V[i], population_totale[i]);
 			fprintf(fichier, "\n");
 	}
 	fclose(fichier) ;
 	return 0 ;
 }
+/*
+ 1.suisse:
+ new people = 64300/364 = 177 personne/jour (2020)
+ mu =
+ k =
+ r0 = 	-> date ( )
+
+
+ 2.arabie saoudite:
+ new_people: 2300 persons/day
+ mu = 0,0035 --> vérifier avec graph -> divise par 100?
+ k = 2.13
+ alpa = 3.5×10−4  day −1
+ ro =
+
+ 3.Chine
+ *
+
+
+paramètre globaux :
+gamma = 1/5.5 jours
+upsilon = 0.05 pour moderna ou pfiser à vérifier
+delta = 1/3.8 jours
+mah = 1/10 jours
+rho = 1/15 jours
+
+paramètre à faire varier :
+*
+- alpha
+- r0 qui permet de calculer beta !
+- r0_1 = 1 -->beta1 =...
+- r0_2 = 2.5 --> beta2 = ...
+
+
+
+
+
+ */
 
 int main(int argc, char const *argv[]) {
 
-	struct pays suisse = {"Suisse", 8603900 , 0, 1} ;
-
-	double S = 0.7  ;
-	double C = 0.2 ;
-	double I = 0.1 ;
+	double S = 34218000 ;//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+	double E = 3 ;
+	double I = 3 ;
+	double Q = 1 ;
 	double R = 0 ;
-	double IMMUN = suisse.vaccine ;
 	double D = 0 ;
-	double pop_tot = S + C + I + R + IMMUN ;
-	double Re = 1 ;
-	int t = 28 ;
+	double V = 0 ;
+	double pop_tot = S + E + I + Q + R + V ;
+	double R0 = 1 ;
+	int t = 90 ;
 
-	double saines[t] ;
-	double contaminees[t] ;
-	double infectees[t] ;
-	double retablies[t] ;
-	double immunisees[t] ;
-	double decedees[t] ;
+	struct Parametre figure_1 = {"Début du Covid (Arabie Saoudite)", 34810000, 0.05, 0.00035, 0.00000000858, 1/3, 8, 1/15, 0.00003, 2300, 0.014, 0.1};
+
+
+	double s_t[t] ;
+	double e_t[t] ;
+	double i_t[t] ;
+	double q_t[t] ;
+	double r_t[t] ;
+	double d_t[t] ;
+	double v_t[t] ;
 	double population_totale[t] ;
 
-	saines[0] = S ;
-	contaminees[0] = C ;
-	infectees[0] = I ;
-	retablies[0] = R ;
-	immunisees[0] = I ;
-	decedees[0] = D ;
+	s_t[0] = S ;
+	e_t[0] = E ;
+	i_t[0] = I ;
+	q_t[0] = Q ;
+	r_t[0] = R ;
+	d_t[0] = D ;
+	v_t[0] = V;
 	population_totale[0] = pop_tot ;
 
 	for (int i = 1; i < t ; i ++) {
 
-		double population [t] ;
+		double population[t] ;
 
-		simulation_population(population, suisse, S, C, I, R, D, IMMUN, Re, t) ;
+		simulation_covid2(population, suisse, S, C, I, R, D, IMMUN, Re, t) ;//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxxxx
 
 		S = population[0] ;
-		C = population[1] ;
+		E = population[1] ;
 		I = population[2] ;
-		R = population[3] ;
-		D = population[4] ;
-		IMMUN = population[5] ;
-		pop_tot = S + C + I + R + IMMUN ;
+		Q = population[3] ;
+		R = population[4] ;
+		D = population[5] ;
+		V = population[6] ;
+		pop_tot = S + E + I + Q + R + V ;
 
-		saines[i] = S ;
-		contaminees[i] = C ;
-		infectees[i] = I ;
-		retablies[i] = R ;
-		immunisees[i] = IMMUN ;
-		decedees[i] = D ;
+		s_t[i] = S ;
+		e_t[i] = E ;
+		i_t[i] = I ;
+		q_t[i] = Q ;
+		r_t[i] = R ;
+		d_t[i] = D ;
+		v_t[i] = V;
 		population_totale[i] = pop_tot ;
 
-	fichier("covid.csv", saines, contaminees, infectees, retablies, immunisees, decedees, population_totale, t-1) ;
+	fichier("covid.csv", s_t, e_t, i_t, q_t, r_t, d_t, v_t, population_totale, t-1) ;
 
 	return 0;
 }
