@@ -131,6 +131,7 @@ paramètre à faire varier :
 
 int main(int argc, char const *argv[]) {
 
+//intitialisation des valeurs
 	double S = 34218000 ;//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 	double E = 3 ;
 	double I = 3 ;
@@ -139,10 +140,13 @@ int main(int argc, char const *argv[]) {
 	double D = 0 ;
 	double V = 0 ;
 	double pop_tot = S + E + I + Q + R + V ;
-	double R0 = 1 ;
+	//double R0 = 1 ;
 	int t = 90 ;
+// Structure
 
-	struct Parametre figure_1 = {"Début du Covid (Arabie Saoudite)", 34810000, 0.05, 0.00035, 0.00000000858, 1/3, 8, 1/15, 0.00003, 2300, 0.014, 0.1};
+	//double beta = R0 *(mu * (mu + gamma) * (mu + delta) * (mu + alpha) /(new_people *gamma *(mu + alpha * upsilon)) -> a faire avec les valeur de la structure et un tableau
+
+	struct Parametre figure_1 = {"Début du Covid (Arabie Saoudite)", 34810000, 0.05, 0.00035, 0.00000000343, 0.33, 8, 0.066667, 0.00003, 2300, 0.014, 0.1};
 
 
 	double s_t[t] ;
@@ -167,7 +171,7 @@ int main(int argc, char const *argv[]) {
 
 		double population[t] ;
 
-		simulation_covid2(population, suisse, S, C, I, R, D, IMMUN, Re, t) ;//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxxxx
+		simulation_covid2(population, figure_1, S, E, I, Q, R, D, V, t) ;//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxxxx
 
 		S = population[0] ;
 		E = population[1] ;
@@ -190,4 +194,6 @@ int main(int argc, char const *argv[]) {
 	fichier("covid.csv", s_t, e_t, i_t, q_t, r_t, d_t, v_t, population_totale, t-1) ;
 
 	return 0;
+	}
+
 }
