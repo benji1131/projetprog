@@ -20,7 +20,7 @@ r = []      #Retablis
 d = []      #dead
 v = []  #Immunisé
 pop_tot = []#population totale
-n = 28     #nombre d'itération
+n = 90     #nombre d'itération
 
 
 #remplis les listes (y axis)
