@@ -190,10 +190,10 @@ int main(int argc, char const *argv[]) {
 		d_t[i] = D ;
 		v_t[i] = V;
 		population_totale[i] = pop_tot ;
-
+	}
+	
 	fichier("covid.csv", s_t, e_t, i_t, q_t, r_t, d_t, v_t, population_totale, t-1) ;
 
 	return 0;
-	}
 
 }
