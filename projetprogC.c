@@ -42,13 +42,13 @@ void simulation_covid2(double *population, struct Parametre nom, double s, doubl
 
 	*/
 
-	double S = s*(1 - beta * i - alpha - mu )+ new_people;
-	double E = e - e * gamma + beta * s * i + upsilon * beta * v * i + beta * s * i - mu * e;
-	double I = i + e * gamma - delta * i  - mu * i;
-	double Q = q + delta * i - (1-k) * mah * q - k * rho * q - mu * q ;
-	double R = r + (1-k) * mah * q  - mu * r;
-	double D = k * rho * q ;
-	double V = v + alpha * s - upsilon * beta * v * i - mu * v;
+	double S = s +( - s * beta * i - s * alpha - s * mu + new_people);
+	double E = e +(- e * gamma + beta * s * i + upsilon * beta * v * i + beta * s * i - mu * e);
+	double I = i +( e * gamma - delta * i  - mu * i);
+	double Q = q +( delta * i - (1-k) * mah * q - k * rho * q - mu * q) ;
+	double R = r +((1-k) * mah * q  - mu * r);
+	double D = d +(k * rho * q);
+	double V = v + (alpha * s - upsilon * beta * v * i - mu * v);
 	double population_totale = S+E+I+Q+R+V ;
 
 
@@ -141,7 +141,7 @@ int main(int argc, char const *argv[]) {
 	double V = 0 ;
 	double pop_tot = S + E + I + Q + R + V ;
 	//double R0 = 1 ;
-	int t = 90 ;
+	int t = 120 ;
 // Structure
 
 	//double beta = R0 *(mu * (mu + gamma) * (mu + delta) * (mu + alpha) /(new_people *gamma *(mu + alpha * upsilon)) -> a faire avec les valeur de la structure et un tableau
@@ -192,7 +192,7 @@ int main(int argc, char const *argv[]) {
 		population_totale[i] = pop_tot ;
 	}
 	
-	fichier("covid.csv", s_t, e_t, i_t, q_t, r_t, d_t, v_t, population_totale, t-1) ;
+	fichier("covid.csv", s_t, e_t, i_t, q_t, r_t, d_t, v_t, population_totale, t-1) ; // dans fichier . saint-e-inf-quar-rétab-dead-vacc-totale
 
 	return 0;
 
