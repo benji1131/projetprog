@@ -12,11 +12,12 @@ struct Parametre{
 	double beta ;
 	double gamma ;
 	double delta ;
-	double rho ;
-	double mu ;
-	double new_people ;
-	double k ;
 	double mah ;
+	double mah1 ;
+	double k ;
+	double k1 ;
+	double mu ;
+	
 
 };
 
@@ -28,29 +29,36 @@ void simulation_covid2(double *population, struct Parametre nom, double s, doubl
 	double beta = nom.beta ; //tranmsission rate divided by total amount of population
 	double gamma = nom.gamma ;//average latent time
 	double delta = nom.delta ;// average quarantine time
-	double rho = nom.rho; //average days until death
-	double mu = nom.mu; // natural death
-	double new_people = nom.new_people; // birth and new résident
-	double k = nom.k; //mortality rate
-	double mah = nom.mah;	//average days until recovery
+	double mu = nom.mu; // natural mortality and birth rate
+	double k = nom.k; //mortality rate by virus
+	double k1 = nom.k1;
+	double mah = nom.mah;	//recovery rate4
+	double mah1 = nom.mah1;
+	double population_totale = nom.population0;
 
 
+	
 	/*delta = rate de perte immun -> assume de environ 10 mois
 		upsilon = vaccination
 
      double r0 =beta * new_people *gamma *(mu + alpha * upsilon)/(mu * (mu + gamma) * (mu + delta) * (mu + alpha)); XXXXX
 
 	*/
-
-	double S = s +( - s * beta * i - s * alpha - s * mu + new_people);
-	double E = e +(- e * gamma + beta * s * i + upsilon * beta * v * i + beta * s * i - mu * e);
-	double I = i +( e * gamma - delta * i  - mu * i);
-	double Q = q +( delta * i - (1-k) * mah * q - k * rho * q - mu * q) ;
-	double R = r +((1-k) * mah * q  - mu * r);
-	double D = d +(k * rho * q);
-	double V = v + (alpha * s - upsilon * beta * v * i - mu * v);
-	double population_totale = S+E+I+Q+R+V ;
-
+	// time dépendant factors
+	double k_t = k * exp(- k1 * t);
+	double mah_t = mah * (1 - exp(- mah1 * t));
+	
+	// soit evolution de la population (dev taylor)
+	
+	double S = s - s * beta * i/population_totale - s * alpha - s * mu + mu * population_totale ;
+	double E = e +(- e * gamma + beta * s * i / population_totale + upsilon * beta * v * i / population_totale + beta * s * i / population_totale - mu * e);
+	double I = i +( e * gamma - delta * i  - mu * i - mu * s);
+	double Q = q +( delta * i - mah_t * q - k_t * q - mu * q) ;
+	double R = r +(mah_t * q  - mu * r);
+	double D = d +(k_t* q);
+	double V = v + (alpha * s - upsilon * beta * v * i / population_totale - mu * v);
+	
+	population_totale = S+E+I+Q+R+V ;	
 
 	population[0] = S ;
 	population[1] = E ;
@@ -132,7 +140,7 @@ paramètre à faire varier :
 int main(int argc, char const *argv[]) {
 
 //intitialisation des valeurs
-	double S = 34218000 ;//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+	double S = 8427000 ;
 	double E = 3 ;
 	double I = 3 ;
 	double Q = 1 ;
@@ -146,8 +154,8 @@ int main(int argc, char const *argv[]) {
 
 	//double beta = R0 *(mu * (mu + gamma) * (mu + delta) * (mu + alpha) /(new_people *gamma *(mu + alpha * upsilon)) -> a faire avec les valeur de la structure et un tableau
 
-	struct Parametre figure_1 = {"Début du Covid (Arabie Saoudite)", 34810000, 0.05, 0.00035, 0.00000000343, 0.182, 0.26, 0.066667, 0.00003, 2300, 0.014, 0.1};
-
+	//dernier test qui marchait pas avant de changer la formukestruct Parametre figure_1 = {"Début du Covid (Arabie Saoudite)", 34810000, 0.05, 0.00035, 0.00000000343, 0.182, 0.26, 0.066667, 0.00003, 2300, 0.014, 0.1};
+	struct Parametre figure1= {"spain", 8427000, 0.05,0.000035, 1.073, 0.776, 0.61,0.062, 0.017, 0.171, 0.970, 0.000035};
 
 	double s_t[t] ;
 	double e_t[t] ;
@@ -171,7 +179,7 @@ int main(int argc, char const *argv[]) {
 
 		double population[t] ;
 
-		simulation_covid2(population, figure_1, S, E, I, Q, R, D, V, t) ;//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxxxx
+		simulation_covid2(population, figure1, S, E, I, Q, R, D, V, i);
 
 		S = population[0] ;
 		E = population[1] ;
