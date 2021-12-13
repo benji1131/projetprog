@@ -13,12 +13,18 @@ data_covid = np.genfromtxt('covid.csv', delimiter = ',', dtype = 'float64')
 
 #crée nos listes de données
 s = []      #Saint
-e = []      #Contaminé
+v = []
+cs = []
+cv = []
+c = []
+is = []
+iv = []
 i_ = []    #Infecté4
-q = []      #quarantaine
+rs = []
+rv = []
 r = []      #Retablis
 d = []      #dead
-v = []  #Immunisé
+
 pop_tot = []#population totale
 n = 120   #nombre d'itération
 
@@ -26,13 +32,19 @@ n = 120   #nombre d'itération
 #remplis les listes (y axis)
 for i in range(n):
     s.append(data_covid[i,0])
-    e.append(data_covid[i,1])
-    i_.append(data_covid[i,2])
-    q.append(data_covid[i,3])
-    r.append(data_covid[i,4])
-    d.append(data_covid[i,5])
-    v.append(data_covid[i,6])
-    pop_tot.append(data_covid[i,7])
+    v.append(data_covid[i,1])
+    cs.append(data_covid[i,2])
+    cv.append(data_covid[i,3])
+    c.append(data_covid[i,4])
+    is.append(data_covid[i,5])
+    iv.append(data_covid[i,6])
+    i_.append(data_covid[i,7])
+    rs.append(data_covid[i,8])
+    rv.append(data_covid[i,9])
+    r.append(data_covid[i,10])
+    d.append(data_covid[i,11])
+
+    pop_tot.append(data_covid[i,12])
 
 #crée notre x axis
 temp = np.linspace(0,n,n)
