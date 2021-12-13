@@ -17,7 +17,7 @@ struct Parametre{
 	double k ;
 	double k1 ;
 	double mu ;
-	
+
 
 };
 
@@ -37,7 +37,7 @@ void simulation_covid2(double *population, struct Parametre nom, double s, doubl
 	double population_totale = nom.population0;
 
 
-	
+
 	/*delta = rate de perte immun -> assume de environ 10 mois
 		upsilon = vaccination
 
@@ -47,9 +47,9 @@ void simulation_covid2(double *population, struct Parametre nom, double s, doubl
 	// time dépendant factors
 	double k_t = k * exp(- k1 * t);
 	double mah_t = mah * (1 - exp(- mah1 * t));
-	
+
 	// soit evolution de la population (dev taylor)
-	
+
 	double S = s - s * beta * i/population_totale - s * alpha - s * mu + mu * population_totale ;
 	double E = e +(- e * gamma + beta * s * i / population_totale + upsilon * beta * v * i / population_totale + beta * s * i / population_totale - mu * e);
 	double I = i +( e * gamma - delta * i  - mu * i - mu * s);
@@ -57,8 +57,8 @@ void simulation_covid2(double *population, struct Parametre nom, double s, doubl
 	double R = r +(mah_t * q  - mu * r);
 	double D = d +(k_t* q);
 	double V = v + (alpha * s - upsilon * beta * v * i / population_totale - mu * v);
-	
-	population_totale = S+E+I+Q+R+V ;	
+
+	population_totale = S+E+I+Q+R+V ;
 
 	population[0] = S ;
 	population[1] = E ;
@@ -199,7 +199,7 @@ int main(int argc, char const *argv[]) {
 		v_t[i] = V;
 		population_totale[i] = pop_tot ;
 	}
-	
+
 	fichier("covid.csv", s_t, e_t, i_t, q_t, r_t, d_t, v_t, population_totale, t-1) ; // dans fichier . saint-e-inf-quar-rétab-dead-vacc-totale
 
 	return 0;
