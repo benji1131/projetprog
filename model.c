@@ -32,18 +32,16 @@ void simulation_population(double *population, struct pays nom, double s, double
 	double incub = 5 ;
 	int tau1 = 3 * 30 ;
 	int tau2 = 6 * 30 ;
-	double mu1 = pow(1,-5) ;
-	double mu2 = pow(2,-6) ;
+	double mu1 = pow(1,-5) / 100 ;
+	double mu2 = pow(2,-6) / 100 ;
 	double Rev = 0.7 * Re0 ;
-	double beta1 = Re0 / lambda  ;
-	double beta2 = beta1 * 0.05;
+	double beta1 = Re0 / lambda ;
+	double beta2 = Rev / lambda ;
 	double alpha = nom.alpha ;
-	double V = sv + cs + iv + rv ;
-	double population_totale = s + cs + is + rs + V ;
 
 	double S = s - beta1 * is * s + rs / tau1 - alpha * s ;
-	double Sv = sv - beta2  * iv * sv + alpha * s + rv / tau2 ;
-	double Cs = cs + beta1 * is * s - cs / incub ;
+	double Sv = sv - beta2 * (iv + is) * sv + rv / tau2 + alpha * s ;
+	double Cs = cs + beta1 * (is + iv) * s - cs / incub ;
 	double Cv = cv + beta2 * iv * sv - cv / incub ;
 	double Is = is + cs / incub - is / lambda - mu1 * is ;
 	double Iv = iv + cv / incub - iv / lambda - mu2 * iv ;
@@ -54,6 +52,9 @@ void simulation_population(double *population, struct pays nom, double s, double
 	double C = Cs + Cv ;
 	double I = Is + Iv ;
 	double R = Rs + Rv ;
+	double sain = S + Cs + Is + Rs ; 
+	double vacc = Sv + Cv + Iv + Rv ;
+	double population_totale = vacc + sain ;
 
 	population[0] = S ;
 	population[1] = Sv ;
@@ -67,8 +68,9 @@ void simulation_population(double *population, struct pays nom, double s, double
 	population[9] = Rv ;
 	population[10] = R ;
 	population[11] = D ;
-	population[12] = V ;
-	population[13] = population_totale ;
+	population[12] = sain ;
+	population[13] = vacc ;
+	population[14] = population_totale ;
 
 }
 
@@ -91,7 +93,7 @@ double fichier(char * filename, double * S, double * V, double * C, double * I, 
 
 int main(int argc, char const *argv[]) {
 
-	struct pays suisse = {"Suisse", 8603900 , 0, 1.2, 0.0019} ;
+	struct pays suisse = {"Suisse", 8603900 , 0, 1,2, 0.000019} ;
 
 	struct Geste_barriere port_du_masque = {"masque", 0.3} ;
 	struct Geste_barriere confinement = {"quarantaine", 0.8} ;
@@ -110,15 +112,16 @@ int main(int argc, char const *argv[]) {
 	double Rv = 0 ;
 	double R = Rs + Rv ;
 	double D = 0 ;
-
-	double S = (suisse.population - suisse.vaccine) / suisse.population - Cs - Is ;
-	double Sv = suisse.vaccine / suisse.population - Cv - Iv;
-	double V = Sv + Cv + Iv + Rv ;
-	double pop_tot = S + V + Cs + Is + Rs ;
-	int t = 14 ;
+	double S = (suisse.population - suisse.vaccine) / suisse.population - Cs;
+	double Sv = suisse.vaccine / suisse.population;
+	
+	double sain = S + Cs + Is + Rs ;
+	double vacc = Sv + Cv + Iv + Rv ;
+	double pop_tot = sain + vacc - D ;
+	int t = 365 ;
 	double Re0 = suisse.Re0 ;
 
-	double saines[t] ;
+	double sain_s[t] ;
 	double vacc_s[t] ;
 	double cont_s[t] ;
 	double cont_v[t] ;
@@ -130,10 +133,11 @@ int main(int argc, char const *argv[]) {
 	double ret_v[t] ;
 	double retablies[t] ;
 	double decedees[t] ;
+	double saines[t] ;
 	double vaccinees[t] ;
 	double population_totale[t] ;
 
-	saines[0] = S ;
+	sain_s[0] = S ;
 	vacc_s[0] = Sv ;
 	cont_s[0] = Cs ;
 	cont_v[0] = Cv ;
@@ -145,7 +149,8 @@ int main(int argc, char const *argv[]) {
 	ret_v[0] = Rv ;
 	retablies[0] = R ;
 	decedees[0] = D ;
-	vaccinees[0] = V ;
+	saines[0] = sain ;
+	vaccinees[0] = vacc ;
 	population_totale[0] = pop_tot ;
 
 	for (int i = 1; i < t ; i ++) {
@@ -166,10 +171,11 @@ int main(int argc, char const *argv[]) {
 		Rv = population[9] ;
 		R = population[10] ;
 		D = population[11] ;
-		V = population[12] ;
-		pop_tot = population[13] ;
+		sain = population[12] ;
+		vacc = population[13] ;
+		pop_tot = population[14] ;
 
-		saines[i] = S ;
+		sain_s[i] = S ;
 		vacc_s [i] = Sv ;
 		cont_s[i] = Cs ;
 		cont_v[i] = Cv ;
@@ -181,17 +187,18 @@ int main(int argc, char const *argv[]) {
 		ret_v[i] = Rv ;
 		retablies[i] = R ;
 		decedees[i] = D ;
-		vaccinees[i] = V ;
+		saines[i] = sain ;
+		vaccinees[i] = vacc ;
 		population_totale[i] = pop_tot ;
 
 
-		printf ("S = %.5f, Vs = %.5f, Cs = %.5f, Cv = %.5f, C = %.5f, Is = %.5f, Iv = %.5f, I = %.5f, Rs = %.5f, Rv = %.5f, R = %.5f, D = %.5f, V = %.5f, pop_tot = %.5f\n", S, Sv, Cs, Cv, C, Is, Iv, I, Rs, Rv, R, D, V, pop_tot) ;
+		printf ("S = %.5f, Vs = %.5f, Cs = %.5f, Cv = %.5f, C = %.5f, Is = %.5f, Iv = %.5f, I = %.5f, Rs = %.5f, Rv = %.5f, R = %.5f, D = %.5f, sain = %.5f, vacc = %.5f, pop_tot = %.5f\n", S, Sv, Cs, Cv, C, Is, Iv, I, Rs, Rv, R, D, sain, vacc, pop_tot) ;
 
 	}
 	printf ("\n") ;
 
 	for (int i = 0 ; i < t; i++) {
-		printf ("jour : %d = %.5f saines\n", i, saines[i]);
+		printf ("jour : %d = %.5f saines saines\n", i, sain_s[i]);
 	}
 	printf ("\n") ;
 
@@ -229,12 +236,12 @@ int main(int argc, char const *argv[]) {
 		printf ("jour : %d = %.5f infectees\n", i, infectees[i]);
 	}
 	printf ("\n") ;
-
+	
 	for (int i = 0 ; i < t; i++) {
 		printf ("jour : %d = %.5f retablies saines\n", i, ret_s[i]);
 	}
 	printf ("\n") ;
-
+	
 	for (int i = 0 ; i < t; i++) {
 		printf ("jour : %d = %.5f retablies vacc\n", i, ret_v[i]);
 	}
@@ -249,7 +256,12 @@ int main(int argc, char const *argv[]) {
 		printf ("jour : %d = %.5f decedees\n", i, decedees[i]);
 	}
 	printf ("\n") ;
-
+	
+	for (int i = 0 ; i < t; i++) {
+		printf ("jour : %d = %.5f saines\n", i, saines[i]);
+	}
+	printf ("\n") ;
+	
 	for (int i = 0 ; i < t; i++) {
 		printf ("jour : %d = %.5f vaccinees\n", i, vaccinees[i]);
 	}
