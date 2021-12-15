@@ -38,11 +38,8 @@ void simulation_population(double *population, struct pays nom, double s, double
 	double beta1 = Re0 / lambda  ;
 	double beta2 = beta1 * 0.05;
 	double alpha = nom.alpha ;
-	double c = cs + cv ;
-	double i = is + iv ;
-	double r = rs + rv ;
-	double V = sv + cs + is + rs ;
-	double population_totale = s + c + i + r + V ;
+	double V = sv + cs + iv + rv ;
+	double population_totale = s + cs + is + rs + V ;
 
 	double S = s - beta1 * is * s + rs / tau1 - alpha * s ;
 	double Sv = sv - beta2  * iv * sv + alpha * s + rv / tau2 ;
@@ -94,7 +91,7 @@ double fichier(char * filename, double * S, double * V, double * C, double * I, 
 
 int main(int argc, char const *argv[]) {
 
-	struct pays suisse = {"Suisse", 8603900 , 5750000, 1.2, 0.19} ;
+	struct pays suisse = {"Suisse", 8603900 , 0, 1.2, 0.0019} ;
 
 	struct Geste_barriere port_du_masque = {"masque", 0.3} ;
 	struct Geste_barriere confinement = {"quarantaine", 0.8} ;
@@ -103,11 +100,11 @@ int main(int argc, char const *argv[]) {
 	struct Variant delta = {"delta", 0.7};
 	struct Variant omicron = {"omicron", 0.9};
 
-	double Cs = 0.1 ;
-	double Cv = 0.1 ;
+	double Cs = 0.03 ;
+	double Cv = 0 ;
 	double C = Cs + Cv ;
-	double Is = 0.05 ;
-	double Iv = 0.05 ;
+	double Is = 0 ;
+	double Iv = 0 ;
 	double I = Is + Iv ;
 	double Rs = 0 ;
 	double Rv = 0 ;
@@ -117,7 +114,7 @@ int main(int argc, char const *argv[]) {
 	double S = (suisse.population - suisse.vaccine) / suisse.population - Cs - Is ;
 	double Sv = suisse.vaccine / suisse.population - Cv - Iv;
 	double V = Sv + Cv + Iv + Rv ;
-	double pop_tot = S + V + C + I + R ;
+	double pop_tot = S + V + Cs + Is + Rs ;
 	int t = 14 ;
 	double Re0 = suisse.Re0 ;
 
