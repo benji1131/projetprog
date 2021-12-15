@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 
 struct pays{
 	char* nom;
@@ -25,32 +26,36 @@ double Re(struct pays nom, struct Geste_barriere mesures, struct Variant variant
 	return Re ;
 }
 
-void simulation_population(double *population, struct pays nom, double s, double v, double cs, double cv, double is, double iv, double r, double d, double Re0, int t){
+void simulation_population(double *population, struct pays nom, double s, double v, double cs, double cv, double is, double iv, double rs, double rv , double d, double Re0, int t){
 
 	int lambda = 17 ;
 	double incub = 5 ;
-	int tau = 3 * 30 ;
-	double mu1 = 0.03 ;
-	double mu2 = 0.01 ;
+	int tau1 = 3 * 30 ;
+	int tau2 = 6 * 30 ;
+	double mu1 = pow(1,-5) ;
+	double mu2 = pow(2,-6) ;
 	double Rev = 0.7 * Re0 ;
-	double beta1 = Re0 / lambda ;
-	double beta2 = Rev / lambda ;
+	double beta1 = Re0 / lambda  ;
+	double beta2 = beta1 * 0.05;
 	double alpha = nom.alpha ;
 	double c = cs + cv ;
 	double i = is + iv ;
+	double r = rs + rv ;
 	double population_totale = s + c + i + r + v ;
 
-	double S = s - beta1 * is * s + r / tau - alpha * s ;
-	double V = v - beta2 * iv * v + alpha * s + iv / lambda ;
+	double S = s - beta1 * is * s + rs / tau1 - alpha * s ;
+	double V = v - beta2  * iv * v + alpha * s + rv / tau2 ;
 	double Cs = cs + beta1 * is * s - cs / incub ;
 	double Cv = cv + beta2 * iv * v - cv / incub ;
 	double Is = is + cs / incub - is / lambda - mu1 * is ;
 	double Iv = iv + cv / incub - iv / lambda - mu2 * iv ;
-	double R = r + is / lambda - r / tau ;
+	double Rs = rs + is / lambda - rs / tau1 ;
+	double Rv = rv + iv / lambda - rv / tau2 ;
 	double D = d + mu1 * is + mu2 * iv ;
 
 	double C = Cs + Cv ;
 	double I = Is + Iv ;
+	double R = Rs + Rv ;
 
 	population[0] = S ;
 	population[1] = V ;
@@ -60,9 +65,11 @@ void simulation_population(double *population, struct pays nom, double s, double
 	population[5] = Is ;
 	population[6] = Iv ;
 	population[7] = I ;
-	population[8] = R ;
-	population[9] = D ;
-	population[10] = population_totale ;
+	population[8] = Rs ;
+	population[9] = Rv ;
+	population[10] = R ;
+	population[11] = D ;
+	population[12] = population_totale ;
 
 }
 
@@ -85,7 +92,7 @@ double fichier(char * filename, double * S, double * V, double * C, double * I, 
 
 int main(int argc, char const *argv[]) {
 
-	struct pays suisse = {"Suisse", 8603900 , 5750000, 1.2, 1.43} ;
+	struct pays suisse = {"Suisse", 8603900 , 5750000, 1.2, 0.0002} ;
 
 	struct Geste_barriere port_du_masque = {"masque", 0.3} ;
 	struct Geste_barriere confinement = {"quarantaine", 0.8} ;
@@ -100,7 +107,9 @@ int main(int argc, char const *argv[]) {
 	double Is = 0.05 ;
 	double Iv = 0.05 ;
 	double I = Is + Iv ;
-	double R = 0 ;
+	double Rs = 0 ;
+	double Rv = 0 ;
+	double R = Rs + Rv ;
 	double D = 0 ;
 
 	double S = (suisse.population - suisse.vaccine) / suisse.population * 100 - C - I ;
@@ -117,6 +126,8 @@ int main(int argc, char const *argv[]) {
 	double inf_s[t] ;
 	double inf_v[t] ;
 	double infectees[t] ;
+	double ret_s[t] ;
+	double ret_v[t] ;
 	double retablies[t] ;
 	double decedees[t] ;
 	double population_totale[t] ;
@@ -129,6 +140,8 @@ int main(int argc, char const *argv[]) {
 	inf_s[0] = Is ;
 	inf_v[0] = Iv ;
 	infectees[0] = I ;
+	ret_s[0] = Rs ;
+	ret_v[0] = Rv ;
 	retablies[0] = R ;
 	decedees[0] = D ;
 	population_totale[0] = pop_tot ;
@@ -137,7 +150,7 @@ int main(int argc, char const *argv[]) {
 
 		double population [t] ;
 
-		simulation_population(population, suisse, S, V, Cs, Cv, Is, Iv, R, D, Re0, t) ;
+		simulation_population(population, suisse, S, V, Cs, Cv, Is, Iv, Rs, Rv, D, Re0, t) ;
 
 		S = population[0] ;
 		V = population[1] ;
@@ -147,8 +160,10 @@ int main(int argc, char const *argv[]) {
 		Is = population[5] ;
 		Iv = population[6] ;
 		I = population[7] ;
-		R = population[8] ;
-		D = population[9] ;
+		Rs = population[8] ;
+		Rs = population[9] ;
+		R = population[10] ;
+		D = population[11] ;
 		pop_tot = S + V + C + I + R  ;
 
 		saines[i] = S ;
@@ -159,12 +174,14 @@ int main(int argc, char const *argv[]) {
 		inf_s[i] = Is ;
 		inf_v[i] = Iv ;
 		infectees[i] = I ;
+		ret_s[i] = Rs ;
+		ret_v[i] = Rv ;
 		retablies[i] = R ;
 		decedees[i] = D ;
 		population_totale[i] = pop_tot ;
 
 
-		printf ("S = %.5f, V = %.5f, Cs = %.5f, Cv = %.5f, C = %.5f, Is = %.5f, Iv = %.5f, I = %.5f, R = %.5f, D = %.5f, pop_tot = %.5f\n", S, V, Cs, Cv, C, Is, Iv, I, R, D, pop_tot) ;
+		printf ("S = %.5f, V = %.5f, Cs = %.5f, Cv = %.5f, C = %.5f, Is = %.5f, Iv = %.5f, I = %.5f, Rs = %.5f, Rv = %.5f, R = %.5f, D = %.5f, pop_tot = %.5f\n", S, V, Cs, Cv, C, Is, Iv, I, Rs, Rv, R, D, pop_tot) ;
 
 	}
 	printf ("\n") ;
@@ -206,6 +223,16 @@ int main(int argc, char const *argv[]) {
 
 	for (int i = 0 ; i < t; i++) {
 		printf ("jour : %d = %.5f infectees\n", i, infectees[i]);
+	}
+	printf ("\n") ;
+	
+	for (int i = 0 ; i < t; i++) {
+		printf ("jour : %d = %.5f retablies saines\n", i, ret_s[i]);
+	}
+	printf ("\n") ;
+	
+	for (int i = 0 ; i < t; i++) {
+		printf ("jour : %d = %.5f retablies vacc\n", i, ret_v[i]);
 	}
 	printf ("\n") ;
 
