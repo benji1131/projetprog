@@ -32,25 +32,24 @@ void simulation_population(double *population, struct pays nom, double s, double
 	double incub = 5 ;
 	int tau1 = 3 * 30 ;
 	int tau2 = 6 * 30 ;
-	double mu1 = pow(1,-5) ;
-	double mu2 = pow(2,-6) ;
+	double mu1 = pow(1,-5) / 100 ;
+	double mu2 = pow(2,-6) / 100 ;
 	double Rev = 0.7 * Re0 ;
-	double beta1 = 0.07  ;
-	double beta2 = beta1 * 0.05;
+	double beta1 = Re0 / lambda ;
+	double beta2 = Rev / lambda ;
 	double alpha = nom.alpha ;
-	double V = sv + cv + iv + rv ;
-
 
 	double S = s - beta1 * is * s + rs / tau1 - alpha * s ;
-	double Sv = sv - beta2  * (iv+is) * sv + alpha * s + rv / tau2 ;
-	double Cs = cs + beta1 * (iv +is) * s - cs / incub ;
+	double Sv = sv - beta2  * iv * sv + alpha * s + rv / tau2 ;
+	double Cs = cs + beta1 * is * s - cs / incub ;
 	double Cv = cv + beta2 * iv * sv - cv / incub ;
-	double Is = is + cs / incub - is / lambda - mu1 * is/100 ;
-	double Iv = iv + cv / incub - iv / lambda - mu2 * iv/100 ;
+	double Is = is + cs / incub - is / lambda - mu1 * is ;
+	double Iv = iv + cv / incub - iv / lambda - mu2 * iv ;
 	double Rs = rs + is / lambda - rs / tau1 ;
 	double Rv = rv + iv / lambda - rv / tau2 ;
-	double D = d + mu1 * is/100 + mu2 * iv/ 100 ;
+	double D = d + mu1 * is + mu2 * iv ;
 
+	double V = Sv + Cv + Iv + Rv ;
 	double population_totale = S + Cs + Is + Rs + V ;
 	double C = Cs + Cv ;
 	double I = Is + Iv ;
@@ -92,7 +91,7 @@ double fichier(char * filename, double * S, double * V, double * C, double * I, 
 
 int main(int argc, char const *argv[]) {
 
-	struct pays suisse = {"Suisse", 8603900 , 0, 1.2, 0.0019} ;
+	struct pays suisse = {"Suisse", 8603900 , 1000000, 1.2, 0.0019} ;
 
 	struct Geste_barriere port_du_masque = {"masque", 0.3} ;
 	struct Geste_barriere confinement = {"quarantaine", 0.8} ;
@@ -101,36 +100,22 @@ int main(int argc, char const *argv[]) {
 	struct Variant delta = {"delta", 0.7};
 	struct Variant omicron = {"omicron", 0.9};
 
-	double Cs = 0.03 ;
-	double Cv = 0 ;
+	double Cs = 0.05 ;
+	double Cv = 0.05 ;
 	double C = Cs + Cv ;
-	double Is = 0 ;
-	double Iv = 0 ;
+	double Is = 0.02 ;
+	double Iv = 0.02 ;
 	double I = Is + Iv ;
 	double Rs = 0 ;
 	double Rv = 0 ;
 	double R = Rs + Rv ;
 	double D = 0 ;
 
-	double S = (suisse.population - suisse.vaccine) / suisse.population - Cs - Is ;
-	double Sv = suisse.vaccine / suisse.population - Cv - Iv;
+	double S = (suisse.population - suisse.vaccine) / suisse.population - Cs - Is - Rs;
+	double Sv = suisse.vaccine / suisse.population - Cv - Iv - Rv;
 	double V = Sv + Cv + Iv + Rv ;
 	double pop_tot = S + V + Cs + Is + Rs ;
-
-
-	/*$
-	 *
-	 *
-	 *
-	 *
-	 * */
 	int t = 356 ;
-		/*$
-	 *
-	 *
-	 *
-	 *
-	 * */
 	double Re0 = suisse.Re0 ;
 
 	double saines[t] ;
