@@ -52,7 +52,7 @@ void simulation_population(double *population, struct pays nom, double s, double
 	double C = Cs + Cv ;
 	double I = Is + Iv ;
 	double R = Rs + Rv ;
-	double sain = S + Cs + Is + Rs ; 
+	double sain = S + Cs + Is + Rs ;
 	double vacc = Sv + Cv + Iv + Rv ;
 	double population_totale = vacc + sain ;
 
@@ -114,7 +114,7 @@ int main(int argc, char const *argv[]) {
 	double D = 0 ;
 	double S = (suisse.population - suisse.vaccine) / suisse.population - Cs;
 	double Sv = suisse.vaccine / suisse.population;
-	
+
 	double sain = S + Cs + Is + Rs ;
 	double vacc = Sv + Cv + Iv + Rv ;
 	double pop_tot = sain + vacc - D ;
@@ -236,12 +236,12 @@ int main(int argc, char const *argv[]) {
 		printf ("jour : %d = %.5f infectees\n", i, infectees[i]);
 	}
 	printf ("\n") ;
-	
+
 	for (int i = 0 ; i < t; i++) {
 		printf ("jour : %d = %.5f retablies saines\n", i, ret_s[i]);
 	}
 	printf ("\n") ;
-	
+
 	for (int i = 0 ; i < t; i++) {
 		printf ("jour : %d = %.5f retablies vacc\n", i, ret_v[i]);
 	}
@@ -256,12 +256,12 @@ int main(int argc, char const *argv[]) {
 		printf ("jour : %d = %.5f decedees\n", i, decedees[i]);
 	}
 	printf ("\n") ;
-	
+
 	for (int i = 0 ; i < t; i++) {
 		printf ("jour : %d = %.5f saines\n", i, saines[i]);
 	}
 	printf ("\n") ;
-	
+
 	for (int i = 0 ; i < t; i++) {
 		printf ("jour : %d = %.5f vaccinees\n", i, vaccinees[i]);
 	}
