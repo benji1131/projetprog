@@ -4,28 +4,32 @@
 <head>
     <meta charset="utf-8">
     <title>Projet de programation: Propagation Virus</title>
+    <link rel="stylesheet" href="style.css">
     <style>
         body { background: white; font-family: sans-serif; margin: 0; padding: 20px }
     </style>
 </head>
 
 <body>
-    <h1>Propagation d'un Virus</h1>
+    <section class="intro">
+      <h1>Propagation d'un Virus</h1>
 
-    <h2>Intoduction</h2>
-    <p>
-      Notre projet se comporte en deux partie distincte. La première vise à illustrer visuellement
-      comment un virus se propage au sein d'une population. Nous avons simulé plusieurs cas de figure possible
-      afin de pouvoir observer quels sont les facteurs qui influencent de manière significative notre modèle et de quelle manière.
-      Pour la seconde partie, nous cherchons à simuler l'évolution de la propagation du Covid de manière plus précise grace au modèle SIR étendu qui prend en compte
-      une multitude de paramètres, et faisons varier ceux-ci afin de d'estimer plus précisement les facteurs clés.
-    </p>
+      <h2>Intoduction</h2>
+      <p>
+        Notre projet se comporte en deux partie distincte. La première vise à illustrer visuellement
+        comment un virus se propage au sein d'une population. Nous avons simulé plusieurs cas de figure possible
+        afin de pouvoir observer quels sont les facteurs qui influencent de manière significative notre modèle et de quelle manière.
+        Pour la seconde partie, nous cherchons à simuler l'évolution de la propagation du Covid de manière plus précise grace au modèle SIR étendu qui prend en compte
+        une multitude de paramètres, et faisons varier ceux-ci afin de d'estimer plus précisement les facteurs clés.
+      </p>
+    </section>
+
 
     <h2>Première Partie: Propagation Visuelle au sein d'une population</h2>
 
     <p>
-      Soit nous avons modélisé une population par une matrice de taille 50x50 où chaque cellules représente une personne. Chacunes des case comporte un nombre entre 0 et 
-      et 6 qui représente le statut médicale de la personne et sera représenté par une couleur différente dans nos graphes. 
+      Soit nous avons modélisé une population par une matrice de taille 50x50 où chaque cellules représente une personne. Chacunes des case comporte un nombre entre 0 et
+      et 6 qui représente le statut médicale de la personne et sera représenté par une couleur différente dans nos graphes.
       Soit:<br></br>
 		<br>- 1 (rouge) = Contaminé</br><br>- 2 (orange foncé) = infecté</br><br>- 3 (orange) = infecté</br><br>- 4 (bleu) = rétabli</br><br>- 5 (noir) = mort</br><br>- 6 (cyan) = Vacciné (considéré comme immunisé)</br>
       <br></br>
@@ -36,20 +40,20 @@
       <br>- Si la valeur est différente de 1, alors rien ne se passe.</br>
     </p>
     <p>Il est à noter que cette première partie ne représente pas un modèle très complet. Le but n'est pas d'être précis mais d'observer et sensibiliser les gens en visualisant la propagation d'un virus dans différentes situations. </p>
-	
-<!--Figure 1-->	
+
+<!--Figure 1-->
 	<h3>Situation 1: Propagation Sans Geste Barrière ni Vaccination</h3>
 	<p> Pour la première figure, nous souhaitons simuler un cas classique de propagation de virus sans qu'il n'y ait aucun gestes barrière ni d'immunnité(vaccination) dans la société.
 	C'est en d'autres terme une simulation qui représente l'apparition d'une nouvelle épidémie.</p>
 	<p>Pour la première figure, nous avons fixé une probabilité d'être infecté de 45%, ce qui est un gros pourcentage.</p>
-    <div><img src="C:\Users\gremi\Desktop\Prog_pour_Ingenieur\projet\projetprog\Animated_plots\animation.gif" /> 
+    <div><img src="C:\Users\gremi\Desktop\Prog_pour_Ingenieur\projet\projetprog\Animated_plots\animation.gif" />
     </div>
         <div style="color: #666; font-size: 13px">
         Figure 1: Propagation Visuelle Sans Geste Barrière
         </div>
 
     <p>On observe que la grosse majorité de la population est infectée par virus. Il y a très peu de zones saines (blanches) malgrès une probabilité inférieur à la moyenne.
-    Ceci s'explique par le faite que plusieurs personnes peuvent infecter une case et donc la probabilité d'être infecté en générale est pratiquement de 100%. 
+    Ceci s'explique par le faite que plusieurs personnes peuvent infecter une case et donc la probabilité d'être infecté en générale est pratiquement de 100%.
     </p>
 
 
@@ -57,42 +61,42 @@
 	<h3>Situation 2 : Propagation avec Gestes Barrières </h3>
 	<p>L'introduction des gestes barrières influence la probabilité d'infection. Nous avons donc fixé cette valeur à 36%, ce qui semble par expérience d'être le palier minimum ou le virus se propage
 	dans la population. </p>
-    <div><img src="C:\Users\gremi\Desktop\Prog_pour_Ingenieur\projet\projetprog\Animated_plots\animation2.gif" /> 
+    <div><img src="C:\Users\gremi\Desktop\Prog_pour_Ingenieur\projet\projetprog\Animated_plots\animation2.gif" />
     </div>
         <div style="color: #666; font-size: 13px">
         Figure 2: Propagation Visuelle Avec Gestes Barrières
         </div>
- 
+
      <p>
       Le virus atteind une majorité de la population mais on observe que la propagation est plus lente qu'en 1 et qu'elle épargne une plus grosse proportion.
       Le zone saines sont plus fréquentes et de plus grandes tailles.
-    </p> 
-       
+    </p>
+
  <!--Figure 3-->
  	<h3>Situation 3: Propagation avec Gestes Barrières et Vaccination (10%)</h3>
 	<p>Lors de cette simulation, nous avons modifié les conditions initiales par une fonction appelée vaccination. Cette fonction s'applique sur chacunes des cases de notre matrcie
 	et avec une porbabilté de 10%, elle modifie la valeur pour l'initer à 6 pour dire qu'ils sont vaccinés et donc immunisé au vaccin.
 	</p>
-    <div><img src="C:\Users\gremi\Desktop\Prog_pour_Ingenieur\projet\projetprog\Animated_plots\animation3.gif" /> 
+    <div><img src="C:\Users\gremi\Desktop\Prog_pour_Ingenieur\projet\projetprog\Animated_plots\animation3.gif" />
     </div>
         <div style="color: #666; font-size: 13px">
         Figure 3: Propagation Visuelle Avec 10% Vaccination
         </div>
-        
+
     <p>
-      On observe ainsi que la propagation du virus est bien réduite, de telle manière que celui-ci disparait avant d'avoir contaminé toute la population. 
-      La vaccination semble être selon ce modèle un moyen extrement efficace afin de lutter contre les épidémies. Néanmoins, nous avons assumé une immunité totale 
-      face au virus alors qu'en réalité ce n'est pas le cas. 
-    </p> 
-    
+      On observe ainsi que la propagation du virus est bien réduite, de telle manière que celui-ci disparait avant d'avoir contaminé toute la population.
+      La vaccination semble être selon ce modèle un moyen extrement efficace afin de lutter contre les épidémies. Néanmoins, nous avons assumé une immunité totale
+      face au virus alors qu'en réalité ce n'est pas le cas.
+    </p>
+
 <!--Figure 4-->
 	<h3>Situation 4: Propagation avec voyage</h3>
-	<p>Auparavant nous avons propagé le virus en fonction des personnes dans le voisinage proches, mais désormais il faut imaginer notre matrice comme un village. 
+	<p>Auparavant nous avons propagé le virus en fonction des personnes dans le voisinage proches, mais désormais il faut imaginer notre matrice comme un village.
 	Il est peu probable que chaque personne infecte les maisons alentours, c'est pourquoi on assume que chaques villageois passe une majorité de son temps avec 5 personnes du villages
 	dans un rayon de 10 cases. C'est sur ces 5 personnes aléatoires que s'applique la fonction infection qui permet de propager le virus. On a utilisé une probabilité d'infection de 45% pour ce modèle.
-	
+
 	</p>
-    <div><img src="C:\Users\gremi\Desktop\Prog_pour_Ingenieur\projet\projetprog\Animated_plots\animation4.gif" /> 
+    <div><img src="C:\Users\gremi\Desktop\Prog_pour_Ingenieur\projet\projetprog\Animated_plots\animation4.gif" />
     </div>
         <div style="color: #666; font-size: 13px">
         Figure 4: Propagation Visuelle Avec Voyages
@@ -102,20 +106,20 @@
       On observe que la répartition est très rapide mais laisse tout de même beaucoup de trou. Ce modèle n'est vraiment pas optimal car on a choisi les personnes
       aléatoirement sans faire de lien entre eux et donc beaucoup de cases ne sont pas soumises à la fonction infection.
     </p>
-    
 
-<!--Conclusion--> 
+
+<!--Conclusion-->
 	<h3>Conclusion de la première Partie</h3>
     <p>Pour conclure, on remarque que les gestes barrière permettent de ralentir la progression du virus au seins de la propagation ce qui est extrêmement utile dans
     notre société. Cela permet d'éviter une surcharge constante des hopitaux et de réduire également les risques d'infections.
     Ensuite, la vaccination permet de stopper la propagation du virus. En effet, la présence de personnes immunisées permet de réduire la transmitabilité d'un virus
     , un facteur essentielle pour le bien être de la population</p>
-    
- 
+
+
 <!--deuxieme partie-->
 	<h2> Deuxième partie: Propagation théorique du COVID au sein d'une population
 	</h2>
-	
+
     <p>
       Lors de cette seconde partie
     </p>
