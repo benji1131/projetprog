@@ -3,6 +3,7 @@
   padding : 0 ;
   font-family: 'Poppins', sans-serif; ;
 }
+/* première page de présentation */
 
 .start{
   min-height: 100vh ;
@@ -36,13 +37,14 @@ nav{
   list-style: none;
   display: inline-block;
   padding: 8px 12px;
-  position: relative;
+  text-align: center;
 }
 .nav-links ul li a{
   color: #fff ;
   text-decoration: none;
   font-size: 15px ;
 }
+
 .nav-links ul li::after{
   content: "";
   width:0% ;
@@ -63,6 +65,7 @@ nav{
   left : 50% ;
   transform: translate(-50%, -50%);
   text-align: center;
+  text-shadow: 1px 1px 2px black ;
 }
 .page_garde h1{
   font-size: 60px ;
@@ -87,4 +90,66 @@ nav{
   border: 1px solid #DC0606;
   background: #DC0606;
   transition: 1s;
+}
+
+/* Introduction  */
+
+.introduction{
+  width : 80% ;
+  margin : auto;
+  text-align: center;
+  padding-top: 100px;
+}
+.titre_intro{
+  font-size: 36px ;
+  font-weight: 600 ;
+}
+.texte_intro{
+  margin-top: 20px;
+  font-size: 14px ;
+  font-weight: 300 ;
+  line-height: 22px ;
+  padding: 10px ;
+}
+
+/* Nos photos */
+
+.nous{
+  width : 50% ;
+  margin : auto ;
+  text-align: center ;
+  padding-top: 100px ;
+}
+.titre_nous{
+  font-size: 30px ;
+  font-weight: 530 ;
+}
+.photo{
+  display: flex;
+  justify-content: space-between;
+}
+.profil{
+  width: 20%;
+  flex-basis: 32% ;
+  border-radius: 10px ;
+  margin-bottom: 30px ;
+  margin-top: 20px;
+  position : relative;
+  overflow: hidden;
+}
+.profil img{
+  width : 100% ;
+}
+._nom h3{
+  font-size: 15px ;
+  font-weight: 500;
+}
+
+/* Références */
+
+.ref{
+  width: 80% ;
+  margin: auto;
+  text-align: center;
+  padding-top: 100px ;
 }
