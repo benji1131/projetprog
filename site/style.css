@@ -195,13 +195,12 @@ nav{
   margin: 20px 0 20px 100px ;
 }
 
-/* simulation */
+/* simulation 1, 2, 3, 4*/
 
 .simu{
   width : 80% ;
   margin : auto ;
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding-top: 70px;
   text-align: center;
 }
 .simu h3{
@@ -218,22 +217,42 @@ nav{
   padding-top: 40px ;
   display: flex ;
   justify-content: space-between;
+  align-items: center;
 }
 .simu_txt img{
   width : 100% ;
-}
-.simu1_txt p{
-  padding-top: 100px ;
-  text-align: left ;
-  font-size: 16px;
-  font-weight: 300;
 }
 .simu_txt h3{
   font-size: 13px ;
   font-weight: 300;
 }
-/* simu 1 */
-.simu1_txt{
+.simu_txt{
   flex-basis: 50%;
-  padding : 30px 2px;
+  padding : 30px 20px;
+}
+.simu_txt p{
+  padding-bottom: 30px;
+  text-align: left ;
+  font-size: 16px;
+  font-weight: 300;
+}
+
+/* conclu */
+
+.conclu{
+  width: 80% ;
+  margin: auto ;
+  padding-top: 100px ;
+  padding-bottom: 50px ;
+  text-align: center;
+}
+.conclu h1{
+  font-size: 30px ;
+  font-weight: 600 ;
+  margin-bottom: 50px;
+}
+.conclu p{
+  font-size: 16px;
+  font-weight: 300;
+  text-align: left;
 }
