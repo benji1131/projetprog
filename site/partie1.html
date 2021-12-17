@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -11,7 +11,7 @@
 
 <body>
  <!-- première page de présentation -->
-<section class="start">
+<section class="partie1">
 
   <nav>
     <ul>
@@ -26,8 +26,40 @@
     </div>
   </nav>
 
-<div class="page_garde">
+<div class="page_garde2">
   <h1>PARTIE 1</h1>
 </div>
+</section>
+
+<!-- partie 1 intro -->
+
+<section class="part1_intro">
+  <h1>Première Partie: Propagation Visuelle au sein d'une population</h1>
+  <p class="p">Nous avons modélisé une population par une matrice de taille 50x50 où chaque cellules représente une personne. Chacunes des cases comportent un nombre entre 0 et
+  et 6 qui représente le statut médicale de la personne et sera représenté par une couleur différente dans nos graphes.
+  Soit:
+  </p>
+  <p class="liste">
+    <ol>
+      <li>(rouge) = contaminé</li>
+      <li>(orange foncé) = infecté</li>
+      <li>(orange) = infecté</li>
+      <li>(bleu) = rétabli</li>
+      <li>(cyan) = vacciné</li>
+      <li>(noir) = mort</li>
+      <li></li>
+    </ol>
+  </p>
+  <p class="p">Chaque modèle commence dans une situation initale avec une matrice nulle où l'on ajoute le patient zéros au millieu de la population(c'est à dire qu'on initialise la case [25,25] avec 1).
+  A chaque itération, on observe le statu de chaque case et suivant la valeur de cette case, différent scénario se passe:
+  </p>
+  <p class="liste">
+    <ul>
+      <li>Si la valeur est de 1, on fait appelle une une fonction dites "infection" qui va étudier les case environnantes et infecter les case de saines avec une certaine propabilités. De plus, avec une probabilité de 1% la personne peut succomber à la maladie.</li>
+      <li>Si la valeur est différente de 1, alors rien ne se passe.</li>
+    </ul>
+  </p>
+  <p class="p">Il est à noter que cette première partie ne représente pas un modèle très complet. Le but n'est pas d'être précis mais d'observer et sensibiliser les gens en visualisant la propagation d'un virus dans différentes situations. </p>
+</p>
 
 </section>

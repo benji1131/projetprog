@@ -12,7 +12,7 @@
   background-position: center;
   background-size: cover;
   position : relative;
-   opacity: 70% ;
+  opacity: 70% ;
 }
 
 nav{
@@ -152,4 +152,37 @@ nav{
   margin: auto;
   text-align: center;
   padding-top: 100px ;
+}
+/* partie 1 */
+.partie1{
+  height: 60vh;
+  width: 100%;
+  background-image: linear-gradient(rgba(4, 9, 30, 0.5), rgba(4, 9, 30, 0.5)), url(/Users/mahepricam/Documents/Cours/projetprog/site/image/simu_visuelle.png);
+  background-position: center;
+  background-size: cover ;
+  text-align: center;
+  color : #fff;
+}
+.page_garde2{
+  width: 90% ;
+  color : #fff ;
+  position: absolute;
+  top : 30% ;
+  left : 50% ;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  text-shadow: 1px 1px 2px black ;
+}
+.page_garde2 h1{
+  font-size: 60px ;
+  margin-top: 50px ;
+}
+.part1_intro{
+  width : 80%;
+  margin: auto;
+  text-align: center;
+  padding-top: 100px;
+}
+.liste{
+  width : 50% ;
 }
