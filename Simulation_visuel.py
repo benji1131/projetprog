@@ -120,8 +120,6 @@ plt.show()
 #anim1.save(r'C:\Users\gremi\Desktop\Prog_pour_Ingenieur\projet\projetprog\Animated_plots\animation.gif', writer= writer)
 
 
-#Attention le save gif ne marche pas !!!!!!! comment save le gif ??!
-
 #----------------------------------------------------------------------------
 #Figure 2. Avec geste barrière mais pas vaccination
 def initialisation_graph2():
