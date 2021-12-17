@@ -5,8 +5,8 @@ struct pays{
 	char* nom;
 	int population; // nombre totale de population
 	double vaccine; // nombre de personne vacciné
-	double Re0 ;
-	double alpha ; // taux de vaccination
+	double Re0 ;	// taux de reproduction
+	double alpha ; 	// taux de vaccination
 };
 
 struct Geste_barriere{
@@ -28,15 +28,14 @@ double Re(struct pays nom, struct Geste_barriere mesures, struct Variant variant
 
 void simulation_population(double *population, struct pays nom, double s, double cs, double cv, double is, double iv, double r , double d, double v, double Re0){
 
-	int lambda = 17 ;
-	double incub = 5 ;
-	int tau1 = 4 * 30 ;
-	double mu1 = pow(1,-5) ;
-	double mu2 = pow(2,-6) ;
-	double Rev = 0.7 * Re0 ; // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxfaut supprimer ou c est quoi ca ???
-	double beta1 = Re0/17  ;
-	double beta2 = beta1 * 0.05; // because immunity is assumed to work at 95%
-	double alpha = nom.alpha ;
+	int lambda = 17 ;			// temps d'infection en jours
+	double incub = 5 ;			// temps d'incubations en jours
+	int tau1 = 4 * 30 ;			// période d'immunité
+	double mu1 = pow(1,-5) ; 	// taux de mortalité
+	double mu2 = pow(2,-6) ;	// taux de mortalité pour personne immunisée
+	double beta1 = Re0/17  ; 	// beta = Re0 / lambda -> taux de contamination
+	double beta2 = beta1 * 0.05;// on multiplie par 0.05 cas on assume une immunité de 95%
+	double alpha = nom.alpha ;	// taux de vaccination -> estimé selon régression linéaire
 
 
 
@@ -69,37 +68,6 @@ void simulation_population(double *population, struct pays nom, double s, double
 
 }
 
-/*void remplir_tableau(double *population, double *s1, double *cs1, double *cv1, double *c1, double *inf_s1, double *inf_v1, double *inf1, double *r1, double *d1, double *v1, double *pop_tot1, int t){
-
-		double S = population[0] ;
-		double Cs = population[1] ;
-		double Cv = population[2] ;
-		double C = population[3] ;
-		double Is = population[4] ;
-		double Iv = population[5] ;
-		double I = population[6] ;
-		double R = population[7] ;
-		double D = population[8] ;
-		double V = population[9] ;
-		double pop_tot = population[10] ;
-
-		s1[i] = S ;
-		cs1[i] = Cs ;
-		cv1[i] = Cv ;
-		c1[i] = C ;
-		inf_s1[i] = Is ;
-		inf_v1[i] = Iv ;
-		inf1[i] = I ;
-		r1[i] = R ;
-		d1[i] = D ;
-		v1[i] = V ;
-		pop_tot1[i] = pop_tot ;
-
-
-
-	//printf ("S = %.5f, Vs = %.5f, Cs = %.5f, Cv = %.5f, C = %.5f, Is = %.5f, Iv = %.5f, I = %.5f, Rs = %.5f, Rv = %.5f, R = %.5f, D = %.5f, V = %.5f, pop_tot = %.5f\n", S, Sv, Cs, Cv, C, Is, Iv, I, Rs, Rv, R, D, V, pop_tot) ;
-
-	}*/ //SUPPRIMER PEUT ETRE !!
 
 double fichier(char * filename, double * S, double * V, double * C, double * I, double * R, double * D, double * pop_tot, double *cs, double *es, double *cv, double *ev, int t){
 
@@ -133,26 +101,16 @@ int main(int argc, char const *argv[]) {
 	struct Variant aucun = {"null", 0};
 	struct Variant alpha = {"alpha", 0.5};
 	struct Variant delta = {"delta", 0.7};
-	struct Variant omicron = {"omicron", 0.9};
 
-// Condition initiliales (mêmes pour les deux premiers graphs
 
 	int t = 90 ;
-	/*double Cs = 0.30;
-	double Cv = 0 ;
-	double C = Cs + Cv;
-	double Is = 0 ;
-	double Iv = 0 ;
-	double I = Is + Iv;
-	double R = 0 ;
-	double D = 0 ;
-*/
+
 
 // ce qui varie	 S V RE ALPHA
 /*
  * dans 1,2,3 : %Vacciné et alpha varie
  * 		-Sans vaccins %vacciné = 0 et alpha = 0
- *     	-vaccin ( début à %vacciné: zéros (2), début à 40 (3) avec alpha = 0.0019)
+ *     	-vaccin ( début à %vacciné: zéros (2), début à 30 (3) ->  avec alpha = 0.0019)
  *
  * Dans 4,5 :
  * 		- Avec Geste Barrières : Re varie
@@ -169,7 +127,7 @@ int main(int argc, char const *argv[]) {
  // Condition initilae qui varies
 
 	//Situation 1-3
-	double S1 = 1- suisse1.vaccine -0.3;		//le 0.3 vient de la population initale qui est contaminée
+	double S1 = 1- suisse1.vaccine -0.3;		//le 0.3 vient de la propo de population initale qui est contaminée
 	double V1 = suisse1.vaccine;
 	double R01 = suisse1.Re0 ;
 	double R1 = suisse1.vaccine;
@@ -207,6 +165,8 @@ int main(int argc, char const *argv[]) {
 	double R07 = Re(suisse1,rien,delta) ;
 
 //Initialisation des listes
+
+// Situation 1-3 : Effet de la vaccination sur la population. Faire varier alpha et %vacciné
 	// Situation 1 : sans vaccination
 
 	//Cond. initiale
@@ -244,39 +204,6 @@ int main(int argc, char const *argv[]) {
 	v1[0] = V1 ;
 	pop_tot1[0] = pop_totale1 ;
 
-	for (int i = 1; i < t ; i ++) {
-
-		double population1[t] ;
-
-		simulation_population(population1, suisse1, S1, Cs1, Cv1, Is1, Iv1, R1, D1, V1, R01) ;
-		S1 = population1[0] ;
-		Cs1 = population1[1] ;
-		Cv1 = population1[2] ;
-		C1 = population1[3] ;
-		Is1 = population1[4] ;
-		Iv1 = population1[5] ;
-		I1 = population1[6] ;
-		R1 = population1[7] ;
-		D1 = population1[8] ;
-		V1 = population1[9] ;
-		pop_totale1 = population1[10] ;
-
-		s1[i] = S1 ;
-		cs1[i] = Cs1 ;
-		cv1[i] = Cv1 ;
-		c1[i] = C1 ;
-		inf_s1[i] = Is1 ;
-		inf_v1[i] = Iv1 ;
-		inf1[i] = I1 ;
-		r1[i] = R1 ;
-		d1[i] = D1 ;
-		v1[i] = V1 ;
-		pop_tot1[i] = pop_totale1 ;
-
-
-	}
-
-
 	// Situation 2: Début de la vaccination avec alpha = 0.0019
 	//Cond. initiale
 	double Cs2 = 0.30;
@@ -288,6 +215,7 @@ int main(int argc, char const *argv[]) {
 	double D2 = 0 ;
 
 	double pop_totale2 = S2 + C2 + I2 + R2 ;
+
 	// Listes
 	double s2[t] ;
 	double cs2[t] ;
@@ -313,42 +241,7 @@ int main(int argc, char const *argv[]) {
 	v2[0] = V2 ;
 	pop_tot2[0] = pop_totale2 ;
 
-	for (int i = 1; i < t ; i ++) {
-
-		double population2[t] ;
-
-		simulation_population(population2, suisse2, S2, Cs2, Cv2, Is2, Iv2, R2, D2, V2, R02) ;
-		S2 = population2[0] ;
-		Cs2 = population2[1] ;
-		Cv2 = population2[2] ;
-		C2 = population2[3] ;
-		Is2 = population2[4] ;
-		Iv2 = population2[5] ;
-		I2 = population2[6] ;
-		R2 = population2[7] ;
-		D2 = population2[8] ;
-		V2 = population2[9] ;
-		pop_totale2 = population2[10] ;
-
-		s2[i] = S2 ;
-		cs2[i] = Cs2 ;
-		cv2[i] = Cv2 ;
-		c2[i] = C2 ;
-		inf_s2[i] = Is2 ;
-		inf_v2[i] = Iv2 ;
-		inf2[i] = I2 ;
-		r2[i] = R2 ;
-		d2[i] = D2 ;
-		v2[i] = V2 ;
-		pop_tot2[i] = pop_totale2 ;
-
-
-	}
-
-// OKK Jusque la !
-
-
-			// Situation 3: Vaccination déja en place à 40% avec alpha = 0.0019
+	// Situation 3: Vaccination déja en place à 40% avec alpha = 0.0019
 	//Cond. initiale
 	double Cs3 = 0.30;
 	double Cv3 = 0 ;
@@ -384,40 +277,9 @@ int main(int argc, char const *argv[]) {
 	v3[0] = V3 ;
 	pop_tot3[0] = pop_totale3 ;
 
-	for (int i = 1; i < t ; i ++) {
+// Situation 4 et 5 : effet des gestes barrière et confinement
 
-		double population3[t] ;
-
-		simulation_population(population3, suisse3, S3, Cs3, Cv3, Is3, Iv3, R3, D3, V3, R03) ;
-		S3 = population3[0] ;
-		Cs3 = population3[1] ;
-		Cv3 = population3[2] ;
-		C3 = population3[3] ;
-		Is3 = population3[4] ;
-		Iv3 = population3[5] ;
-		I3 = population3[6] ;
-		R3 = population3[7] ;
-		D3 = population3[8] ;
-		V3 = population3[9] ;
-		pop_totale3 = population3[10] ;
-
-		s3[i] = S3 ;
-		cs3[i] = Cs3 ;
-		cv3[i] = Cv3 ;
-		c3[i] = C3 ;
-		inf_s3[i] = Is3 ;
-		inf_v3[i] = Iv3 ;
-		inf3[i] = I3 ;
-		r3[i] = R3 ;
-		d3[i] = D3 ;
-		v3[i] = V3 ;
-		pop_tot3[i] = pop_totale3 ;
-
-
-	}
-
-	// Situation 4 et 5 : effet des gestes barrière et confinement
-		// Situation 4: port du masque et effet sur la population
+	// Situation 4: port du masque et effet sur la population
 	//Cond. initiale
 	double Cs4 = 0.30;
 	double Cv4 = 0 ;
@@ -453,39 +315,7 @@ int main(int argc, char const *argv[]) {
 	v4[0] = V4 ;
 	pop_tot4[0] = pop_totale4 ;
 
-	for (int i = 1; i < t ; i ++) {
-
-		double population4[t] ;
-
-		simulation_population(population4, suisse1, S4, Cs4, Cv4, Is4, Iv4, R4, D4, V4, R04) ;
-		S4 = population4[0] ;
-		Cs4 = population4[1] ;
-		Cv4 = population4[2] ;
-		C4 = population4[3] ;
-		Is4 = population4[4] ;
-		Iv4 = population4[5] ;
-		I4 = population4[6] ;
-		R4 = population4[7] ;
-		D4 = population4[8] ;
-		V4 = population4[9] ;
-		pop_totale4 = population4[10] ;
-
-		s4[i] = S4 ;
-		cs4[i] = Cs4 ;
-		cv4[i] = Cv4 ;
-		c4[i] = C4 ;
-		inf_s4[i] = Is4 ;
-		inf_v4[i] = Iv4 ;
-		inf4[i] = I4 ;
-		r4[i] = R4 ;
-		d4[i] = D4 ;
-		v4[i] = V4 ;
-		pop_tot4[i] = pop_totale4 ;
-
-
-	}
-
-		// Situation 5: Confienment et effet sur la population
+	// Situation 5: Confienment et effet sur la population
 	//Cond. initiale
 	double Cs5 = 0.30;
 	double Cv5 = 0 ;
@@ -521,40 +351,8 @@ int main(int argc, char const *argv[]) {
 	v5[0] = V5 ;
 	pop_tot5[0] = pop_totale5 ;
 
-	for (int i = 1; i < t ; i ++) {
-
-		double population5[t] ;
-
-		simulation_population(population5, suisse1, S5, Cs5, Cv5, Is5, Iv5, R5, D5, V5, R05) ;
-		S5 = population5[0] ;
-		Cs5 = population5[1] ;
-		Cv5 = population5[2] ;
-		C5 = population5[3] ;
-		Is5 = population5[4] ;
-		Iv5 = population5[5] ;
-		I5 = population5[6] ;
-		R5 = population5[7] ;
-		D5 = population5[8] ;
-		V5 = population5[9] ;
-		pop_totale5 = population5[10] ;
-
-		s5[i] = S5 ;
-		cs5[i] = Cs5 ;
-		cv5[i] = Cv5 ;
-		c5[i] = C5 ;
-		inf_s5[i] = Is5 ;
-		inf_v5[i] = Iv5 ;
-		inf5[i] = I5 ;
-		r5[i] = R5 ;
-		d5[i] = D5 ;
-		v5[i] = V5 ;
-		pop_tot5[i] = pop_totale5 ;
-
-
-	}
-
 // Situation 6 et 7 : effet des variants
-		// Situation 6: variant alpha
+	// Situation 6: variant alpha
 	//Cond. initiale
 	double Cs6 = 0.30;
 	double Cv6 = 0 ;
@@ -590,38 +388,7 @@ int main(int argc, char const *argv[]) {
 	v6[0] = V6 ;
 	pop_tot6[0] = pop_totale6 ;
 
-	for (int i = 1; i < t ; i ++) {
-
-		double population6[t] ;
-
-		simulation_population(population6, suisse1, S6, Cs6, Cv6, Is6, Iv6, R6, D6, V6, R06) ;
-		S6 = population6[0] ;
-		Cs6 = population6[1] ;
-		Cv6 = population6[2] ;
-		C6 = population6[3] ;
-		Is6 = population6[4] ;
-		Iv6 = population6[5] ;
-		I6 = population6[6] ;
-		R6 = population6[7] ;
-		D6 = population6[8] ;
-		V6 = population6[9] ;
-		pop_totale6 = population6[10] ;
-
-		s6[i] = S6 ;
-		cs6[i] = Cs6 ;
-		cv6[i] = Cv6 ;
-		c6[i] = C6 ;
-		inf_s6[i] = Is6 ;
-		inf_v6[i] = Iv6 ;
-		inf6[i] = I6 ;
-		r6[i] = R6 ;
-		d6[i] = D6 ;
-		v6[i] = V6 ;
-		pop_tot6[i] = pop_totale6 ;
-
-
-	}
-// Situation 7: variant delta
+	// Situation 7: variant delta
 	//Cond. initiale
 	double Cs7 = 0.30;
 	double Cv7 = 0 ;
@@ -657,7 +424,174 @@ int main(int argc, char const *argv[]) {
 	v7[0] = V7 ;
 	pop_tot7[0] = pop_totale7 ;
 
+
 	for (int i = 1; i < t ; i ++) {
+
+		double population1[t] ;
+
+		simulation_population(population1, suisse1, S1, Cs1, Cv1, Is1, Iv1, R1, D1, V1, R01) ;
+
+		S1 = population1[0] ;
+		Cs1 = population1[1] ;
+		Cv1 = population1[2] ;
+		C1 = population1[3] ;
+		Is1 = population1[4] ;
+		Iv1 = population1[5] ;
+		I1 = population1[6] ;
+		R1 = population1[7] ;
+		D1 = population1[8] ;
+		V1 = population1[9] ;
+		pop_totale1 = population1[10] ;
+
+		s1[i] = S1 ;
+		cs1[i] = Cs1 ;
+		cv1[i] = Cv1 ;
+		c1[i] = C1 ;
+		inf_s1[i] = Is1 ;
+		inf_v1[i] = Iv1 ;
+		inf1[i] = I1 ;
+		r1[i] = R1 ;
+		d1[i] = D1 ;
+		v1[i] = V1 ;
+		pop_tot1[i] = pop_totale1 ;
+
+		double population2[t] ;
+
+		simulation_population(population2, suisse2, S2, Cs2, Cv2, Is2, Iv2, R2, D2, V2, R02) ;
+		S2 = population2[0] ;
+		Cs2 = population2[1] ;
+		Cv2 = population2[2] ;
+		C2 = population2[3] ;
+		Is2 = population2[4] ;
+		Iv2 = population2[5] ;
+		I2 = population2[6] ;
+		R2 = population2[7] ;
+		D2 = population2[8] ;
+		V2 = population2[9] ;
+		pop_totale2 = population2[10] ;
+
+		s2[i] = S2 ;
+		cs2[i] = Cs2 ;
+		cv2[i] = Cv2 ;
+		c2[i] = C2 ;
+		inf_s2[i] = Is2 ;
+		inf_v2[i] = Iv2 ;
+		inf2[i] = I2 ;
+		r2[i] = R2 ;
+		d2[i] = D2 ;
+		v2[i] = V2 ;
+		pop_tot2[i] = pop_totale2 ;
+
+		double population3[t];
+
+		simulation_population(population3, suisse3, S3, Cs3, Cv3, Is3, Iv3, R3, D3, V3, R03) ;
+		S3 = population3[0] ;
+		Cs3 = population3[1] ;
+		Cv3 = population3[2] ;
+		C3 = population3[3] ;
+		Is3 = population3[4] ;
+		Iv3 = population3[5] ;
+		I3 = population3[6] ;
+		R3 = population3[7] ;
+		D3 = population3[8] ;
+		V3 = population3[9] ;
+		pop_totale3 = population3[10] ;
+
+		s3[i] = S3 ;
+		cs3[i] = Cs3 ;
+		cv3[i] = Cv3 ;
+		c3[i] = C3 ;
+		inf_s3[i] = Is3 ;
+		inf_v3[i] = Iv3 ;
+		inf3[i] = I3 ;
+		r3[i] = R3 ;
+		d3[i] = D3 ;
+		v3[i] = V3 ;
+		pop_tot3[i] = pop_totale3 ;
+
+
+		double population4[t] ;
+
+		simulation_population(population4, suisse1, S4, Cs4, Cv4, Is4, Iv4, R4, D4, V4, R04) ;
+		S4 = population4[0] ;
+		Cs4 = population4[1] ;
+		Cv4 = population4[2] ;
+		C4 = population4[3] ;
+		Is4 = population4[4] ;
+		Iv4 = population4[5] ;
+		I4 = population4[6] ;
+		R4 = population4[7] ;
+		D4 = population4[8] ;
+		V4 = population4[9] ;
+		pop_totale4 = population4[10] ;
+
+		s4[i] = S4 ;
+		cs4[i] = Cs4 ;
+		cv4[i] = Cv4 ;
+		c4[i] = C4 ;
+		inf_s4[i] = Is4 ;
+		inf_v4[i] = Iv4 ;
+		inf4[i] = I4 ;
+		r4[i] = R4 ;
+		d4[i] = D4 ;
+		v4[i] = V4 ;
+		pop_tot4[i] = pop_totale4 ;
+
+
+		double population5[t] ;
+
+		simulation_population(population5, suisse1, S5, Cs5, Cv5, Is5, Iv5, R5, D5, V5, R05) ;
+		S5 = population5[0] ;
+		Cs5 = population5[1] ;
+		Cv5 = population5[2] ;
+		C5 = population5[3] ;
+		Is5 = population5[4] ;
+		Iv5 = population5[5] ;
+		I5 = population5[6] ;
+		R5 = population5[7] ;
+		D5 = population5[8] ;
+		V5 = population5[9] ;
+		pop_totale5 = population5[10] ;
+
+		s5[i] = S5 ;
+		cs5[i] = Cs5 ;
+		cv5[i] = Cv5 ;
+		c5[i] = C5 ;
+		inf_s5[i] = Is5 ;
+		inf_v5[i] = Iv5 ;
+		inf5[i] = I5 ;
+		r5[i] = R5 ;
+		d5[i] = D5 ;
+		v5[i] = V5 ;
+		pop_tot5[i] = pop_totale5 ;
+
+
+		double population6[t] ;
+
+		simulation_population(population6, suisse1, S6, Cs6, Cv6, Is6, Iv6, R6, D6, V6, R06) ;
+		S6 = population6[0] ;
+		Cs6 = population6[1] ;
+		Cv6 = population6[2] ;
+		C6 = population6[3] ;
+		Is6 = population6[4] ;
+		Iv6 = population6[5] ;
+		I6 = population6[6] ;
+		R6 = population6[7] ;
+		D6 = population6[8] ;
+		V6 = population6[9] ;
+		pop_totale6 = population6[10] ;
+
+		s6[i] = S6 ;
+		cs6[i] = Cs6 ;
+		cv6[i] = Cv6 ;
+		c6[i] = C6 ;
+		inf_s6[i] = Is6 ;
+		inf_v6[i] = Iv6 ;
+		inf6[i] = I6 ;
+		r6[i] = R6 ;
+		d6[i] = D6 ;
+		v6[i] = V6 ;
+		pop_tot6[i] = pop_totale6 ;
 
 		double population7[t] ;
 
@@ -686,14 +620,13 @@ int main(int argc, char const *argv[]) {
 		v7[i] = V7 ;
 		pop_tot7[i] = pop_totale7 ;
 
-
 	}
 
 
 
 
 
-	printf ("\n") ;
+	printf ("ok") ;
 
 
 // Les différents fichiers
