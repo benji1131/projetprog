@@ -194,3 +194,195 @@ for i in range(n):
 
 #crée notre x axis"""
 temp = np.linspace(0,n,n)
+
+"""
+------------------------------------------------------------------------------
+Premier plots: Comparaisons de l'évolution en fonction des gestes barrières
+------------------------------------------------------------------------------
+"""
+#Saines
+plot1 = plt.figure(1)
+plt.plot(temp, s1, color='b', label='Sans Geste Barrière')
+plt.plot(temp, s4, color='orange', label='Avec port du masque')
+plt.plot(temp, s5, color='r', label='Confinement')
+
+#params
+plt.title('Evolution des Personnes Saines')
+plt.xlabel('Temps (jour)')
+plt.ylabel('Pourcentage de la Population')
+plt.legend(loc = 'upper right', fontsize = "x-small")
+plt.savefig('plot1.png')
+
+#infectée
+plot2 = plt.figure(2)
+plt.plot(temp, inf1, color='b', label='Sans Geste Barrière')
+plt.plot(temp, inf4, color='orange', label='Avec port du masque')
+plt.plot(temp, inf5, color='r', label='Confinement')
+
+#params
+plt.title('Evolution des Personnes Infectées')
+plt.xlabel('Temps (jour)')
+plt.ylabel('Pourcentage de la Population')
+plt.legend(loc = 'upper right', fontsize = "x-small")
+plt.savefig('plot2.png')
+
+#décédées
+plot3 = plt.figure(3)
+plt.plot(temp, d1, color='b', label='Sans Geste Barrière')
+plt.plot(temp, d4, color='orange', label='Avec port du masque')
+plt.plot(temp, d5, color='r', label='Confinement')
+
+#params
+plt.title('Evolution des Personnes Décédées')
+plt.xlabel('Temps (jour)')
+plt.ylabel('Pourcentage de la Population')
+plt.legend(loc = 'upper right', fontsize = "x-small")
+plt.savefig('plot3.png')
+
+#comparaison entre controle (sans geste barrière) et avec les gestes barrière
+
+#1ère comparaison entre control et masque
+plot4 = plt.figure(4)
+plt.plot(temp, s1, color='deepskyblue', label='Saint(Controle)')
+plt.plot(temp, inf1, color='blue', label='Infecté (Controle)')
+plt.plot(temp, d1, color='darkviolet', label='Mort (Controle)')
+
+plt.plot(temp, s4, color='yellow', label='Saint (Masque)')
+plt.plot(temp, inf4, color='darkorange', label='Infecté (Masque)')
+plt.plot(temp, d4, color='red', label='Mort (Masque)')
+
+
+#params
+plt.title('Population Controle VS Population Port du Masque' )
+plt.xlabel('Temps (jour)')
+plt.ylabel('Pourcentage de la Population')
+plt.legend(loc = 'upper right', fontsize = "x-small")
+plt.savefig('plot4.png')
+
+#2ème comparaison entre controle et confinement
+plot5 = plt.figure(5)
+plt.plot(temp, s1, color='deepskyblue', label='Saint(Controle)')
+plt.plot(temp, inf1, color='blue', label='Infecté (Controle)')
+plt.plot(temp, d1, color='darkviolet', label='Mort (Controle)')
+
+
+plt.plot(temp, s5, color='yellow', label='Saint (Confinement)')
+plt.plot(temp, inf5, color='darkorange', label='Infecté (Confinement)')
+plt.plot(temp, d5, color='red', label='Mort (Confinement)')
+
+#params
+plt.title('Population Controle VS Population Confinement' )
+plt.xlabel('Temps (jour)')
+plt.ylabel('Pourcentage de la Population')
+plt.legend(loc = 'upper right', fontsize = "x-small")
+plt.savefig('plot5.png')
+
+#Les graphs sont ok !
+
+"""
+------------------------------------------------------------------------------
+Second plots: Comparaisons de l'évolution en fonction de la Vaccination
+------------------------------------------------------------------------------
+"""
+#Saines
+plot6 = plt.figure(6)
+plt.plot(temp, s1, color='b', label='Sans vaccination')
+plt.plot(temp, s2, color='orange', label='Début de la vaccination')
+plt.plot(temp, s3, color='r', label='30% déjà vacciné')
+
+#params
+plt.title('Evolution des Personnes Saines')
+plt.xlabel('Temps (jour)')
+plt.ylabel('Pourcentage de la Population')
+plt.legend(loc = 'upper right', fontsize = "x-small")
+plt.savefig('plot6.png')
+
+#infectée
+plot7 = plt.figure(7)
+plt.plot(temp, inf1, color='b', label='Sans vaccination')
+plt.plot(temp, inf2, color='orange', label='Début de la vaccination')
+plt.plot(temp, inf3, color='r', label='30% déjà vacciné')
+
+#params
+plt.title('Evolution des Personnes Infectées')
+plt.xlabel('Temps (jour)')
+plt.ylabel('Pourcentage de la Population')
+plt.legend(loc = 'upper right', fontsize = "x-small")
+plt.savefig('plot7.png')
+
+#Rétablis
+plot8 = plt.figure(8)
+plt.plot(temp, r1, color='b', label='Sans vaccination')
+plt.plot(temp, r2, color='orange', label='Début de la vaccination')
+plt.plot(temp, r3, color='r', label='30% déjà vacciné')
+
+#params
+plt.title('Evolution des Personnes Rétablies')
+plt.xlabel('Temps (jour)')
+plt.ylabel('Pourcentage de la Population')
+plt.legend(loc = 'upper right', fontsize = "x-small")
+plt.savefig('plot8.png')
+
+#décédées
+plot9 = plt.figure(9)
+plt.plot(temp, d1, color='b', label='Sans vaccination')
+plt.plot(temp, d2, color='orange', label='Début de la vaccination')
+plt.plot(temp, d3, color='r', label='30% déjà vacciné')
+
+#params
+plt.title('Evolution des Personnes Décédées')
+plt.xlabel('Temps (jour)')
+plt.ylabel('Pourcentage de la Population')
+plt.legend(loc = 'upper right', fontsize = "x-small")
+plt.savefig('plot9.png')
+
+"""
+------------------------------------------------------
+Troisième Plots: Comparaisons de l'évolution en fonction des Variants
+-----------------------------------------------------
+"""
+
+#Saines
+plot10 = plt.figure(10)
+plt.plot(temp, s1, color='b', label='Controle')
+plt.plot(temp, s6, color='orange', label='Variant Alpha')
+plt.plot(temp, s7, color='r', label='Variant Delta')
+
+#params
+plt.title('Evolution des Personnes Saines')
+plt.xlabel('Temps (jour)')
+plt.ylabel('Pourcentage de la Population')
+plt.legend(loc = 'upper right', fontsize = "x-small")
+plt.savefig('plot10.png')
+
+#Infectées
+plot11 = plt.figure(11)
+plt.plot(temp, inf1, color='b', label='Controle')
+plt.plot(temp, inf6, color='orange', label='Variant Alpha')
+plt.plot(temp, inf7, color='r', label='Variant Delta')
+
+#params
+plt.title('Evolution des Personnes Infectées')
+plt.xlabel('Temps (jour)')
+plt.ylabel('Pourcentage de la Population')
+plt.legend(loc = 'upper right', fontsize = "x-small")
+plt.savefig('plot11.png')
+
+#Décédés
+plot12 = plt.figure(12)
+plt.plot(temp, d1, color='b', label='Controle')
+plt.plot(temp, d6, color='orange', label='Variant Alpha')
+plt.plot(temp, d7, color='r', label='Variant Delta')
+
+#params
+plt.title('Evolution des Personnes Décédées')
+plt.xlabel('Temps (jour)')
+plt.ylabel('Pourcentage de la Population')
+plt.legend(loc = 'upper right', fontsize = "x-small")
+plt.savefig('plot12.png')
+
+
+#Show all
+plt.show()
+
+#final
