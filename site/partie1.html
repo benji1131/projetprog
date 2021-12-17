@@ -35,11 +35,11 @@
 
 <section class="part1_intro">
   <h1>Première Partie: Propagation Visuelle au sein d'une population</h1>
-  <p class="p">Nous avons modélisé une population par une matrice de taille 50x50 où chaque cellules représente une personne. Chacunes des cases comportent un nombre entre 0 et
+  <p>Nous avons modélisé une population par une matrice de taille 50x50 où chaque cellules représente une personne. Chacunes des cases comportent un nombre entre 0 et
   et 6 qui représente le statut médicale de la personne et sera représenté par une couleur différente dans nos graphes.
   Soit:
   </p>
-  <p class="liste">
+  <div class="liste">
     <ol>
       <li>(rouge) = contaminé</li>
       <li>(orange foncé) = infecté</li>
@@ -47,19 +47,53 @@
       <li>(bleu) = rétabli</li>
       <li>(cyan) = vacciné</li>
       <li>(noir) = mort</li>
-      <li></li>
     </ol>
-  </p>
-  <p class="p">Chaque modèle commence dans une situation initale avec une matrice nulle où l'on ajoute le patient zéros au millieu de la population(c'est à dire qu'on initialise la case [25,25] avec 1).
+  </div>
+  <p>Chaque modèle commence dans une situation initale avec une matrice nulle où l'on ajoute le patient zéros au millieu de la population(c'est à dire qu'on initialise la case [25,25] avec 1).
   A chaque itération, on observe le statu de chaque case et suivant la valeur de cette case, différent scénario se passe:
   </p>
-  <p class="liste">
+  <div class="liste">
     <ul>
       <li>Si la valeur est de 1, on fait appelle une une fonction dites "infection" qui va étudier les case environnantes et infecter les case de saines avec une certaine propabilités. De plus, avec une probabilité de 1% la personne peut succomber à la maladie.</li>
       <li>Si la valeur est différente de 1, alors rien ne se passe.</li>
     </ul>
-  </p>
-  <p class="p">Il est à noter que cette première partie ne représente pas un modèle très complet. Le but n'est pas d'être précis mais d'observer et sensibiliser les gens en visualisant la propagation d'un virus dans différentes situations. </p>
+  </div>
+  <p>Il est à noter que cette première partie ne représente pas un modèle très complet. Le but n'est pas d'être précis mais d'observer et sensibiliser les gens en visualisant la propagation d'un virus dans différentes situations. </p>
 </p>
+</section>
 
+<!-- simulation 1 -->
+
+<section class="simu">
+  <h3>Situation 1 : Propagation Sans Geste Barrière ni Vaccination</h3>
+  <div class="simu_titre">
+    <div class="simu1_txt">
+      <p>Pour la première figure, nous souhaitons simuler un cas classique de propagation de virus sans qu'il n'y ait aucun gestes barrière ni d'immunnité(vaccination) dans la société.
+    	C'est en d'autres terme une simulation qui représente l'apparition d'une nouvelle épidémie.
+    	Nous avons fixé une probabilité d'être infecté de 45%, ce qui est un gros pourcentage.</p>
+    </div>
+    <div class="simu_txt">
+      <img src="/Users/mahepricam/Documents/Cours/projetprog/site/graph/animation.gif">
+      <h3>Figure 1 : Propagation Visuelle Sans Geste Barrière</h3>
+    </div>
+  </div>
+  <p>On observe que la grosse majorité de la population est infectée par virus. Il y a très peu de zones saines (blanches) malgrès une probabilité inférieur à la moyenne.
+  Ceci s'explique par le faite que plusieurs personnes peuvent infecter une case et donc la probabilité d'être infecté en générale est pratiquement de 100%.
+  </p>
+</section>
+
+<!-- simulation 2 -->
+
+<section class="simu">
+  <h3>Situation 2 : Propagation avec Gestes Barrières</h3>
+  <div class="simu_titre">
+    <div class="simu2_txt">
+      <p>L'introduction des gestes barrières influence la probabilité d'infection. Nous avons donc fixé cette valeur à 36%, ce qui semble par expérience d'être le palier minimum ou le virus se propage
+    	dans la population.</p>
+    </div>
+    <div class="simu_txt">
+      <img src="/Users/mahepricam/Documents/Cours/projetprog/site/graph/animation2.gif">
+      <h3>Figure 2: Propagation Visuelle Avec Gestes Barrières</h3>
+    </div>
+  </div>
 </section>

@@ -101,12 +101,12 @@ nav{
   padding-top: 100px;
 }
 .titre_intro{
-  font-size: 36px ;
+  font-size: 38px ;
   font-weight: 600 ;
 }
 .texte_intro{
   margin-top: 20px;
-  font-size: 14px ;
+  font-size: 16px ;
   font-weight: 300 ;
   line-height: 22px ;
   padding: 10px ;
@@ -180,9 +180,60 @@ nav{
 .part1_intro{
   width : 80%;
   margin: auto;
-  text-align: center;
+  text-align: left;
   padding-top: 100px;
+  font-size: 16px ;
+  font-weight: 300 ;
+}
+.part1_intro h1{
+  text-align: center;
+  margin-bottom: 50px;
+  font-size: 30px ;
+  font-weight: 600 ;
 }
 .liste{
-  width : 50% ;
+  margin: 20px 0 20px 100px ;
+}
+
+/* simulation */
+
+.simu{
+  width : 80% ;
+  margin : auto ;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  text-align: center;
+}
+.simu h3{
+  font-size: 25px;
+  font-weight: 500;
+}
+.simu p{
+  padding-top: 20px ;
+  text-align: left ;
+  font-size: 16px ;
+  font-weight: 300;
+}
+.simu_titre{
+  padding-top: 40px ;
+  display: flex ;
+  justify-content: space-between;
+}
+.simu_txt img{
+  width : 100% ;
+}
+.simu1_txt p{
+  padding-top: 100px ;
+  text-align: left ;
+  font-size: 16px;
+  font-weight: 300;
+}
+.simu_txt h3{
+  font-size: 13px ;
+  font-weight: 300;
+}
+/* simu 1 */
+.simu1_txt{
+  flex-basis: 50%;
+  padding : 30px 2px;
 }
