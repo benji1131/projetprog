@@ -4,7 +4,7 @@
 struct pays{
 	char* nom;
 	int population; // nombre totale de population
-	double vaccine; // nombre de personne vacciné
+	double vaccine; // Pourcentage de personne vaccinée
 	double Re0 ;	// taux de reproduction
 	double alpha ; 	// taux de vaccination
 };
@@ -27,7 +27,7 @@ double Re(struct pays nom, struct Geste_barriere mesures, struct Variant variant
 }
 
 void simulation_population(double *population, struct pays nom, double s, double cs, double cv, double is, double iv, double r , double d, double v, double Re0){
-
+//Paramètres
 	int lambda = 17 ;			// temps d'infection en jours
 	double incub = 5 ;			// temps d'incubations en jours
 	int tau = 4 * 30 ;			// période d'immunité
@@ -38,7 +38,7 @@ void simulation_population(double *population, struct pays nom, double s, double
 	double alpha = nom.alpha ;	// taux de vaccination -> estimé selon régression linéaire
 
 
-
+//Modèle
 	double S = s - beta1 * (is + iv) * s + r / tau - alpha * s ;
 	double Cs = cs + beta1 * (iv +is) * s - cs / incub ;
 	double Cv = cv + beta2 * (is + iv) * r - cv / incub ;
@@ -51,9 +51,10 @@ void simulation_population(double *population, struct pays nom, double s, double
 	double C = Cs + Cv ;
 	double I = Is + Iv ;
 
+
 	double population_totale = S + C + I + R;
 
-
+// liste qui décrit la proportion de la population selon leur statut
 	population[0] = S ;
 	population[1] = Cs ;
 	population[2] = Cv ;
@@ -88,19 +89,19 @@ double fichier(char * filename, double * S, double * V, double * C, double * I, 
 
 int main(int argc, char const *argv[]) {
 
-
-	struct pays suisse1 = {"Suisse", 8603900 , 0, 1.5, 0} ; //situation 1 , 4 , 5 , 6 , 7
-	struct pays suisse2 = {"Suisse", 8603900 , 0, 1.5, 0.0019} ; //Situation 2
+//Structures selon les situations
+	struct pays suisse1 = {"Suisse", 8603900 , 0, 1.5, 0} ; 		// situation 1 , 4 , 5 , 6 , 7
+	struct pays suisse2 = {"Suisse", 8603900 , 0, 1.5, 0.0019} ;	// Situation 2
 	struct pays suisse3 = {"Suisse", 8603900 , 0.30, 1.5, 0.0019} ; // Situation 3
 
 
-	struct Geste_barriere rien = {"rien", 0} ;
-	struct Geste_barriere port_du_masque = {"masque", 0.3} ;
-	struct Geste_barriere confinement = {"quarantaine", 0.8} ;
+	struct Geste_barriere rien = {"rien", 0} ;						// Situation 1,2,3,6,7
+	struct Geste_barriere port_du_masque = {"masque", 0.3} ;		// Situation 4 
+	struct Geste_barriere confinement = {"quarantaine", 0.8} ;		// Situation 5
 
-	struct Variant aucun = {"null", 0};
-	struct Variant alpha = {"alpha", 0.5};
-	struct Variant delta = {"delta", 0.7};
+	struct Variant aucun = {"null", 0};								// Situation 1,2,3,4,5
+	struct Variant alpha = {"alpha", 0.5};							// Situation 6
+	struct Variant delta = {"delta", 0.7};							// Situation 7
 
 
 	int t = 90 ;
@@ -429,7 +430,7 @@ int main(int argc, char const *argv[]) {
 
 		double population1[t] ;
 
-		simulation_population(population1, suisse1, S1, Cs1, Cv1, Is1, Iv1, R1, D1, V1, R01) ;
+		simulation_population(population1, suisse1, S1, Cs1, Cv1, Is1, Iv1, R1, D1, V1, R01) ; //Evolution de la population à chaque itération = 1j 
 
 		S1 = population1[0] ;
 		Cs1 = population1[1] ;
