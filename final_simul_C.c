@@ -30,7 +30,7 @@ void simulation_population(double *population, struct pays nom, double s, double
 
 	int lambda = 17 ;			// temps d'infection en jours
 	double incub = 5 ;			// temps d'incubations en jours
-	int tau1 = 4 * 30 ;			// période d'immunité
+	int tau = 4 * 30 ;			// période d'immunité
 	double mu1 = pow(1,-5) ; 	// taux de mortalité
 	double mu2 = pow(2,-6) ;	// taux de mortalité pour personne immunisée
 	double beta1 = Re0/17  ; 	// beta = Re0 / lambda -> taux de contamination
@@ -39,14 +39,14 @@ void simulation_population(double *population, struct pays nom, double s, double
 
 
 
-	double S = s - beta1 * (is + iv) * s+ r / tau1 - alpha * s ;
+	double S = s - beta1 * (is + iv) * s + r / tau - alpha * s ;
 	double Cs = cs + beta1 * (iv +is) * s - cs / incub ;
 	double Cv = cv + beta2 * (is + iv) * r - cv / incub ;
 	double Is = is + cs / incub - is / lambda - mu1 * is/100 ;
 	double Iv = iv + cv / incub - iv / lambda - mu2 * iv/100 ;
-	double R = r + is / lambda - r / tau1 + alpha * s;
+	double R = r + is / lambda - r / tau + alpha * s;
 	double D = d + mu1 * is/100 + mu2 * iv/ 100 ;
-	double V = v +alpha * s ;
+	double V = v + alpha * s ;
 
 	double C = Cs + Cv ;
 	double I = Is + Iv ;

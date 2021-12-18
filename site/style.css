@@ -27,6 +27,7 @@ nav{
   font-size: 20px ;
   text-align: center;
   color : #DC0606 ;
+  text-shadow: 0.7px 0.7px 1px black ;
 }
 
 .nav-links{
@@ -57,7 +58,7 @@ nav{
 .nav-links ul li:hover::after{
   width: 100% ;
 }
-.page_garde{
+.page_garde0{
   width: 90% ;
   color : #fff ;
   position: absolute;
@@ -67,10 +68,10 @@ nav{
   text-align: center;
   text-shadow: 1px 1px 2px black ;
 }
-.page_garde h1{
+.page_garde0 h1{
   font-size: 60px ;
 }
-.page_garde p{
+.page_garde0 p{
   margin: 10px 0 40px;
   font-size: 20px ;
   color: #fff ;
@@ -153,17 +154,10 @@ nav{
   text-align: center;
   padding-top: 100px ;
 }
-/* partie 1 */
-.partie1{
-  height: 60vh;
-  width: 100%;
-  background-image: linear-gradient(rgba(4, 9, 30, 0.5), rgba(4, 9, 30, 0.5)), url(/Users/mahepricam/Documents/Cours/projetprog/site/image/simu_visuelle.png);
-  background-position: center;
-  background-size: cover ;
-  text-align: center;
-  color : #fff;
-}
-.page_garde2{
+
+/* Page de garde partie 1 et 2 */
+
+.page_garde{
   width: 90% ;
   color : #fff ;
   position: absolute;
@@ -173,11 +167,11 @@ nav{
   text-align: center;
   text-shadow: 1px 1px 2px black ;
 }
-.page_garde2 h1{
+.page_garde h1{
   font-size: 60px ;
   margin-top: 50px ;
 }
-.part1_intro{
+.part_intro{
   width : 80%;
   margin: auto;
   text-align: left;
@@ -185,12 +179,24 @@ nav{
   font-size: 16px ;
   font-weight: 300 ;
 }
-.part1_intro h1{
+.part_intro h1{
   text-align: center;
   margin-bottom: 50px;
   font-size: 30px ;
   font-weight: 600 ;
 }
+
+/* partie 1 */
+.partie1{
+  height: 60vh;
+  width: 100%;
+  background-image: linear-gradient(rgba(4, 9, 30, 0.5), rgba(4, 9, 30, 0)), url(/Users/mahepricam/Documents/Cours/projetprog/site/image/partie1.jpg);
+  background-position: center;
+  background-size: cover ;
+  text-align: center;
+  color : #fff;
+}
+
 .liste{
   margin: 20px 0 20px 100px ;
 }
@@ -255,4 +261,86 @@ nav{
   font-size: 16px;
   font-weight: 300;
   text-align: left;
+}
+
+/* partie 2 */
+
+.partie2{
+  height: 60vh;
+  width: 100%;
+  background-image: linear-gradient(rgba(4, 9, 30, 0.5), rgba(4, 9, 30, 0)), url(/Users/mahepricam/Documents/Cours/projetprog/site/image/parti2.gif);
+  background-position: center;
+  background-size: cover ;
+  text-align: center;
+  color : #fff;
+}
+
+/* intro partie 2 */
+
+.part_intro img{
+  width :100% ;
+}
+.equation{
+  padding-top: 50px;
+  padding-bottom: 50px;
+  display: flex;
+  justify-content: space-between;
+}
+.equation h3{
+  font-size: 18px;
+  font-weight: 400;
+}
+.equation h4{
+  font-size: 16px;
+  font-weight: 400;
+}
+.equation ul{
+  list-style: none;
+  padding-top: 10px;
+}
+.equation ul li{
+  padding: 5px;
+}
+
+/* simulation 1 */
+
+.model1{
+  width: 80%;
+  margin: auto;
+  padding-top: 70px;
+  text-align: left;
+}
+.model1 h2{
+  font-size: 25px;
+  font-weight: 500;
+  text-align: center;
+  padding-bottom: 40px;
+}
+.model1 p, .model1 ol{
+  font-size: 16px;
+  font-weight: 300;
+}
+.model1 ol li{
+  margin: 20px 0 20px 100px ;
+}
+.graph{
+  padding-top: 40px;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  padding-bottom: 50px;
+}
+.graph img{
+  width: 100%;
+}
+.animation:hover{
+  opacity: 1;
+  transition: all 0.3s ease-in-out ;
+  transform: scale(1.7,1.7);
+  z-index: 10;
+  overflow: hidden;
+}
+.graph h3{
+  font-size: 13px;
+  font-weight: 300;
 }

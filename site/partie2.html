@@ -1,0 +1,224 @@
+ <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Projet de programation: Propagation Virus</title>
+</head>
+
+<body>
+ <!-- première page de présentation -->
+<section class="partie2">
+
+  <nav>
+    <ul>
+      <li class="cours">Informatique pour l'ingénieur <br> de l'environnement </li>
+    </ul>
+    <div class="nav-links">
+      <ul>
+        <li> <a href="">HOME</a> </li>
+        <li> <a href="">PARTIE 1</a> </li>
+        <li> <a href="">PARTIE 2</a> </li>
+      </ul>
+    </div>
+  </nav>
+
+<div class="page_garde">
+  <h1>PARTIE 2</h1>
+</div>
+</section>
+
+<!-- Intro partie 2  -->
+
+<section class="part_intro">
+  <h1>Deuxième Partie : Simulation de la propagation du Covid19</h1>
+  <p>Pour ce faire, nous avons développé un modèle, en nous inspirant grandement du modèle SEIR,
+    qui prend en compte une multitudes de facteurs et qui permet de simuler l’évolution du flux d'individu
+    selon 7 catégories.
+    Le diagramme ci-dessous permet de mieux visualiser le modèle utilisé :
+  </p>
+  <img src="/Users/mahepricam/Documents/Cours/projetprog/site/graph/diagramme.png">
+  <div class="equation">
+    <div>
+      <h3>Le système d'équation est donc le suivant :</h3>
+      <ul>
+        <li>dS/dt = β1 · (is + iv) · s + r / τ - α · s</li>
+        <li>dCs/dt = β1 · (iv + is) · s - cs / ν</li>
+        <li>dCv/dt = β2 · (is + iv) · r - cv / ν</li>
+        <li>dIs/dt = cs / ν - is / λ - µ1 · is</li>
+        <li>dIv/dt = cv / ν - iv / λ - µ2 · iv</li>
+        <li>dR/dt =  is / λ - r / τ + α · s</li>
+        <li>dD/dt = µ1 · is + µ2 · iv</li>
+        <li>dV/dt = α · s</li>
+      </ul>
+      </div>
+      <div>
+        <h4>Avec comme facteurs :</h4>
+        <ul>
+          <li>- β : taux de contamination</li>
+          <li>- ν : temps d’incubation de la maladie en jours</li>
+          <li>- λ : temps de rétablissement en jours</li>
+          <li>- α : taux de vaccination</li>
+          <li>- µ : taux de mortalité suite au Covid</li>
+          <li>- τ : temps moyen d'immunité</li>
+        </ul>
+      </div>
+  </div>
+  <p>On peut noter qu’il existe deux β et deux µ. Cela s'explique par le fait qu’une personne
+    vaccinée ou rétablie (caractérisée par la même catégorie "Rétabli" dans notre modèle), possède une certaine
+    immunité de base. Cette immunité n’est pas totale mais est estimée à 95% fiable lors des 4 premiers mois.
+    Ainsi, une personne immunisée est beaucoup moins susceptible d’être contaminée et aura une meilleure
+    réponse immunitaire (donc un taux de mortalité moins élevé).
+    <br> <br>
+    Pour déterminer la valeur de β, celui-ci est calculé à partir d’un paramètre très important et
+    extrêmement bien documenté : le nombre de reproduction Re. D’après notre modèle, β se calcule de la
+    manière suivante : β = Re / λ.
+    <br> <br>
+    Pour l’estimation du taux de vaccination, nous avons observé les données trouvées sur le site de la
+    confédération suisse et avons effectué une régression linéaire qui nous a donnée une valeur
+    α = 0,0019 % / jour.
+    <br> <br>
+    Une fois le modèle écrit, il ne restait qu'à déterminer les facteurs que l’on souhaitait étudier ainsi
+    que les conditions à imposer. Afin de bien pouvoir comparer l'impact des facteurs, nous avons fixé une
+    valeur initiale de Re à 1.5 et une contamination initiale s’élevant à 30%.
+  </p>
+</section>
+
+<!-- modélisation 1 -->
+
+<section class="model1">
+  <h2>Simulation 1 : Mesures sanitaires</h2>
+  <p>Dans un premier temps, nous souhaitons tester l'impact des gestes barrières et du confinement.<br>
+    Pour cela, on étudie trois cas distincts :
+  </p>
+  <ol>
+    <li>Situation de contrôle : Cette situation est représentative de l’apparition d’un nouveau virus.
+        Cela implique qu’un vaccin n’existe pas encore et qu’il ne sera pas développé dans les premiers mois.
+        Ainsi, initialement personne n’est immunisé, la seule manière de développer une immunité est de
+        tomber malade. Ensuite, on suppose qu’il n’y a pas de gestes barrières car il prend un certain temps
+        avant de réaliser qu’il s’agit d’une épidémie d’un nouveau virus et non pas d’une grippe ou autre
+        maladie fréquente et bénigne.</li>
+    <li>Situation avec port du masque : Une des premières mesures mise en place suite à la découverte
+        de ce nouveau virus à été le port de masque. Nous avons donc simulé l’évolution de la population
+        en estimant que le port du masque faisait diminuer le Re de 30% par rapport à la situation de
+        base.</li>
+    <li>Situation de confinement : Suite à la hausse des cas, de nombreux gouvernements ont décidé de
+        confiner les pays. La population se retrouve alors confinée chez elle et les contacts deviennent
+        amoindris. Cela fait drastiquement baisser le Re initiale de 80%.</li>
+  </ol>
+  <p>Dans le cas de notre programme, nous initions les conditions avec une proportion de population saine
+    de 100% et d’un taux de vaccination nul (ie. α = 0).
+    <br><br>
+    Ces trois situations nous ont donné les graphs suivants : </p>
+  <div class="graph">
+    <div>
+      <div class="animation">
+        <img src="/Users/mahepricam/Documents/Cours/projetprog/site/graph/plot1.png">
+        </div>
+        <h3>Figure 1 : Evolution des personnes saines</h3>
+    </div>
+    <div>
+      <div class="animation">
+        <img src="/Users/mahepricam/Documents/Cours/projetprog/site/graph/plot2.png">
+        </div>
+        <h3>Figure 2 : Evolution des personnes inféctées</h3>
+    </div>
+    <div>
+      <div class="animation">
+        <img src="/Users/mahepricam/Documents/Cours/projetprog/site/graph/plot3.png">
+        </div>
+        <h3>Figure 3 : Evolution des personnes décédées</h3>
+    </div>
+  </div>
+  <p>On remarque une nette différence entre chacune de ces situations. Le confinement permet de garder
+    une population saine plus ou moins stable  lors du pic de l’épidémie aux alentours du 20ème jour.
+    On observe même une augmentation de la population saine car il n’y a plus ou presque de contamination
+    après le 20ème jour. Il y a beau y avoir une population infectée d’environ 10%, le confinement
+    empêche cette fraction de contaminer de nouvelles personnes. On remarque également une nette diminution
+    de population décédée en comparaison à notre situation de contrôle.
+</p>
+</section>
+
+<!-- simulation 2 -->
+
+<section class="model1">
+  <h2>Simulation 2 : Vaccination</h2>
+  <p>Ensuite, nous avons testé l'impact de la vaccination sur l’évolution de l’épidémie. Lors des
+    simulations, nous avons fait varier la proportion de population vaccinée ainsi que le taux de
+    vaccination (α). Pour le reste, nous n’avons pas pris en compte les gestes barrières.
+  </p>
+  <ol>
+    <li>Situation de Contrôle : On réutilise cette situation comme outil de comparaison.</li>
+    <li>Situation de Début de Vaccination : Un vaccin est finalement trouvé et commercialisé, ce qui permet
+      à la population de devenir immunisée selon un taux de vaccination alpha exprimé précédemment. La
+      proportion initiale de personnes vaccinées est donc de 0, mais elle va augmenter avec le temps.</li>
+    <li>Situation Intermédiaire de Vaccination: Le vaccin est déjà commercialisé depuis une certaine durée,
+      ce qui implique qu’une bonne partie de la population est déjà immunisée (30% dans notre exemple) et
+      on suppose que le taux de vaccination reste constant dans le temps (α = 0,019).</li>
+  </ol>
+  <p>Nous avons obtenus les graphs suivants :</p>
+  <div class="graph">
+    <div>
+        <img src="/Users/mahepricam/Documents/Cours/projetprog/site/graph/plot6.png">
+        <h3>Figure 6 : Evolution des personnes saines avec vaccination</h3>
+    </div>
+    <div>
+        <img src="/Users/mahepricam/Documents/Cours/projetprog/site/graph/plot7.png">
+        <h3>Figure 7 : Evolution des personnes inféctées avec vaccination</h3>
+    </div>
+  </div>
+  <div class="graph">
+    <div>
+        <img src="/Users/mahepricam/Documents/Cours/projetprog/site/graph/plot8.png">
+        <h3>Figure 8 : Evolution des personnes rétablis avec vaccination</h3>
+    </div>
+    <div>
+        <img src="/Users/mahepricam/Documents/Cours/projetprog/site/graph/plot9.png">
+        <h3>Figure 9 : Evolution des personnes décédées avec vaccination</h3>
+    </div>
+  </div>
+  <p>
+</p>
+</section>
+
+<!-- simulation 3 -->
+
+<section class="model1">
+  <h2>Simulation 3 : Variants</h2>
+  <p>Finalement, on étudie l'impact de variants qui peuvent apparaître dans la population. Les variants
+    qui nous intéressent sont ceux qui ont un impact négatif sur l’évolution de l’épidémie, c'est-à-dire
+    qui augmentent la valeur de Re initial.
+    <br><br>
+    Nous avons donc à nouveau comparer trois situations:
+  </p>
+  <ol>
+    <li>Situation Contrôle : Aucun variants</li>
+    <li>Situation avec le Variant Alpha : Le variant alpha augmente la valeur Re de 50 %.</li>
+    <li>Situation avec le Variant Delta Le variant delta augmente la valeur Re de 70 %.</li>
+  </ol>
+  <p>Ce qui nous donne les graphs suivants : </p>
+  <div class="graph">
+    <div>
+      <div class="animation">
+        <img src="/Users/mahepricam/Documents/Cours/projetprog/site/graph/plot10.png">
+        </div>
+        <h3>Figure 10 : Evolution des personnes saines en fonction des différents variants</h3>
+    </div>
+    <div>
+      <div class="animation">
+        <img src="/Users/mahepricam/Documents/Cours/projetprog/site/graph/plot11.png">
+        </div>
+        <h3>Figure 11 : Evolution des personnes inféctées en fonction des différents variants</h3>
+    </div>
+    <div>
+      <div class="animation">
+        <img src="/Users/mahepricam/Documents/Cours/projetprog/site/graph/plot12.png">
+        </div>
+        <h3>Figure 12 : Evolution des personnes décédées en fonction des différents variants</h3>
+    </div>
+  </div>
+  <p></p>
+</section>
