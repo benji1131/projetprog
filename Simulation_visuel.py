@@ -14,14 +14,15 @@ class Population:
         self.population = np.zeros([population_nbr, population_nbr])    # matrice qui représente notre population
         self.population[population_nbr//2,population_nbr//2] = 1          #patient 0
         self.list_population = []                                       #Initialise la list
-        self.list_poss = [-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10] #dans carré de largeur 10
+        self.list_poss = [-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10] #dans carré de largeur 10 pour voyage
         self.propagation = pourcentage_propa
         self.pourcentage_mort = pourcentage_mort
         self.pourcentage_vacc = pourcentage_vacc
         self.frames = frames
 
-        #pour les graph mtn
-                                         #répartir couleurs selon valeurs
+
+    """Soit chaque cellule comporte une valeurs représenté dans les graphs par une couleurs symbolique
+    Ces valeurs/couleurs représente les statut médicale de la personne (Saint S, Contamine C, Infecté I, Rétablis R)"""
 
     def infection(self, pourcentage_propa, pourcentage_mort):
         n =secrets.randbelow(101)/100
@@ -37,7 +38,7 @@ class Population:
             for j in range (0,50):
                 n = secrets.randbelow(11)/10
                 if n < self.pourcentage_vacc:
-                    self.population[i,j] = 6
+                    self.population[i,j] = 6 # Réparti aléatoirement les personnes vaccinée dans la matrice
 
     def voisinage(self, population_nbr):
         for w in range(self.frames):
@@ -46,7 +47,7 @@ class Population:
             for i in range(1,population_nbr-1):
                 for j in range (1, population_nbr-1):
                     if population_copy[i,j] == 1 :
-                        self.population[i,j] = 2  #valeur = 2 --> Retablis voir si on veut le moment d'incubation !!
+                        self.population[i,j] = 2  #valeur = 2
                         for x in range(-1,2):
                             for y in range(-1,2):
                                 if self.population[i+x,j+y] == 2 or self.population[i+x,j+y]==3 or self.population[i+x,j+y] == 4 or self.population[i+x,j+y] == 5 or self.population[i+x,j+y] ==6:
@@ -59,7 +60,7 @@ class Population:
                         self.population[i,j] = 4
 
 
-    def voyages(self, population_nbr): #soit une personne voit en moyenne 5 mêmes personnes par jour qui n'habitent pas à coté de chez lui
+    def voyages(self, population_nbr):
 
         for w in range(self.frames):
             population_copy = np.copy(self.population)#crée copy pour chercher les valeurs dess infecté sans les modifs
@@ -68,7 +69,7 @@ class Population:
                 for j in range (1,population_nbr-1):
                     if population_copy[i,j] == 1:
                        self.population[i,j] = 2  #valeur = 2 --> Retablis voir si on veut le moment d'incubation !!
-                       for count in range(5):
+                       for count in range(5): #soit une personne voit en moyenne 5 mêmes personnes par jour qui n'habitent pas à coté de chez lui
                             x = secrets.choice(self.list_poss)
                             y = secrets.choice(self.list_poss)
 
@@ -172,7 +173,7 @@ plt.show()
 #anim3.save(r'C:\Users\gremi\Desktop\Prog_pour_Ingenieur\projet\projetprog\Animated_plots\animation3.gif', writer= writer)
 
 #----------------------------------------------------------------------------
-#Figure 4. Soit les gens bougent dans la ville mais peuvent infecter 6 personnes (les amis qu'ils cottoyent régulièrement)
+#Figure 4. Soit les gens bougent dans la ville mais peuvent infecter 5 personnes (les amis/collegues qu'ils cottoyent régulièrement)
 def initialisation_graph4():
     plot4.set_data(cas_4.list_population[0])
     return plot4

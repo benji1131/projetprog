@@ -190,7 +190,8 @@ for i in range(n):
     es7.append(data_covid7[i,8])
     cv7.append(data_covid7[i,9])
     ev7.append(data_covid7[i,10])
-
+"""On a importé toutes les donnée car celles-ci nous ont permi de tester différent graphique et de selectioonner
+les plus importants"""
 
 #crée notre x axis"""
 temp = np.linspace(0,n,n)
