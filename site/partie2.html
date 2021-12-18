@@ -41,6 +41,20 @@
     Le diagramme ci-dessous permet de mieux visualiser le modèle utilisé :
   </p>
   <img src="/Users/mahepricam/Documents/Cours/projetprog/site/graph/diagramme.png">
+  <p>Chaque compartiment désignent une fraction de la population à un moment t et est représentée par une
+    valeur entre 0 et 1 :</p>
+  <ul class="categorie">
+    <li>- <b>S</b>: individus sains,</li>
+    <li>- <b>Cs, Cv</b> : individus contaminés non contagieux venant de la catégorie saint (Cs) respectivement
+      rétablie et/ou vaccinée (Cv),</li>
+    <li>- <b>Is, Iv</b> : individus infectés venant de la catégorie Cs, respectivement Cv. Ce sont ces individus
+      qui sont contagieux,</li>
+    <li>- <b>R</b> : individus rétablis et/ou vacciné venant des catégories Is et Iv,</li>
+    <li>- <b>D</b> : individus n’ayant pas survécu à l’infection.</li>
+  </ul>
+  <p>La population totale est donc : <b>P = S + Cs + Cv + Is + Iv + R - D</b>.</p>
+
+  </div>
   <div class="equation">
     <div>
       <h3>Le système d'équation est donc le suivant :</h3>
@@ -50,7 +64,7 @@
         <li>dCv/dt = β2 · (is + iv) · r - cv / ν</li>
         <li>dIs/dt = cs / ν - is / λ - µ1 · is</li>
         <li>dIv/dt = cv / ν - iv / λ - µ2 · iv</li>
-        <li>dR/dt =  is / λ - r / τ + α · s</li>
+        <li>dR/dt =  (is + iv) / λ - r / τ + α · s</li>
         <li>dD/dt = µ1 · is + µ2 · iv</li>
         <li>dV/dt = α · s</li>
       </ul>
@@ -58,12 +72,12 @@
       <div>
         <h4>Avec comme facteurs :</h4>
         <ul>
-          <li>- β : taux de contamination</li>
-          <li>- ν : temps d’incubation de la maladie en jours</li>
-          <li>- λ : temps de rétablissement en jours</li>
-          <li>- α : taux de vaccination</li>
-          <li>- µ : taux de mortalité suite au Covid</li>
-          <li>- τ : temps moyen d'immunité</li>
+          <li>- β : taux de contamination (/j)</li>
+          <li>- ν : temps d’incubation de la maladie (/j)</li>
+          <li>- λ : temps de rétablissement (/j)</li>
+          <li>- α : taux de vaccination (/j)</li>
+          <li>- µ : taux de mortalité suite au Covid (/j)</li>
+          <li>- τ : temps moyen d'immunité (/j)</li>
         </ul>
       </div>
   </div>
@@ -73,7 +87,7 @@
     Ainsi, une personne immunisée est beaucoup moins susceptible d’être contaminée et aura une meilleure
     réponse immunitaire (donc un taux de mortalité moins élevé).
     <br> <br>
-    Pour déterminer la valeur de β, celui-ci est calculé à partir d’un paramètre très important et
+    Pour déterminer la valeur de β, nous l'avons calculé à partir d’un paramètre très important et
     extrêmement bien documenté : le nombre de reproduction Re. D’après notre modèle, β se calcule de la
     manière suivante : β = Re / λ.
     <br> <br>
@@ -95,17 +109,17 @@
     Pour cela, on étudie trois cas distincts :
   </p>
   <ol>
-    <li>Situation de contrôle : Cette situation est représentative de l’apparition d’un nouveau virus.
+    <li><b>Situation de Contrôle :</b> Cette situation est représentative de l’apparition d’un nouveau virus.
         Cela implique qu’un vaccin n’existe pas encore et qu’il ne sera pas développé dans les premiers mois.
         Ainsi, initialement personne n’est immunisé, la seule manière de développer une immunité est de
         tomber malade. Ensuite, on suppose qu’il n’y a pas de gestes barrières car il prend un certain temps
         avant de réaliser qu’il s’agit d’une épidémie d’un nouveau virus et non pas d’une grippe ou autre
         maladie fréquente et bénigne.</li>
-    <li>Situation avec port du masque : Une des premières mesures mise en place suite à la découverte
+    <li><b>Situation avec Port du Masque :</b> Une des premières mesures mise en place suite à la découverte
         de ce nouveau virus à été le port de masque. Nous avons donc simulé l’évolution de la population
         en estimant que le port du masque faisait diminuer le Re de 30% par rapport à la situation de
         base.</li>
-    <li>Situation de confinement : Suite à la hausse des cas, de nombreux gouvernements ont décidé de
+    <li><b>Situation de Confinement :</b> Suite à la hausse des cas, de nombreux gouvernements ont décidé de
         confiner les pays. La population se retrouve alors confinée chez elle et les contacts deviennent
         amoindris. Cela fait drastiquement baisser le Re initiale de 80%.</li>
   </ol>
@@ -133,12 +147,43 @@
         <h3>Figure 3 : Evolution des personnes décédées</h3>
     </div>
   </div>
-  <p>On remarque une nette différence entre chacune de ces situations. Le confinement permet de garder
-    une population saine plus ou moins stable  lors du pic de l’épidémie aux alentours du 20ème jour.
-    On observe même une augmentation de la population saine car il n’y a plus ou presque de contamination
-    après le 20ème jour. Il y a beau y avoir une population infectée d’environ 10%, le confinement
-    empêche cette fraction de contaminer de nouvelles personnes. On remarque également une nette diminution
-    de population décédée en comparaison à notre situation de contrôle.
+  <p>Si on trace la situation de contrôle avec respectivement les deux autres, nous obtenons les graphs
+    suivants :</p>
+  <div class="graph">
+    <div>
+        <img src="/Users/mahepricam/Documents/Cours/projetprog/site/graph/plot4.png">
+        <h3>Figure 4 : Comparaison situation avec contôle avec port du masque</h3>
+    </div>
+    <div>
+        <img src="/Users/mahepricam/Documents/Cours/projetprog/site/graph/plot5.png">
+        <h3>Figure 5 : Comparaison situation contrôle avec le confinement</h3>
+    </div>
+  </div>
+  <p>On remarque une nette différence entre chacune de ces situations. Soit on observe un pic dans
+    l’évolution de l’épidémie aux alentours du 20ème jour. En effet, les personnes contaminées développent
+    des symptômes et peuvent à leur tour contaminer plus de personnes saines.
+    <br><br>
+    Le port du masque permet de réduire la propagation de l’épidémie de manière significative. On observe
+    une baisse de 5% de la population infectée par rapport à la situation contrôle. Cela peut sembler être
+    une faible proportion, néanmoins comparé au maximum de  20% de population touchée dans notre situation
+    contrôle, cela représente une baisse non négligeable. Une baisse de la proportion de personnes infectées
+    est un élément primordial qui  a un impact direct sur la proportion de personnes décédées. On remarque
+    une diminution finale de 2% de la population décédée ce qui représente à l'échelle d’un pays un nombre
+    non négligeable.
+    <br><br>
+    Le confinement permet de garder une population saine plus ou moins stable  lors du pic de l’épidémie.
+    On observe même une légère augmentation de la population saine après le 20ème jour car le confinement
+    permet de limiter largement les contacts entre les personnes, prévenant ainsi contre de nouvelles
+    contaminations. Ceci n’explique pas pourquoi la population saine augmente mais plutôt pourquoi elle est
+    plus stable lors du pic. La population saine augmente car certaines personnes perdent leur immunité
+    après une certaine période et donc elles changent de statut en passant de Rétabli à Saint. Il était
+    attendu d’observer une forte baisse des personnes infectées car un confinement permet d’éviter un
+    maximum de contacte et les risques de contaminations.  Le pic est moins élevé et il diminue avec une
+    pente beaucoup plus forte que les autres situations. De plus, la part de la population décédée à
+    diminuer de 5% ce qui permet de sauver 50% de personnes en plus que dans la situation contrôle.
+    <br><br>
+    On peut déduire que le port du masque et surtout le confinement sont des méthodes très efficaces afin
+    de lutter contre les épidémies et donc bien évidemment contre le COVID.
 </p>
 </section>
 
@@ -151,11 +196,11 @@
     vaccination (α). Pour le reste, nous n’avons pas pris en compte les gestes barrières.
   </p>
   <ol>
-    <li>Situation de Contrôle : On réutilise cette situation comme outil de comparaison.</li>
-    <li>Situation de Début de Vaccination : Un vaccin est finalement trouvé et commercialisé, ce qui permet
+    <li><b>Situation de Contrôle :</b> On réutilise cette situation comme outil de comparaison.</li>
+    <li><b>Situation de Début de Vaccination :</b> Un vaccin est finalement trouvé et commercialisé, ce qui permet
       à la population de devenir immunisée selon un taux de vaccination alpha exprimé précédemment. La
       proportion initiale de personnes vaccinées est donc de 0, mais elle va augmenter avec le temps.</li>
-    <li>Situation Intermédiaire de Vaccination: Le vaccin est déjà commercialisé depuis une certaine durée,
+    <li><b>Situation Intermédiaire de Vaccination :</b> Le vaccin est déjà commercialisé depuis une certaine durée,
       ce qui implique qu’une bonne partie de la population est déjà immunisée (30% dans notre exemple) et
       on suppose que le taux de vaccination reste constant dans le temps (α = 0,019).</li>
   </ol>
@@ -195,9 +240,9 @@
     Nous avons donc à nouveau comparer trois situations:
   </p>
   <ol>
-    <li>Situation Contrôle : Aucun variants</li>
-    <li>Situation avec le Variant Alpha : Le variant alpha augmente la valeur Re de 50 %.</li>
-    <li>Situation avec le Variant Delta Le variant delta augmente la valeur Re de 70 %.</li>
+    <li><b>Situation Contrôle :</b> Aucun variants</li>
+    <li><b>Situation avec le Variant Alpha :</b>Le variant alpha augmente la valeur Re de 50 %.</li>
+    <li><b>Situation avec le Variant Delta :</b> Le variant delta augmente la valeur Re de 70 %.</li>
   </ol>
   <p>Ce qui nous donne les graphs suivants : </p>
   <div class="graph">

@@ -98,12 +98,13 @@ nav{
 .introduction{
   width : 80% ;
   margin : auto;
-  text-align: center;
+  text-align: left;
   padding-top: 100px;
 }
 .titre_intro{
   font-size: 38px ;
   font-weight: 600 ;
+  text-align: center;
 }
 .texte_intro{
   margin-top: 20px;
@@ -279,6 +280,18 @@ nav{
 
 .part_intro img{
   width :100% ;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.part_intro b{
+  font-weight: 550;
+}
+.categorie{
+  list-style: none;
+  padding: 20px 0 20px 50px;
+}
+.categorie li{
+  padding: 2px;
 }
 .equation{
   padding-top: 50px;
@@ -291,6 +304,7 @@ nav{
   font-weight: 400;
 }
 .equation h4{
+  padding-top: 45px;
   font-size: 16px;
   font-weight: 400;
 }
@@ -322,6 +336,9 @@ nav{
 }
 .model1 ol li{
   margin: 20px 0 20px 100px ;
+}
+.model1 b{
+  font-weight: 550;
 }
 .graph{
   padding-top: 40px;
