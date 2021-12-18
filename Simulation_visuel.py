@@ -173,7 +173,7 @@ plt.show()
 #anim3.save(r'C:\Users\gremi\Desktop\Prog_pour_Ingenieur\projet\projetprog\Animated_plots\animation3.gif', writer= writer)
 
 #----------------------------------------------------------------------------
-#Figure 4. Soit les gens bougent dans la ville mais peuvent infecter 6 personnes (les amis qu'ils cottoyent régulièrement)
+#Figure 4. Soit les gens bougent dans la ville mais peuvent infecter 5 personnes (les amis/collegues qu'ils cottoyent régulièrement)
 def initialisation_graph4():
     plot4.set_data(cas_4.list_population[0])
     return plot4
