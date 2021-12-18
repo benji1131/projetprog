@@ -44,7 +44,7 @@ void simulation_population(double *population, struct pays nom, double s, double
 	double Cv = cv + beta2 * (is + iv) * r - cv / incub ;
 	double Is = is + cs / incub - is / lambda - mu1 * is/100 ;
 	double Iv = iv + cv / incub - iv / lambda - mu2 * iv/100 ;
-	double R = r + is / lambda - r / tau + alpha * s;
+	double R = r + is / lambda + iv / lambda - r / tau + alpha * s;
 	double D = d + mu1 * is/100 + mu2 * iv/ 100 ;
 	double V = v + alpha * s ;
 
