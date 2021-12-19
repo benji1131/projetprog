@@ -102,7 +102,7 @@ nav{
   padding-top: 100px;
 }
 .titre_intro{
-  font-size: 38px ;
+  font-size: 40px ;
   font-weight: 600 ;
   text-align: center;
 }
@@ -122,13 +122,14 @@ nav{
   text-align: center ;
   padding-top: 100px ;
 }
-.titre_nous{
+.nous h1{
   font-size: 30px ;
   font-weight: 530 ;
 }
 .photo{
   display: flex;
   justify-content: space-between;
+  padding-top: 50px;
 }
 .profil{
   width: 20%;
@@ -140,11 +141,43 @@ nav{
   overflow: hidden;
 }
 .profil img{
+  height: auto;
   width : 100% ;
 }
+.profil h3{
+  font-size: 16px;
+  font-weight: 400;
+}
+._nom{
+  background:transparent ;
+  opacity: 0.5;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: 0.5s;
+}
+._nom:hover{
+  background: #fff;
+  opacity: 0.6;
+}
+
 ._nom h3{
-  font-size: 15px ;
+  width: 100%;
+  font-size: 20px ;
   font-weight: 500;
+  color: #000;
+  bottom: 10%;
+  left :50%;
+  transform: translateX(-50%);
+  position: absolute;
+  opacity: 0;
+  transition: 0.5s;
+}
+._nom:hover h3{
+  bottom : 42%;
+  opacity: 1;
 }
 
 /* Références */
@@ -154,6 +187,19 @@ nav{
   margin: auto;
   text-align: center;
   padding-top: 100px ;
+  padding-bottom: 50px;
+}
+.ref h1{
+  font-size: 40px;
+  font-weight: 500;
+}
+.ref ul{
+  list-style: none;
+  text-align: left;
+  padding-top: 50px;
+}
+.ref ul li{
+  padding : 5px;
 }
 
 /* Page de garde partie 1 et 2 */
@@ -244,7 +290,7 @@ nav{
   font-weight: 300;
 }
 
-/* conclu */
+/* conclu partie 1 et 2 */
 
 .conclu{
   width: 80% ;
@@ -256,7 +302,7 @@ nav{
 .conclu h1{
   font-size: 30px ;
   font-weight: 600 ;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 }
 .conclu p{
   font-size: 16px;
@@ -359,5 +405,24 @@ nav{
 }
 .graph h3{
   font-size: 13px;
+  font-weight: 300;
+}
+/* conclusion général */
+
+.conclu_gen{
+  width: 80%;
+  margin: auto;
+  padding-top: 100px;
+  text-align: left;
+  margin-bottom: 50px;
+}
+.conclu_gen h1{
+  font-size: 40px;
+  font-weight: 600;
+  text-align: center;
+}
+.conclu_gen p{
+  padding-top: 40px;
+  font-size: 16px;
   font-weight: 300;
 }
