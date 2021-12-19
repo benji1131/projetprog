@@ -34,22 +34,22 @@
 <!-- Intro partie 2  -->
 
 <section class="part_intro">
-  <h1>Deuxième Partie : Simulation de la propagation du Covid19</h1>
+  <h1>Deuxième Partie : Simulation de la propagation du COVID-19</h1>
   <p>Pour ce faire, nous avons développé un modèle, en nous inspirant grandement du modèle SEIR,
     qui prend en compte une multitudes de facteurs et qui permet de simuler l’évolution du flux d'individu
     selon 7 catégories.
     Le diagramme ci-dessous permet de mieux visualiser le modèle utilisé :
   </p>
   <img src="/Users/mahepricam/Documents/Cours/projetprog/site/graph/diagramme.png">
-  <p>Chaque compartiment désignent une fraction de la population à un moment t et est représentée par une
+  <p>Chaque compartiment désigne une fraction de la population à un moment t et est représenté par une
     valeur entre 0 et 1 :</p>
   <ul class="categorie">
     <li>- <b>S</b>: individus sains,</li>
-    <li>- <b>Cs, Cv</b> : individus contaminés non contagieux venant de la catégorie saint (Cs) respectivement
+    <li>- <b>Cs, Cv</b> : individus contaminés non contagieux venant de la catégorie saint (Cs), respectivement
       rétablie et/ou vaccinée (Cv),</li>
     <li>- <b>Is, Iv</b> : individus infectés venant de la catégorie Cs, respectivement Cv. Ce sont ces individus
       qui sont contagieux,</li>
-    <li>- <b>R</b> : individus rétablis et/ou vacciné venant des catégories Is et Iv,</li>
+    <li>- <b>R</b> : individus rétablis et/ou vaccinés venant des catégories Is et Iv,</li>
     <li>- <b>D</b> : individus n’ayant pas survécu à l’infection.</li>
   </ul>
   <p>La population totale est donc : <b>P = S + Cs + Cv + Is + Iv + R - D</b>.</p>
@@ -83,21 +83,21 @@
   </div>
   <p>On peut noter qu’il existe deux β et deux µ. Cela s'explique par le fait qu’une personne
     vaccinée ou rétablie (caractérisée par la même catégorie "Rétabli" dans notre modèle), possède une certaine
-    immunité de base. Cette immunité n’est pas totale mais est estimée à 95% fiable lors des 4 premiers mois.
-    Ainsi, une personne immunisée est beaucoup moins susceptible d’être contaminée et aura une meilleure
-    réponse immunitaire (donc un taux de mortalité moins élevé).
+    immunité de base. Cette <b>immunité</b> n’est pas totale mais est estimée à <b>95%</b> fiable lors des 4
+    premiers mois. Ainsi, une personne immunisée est beaucoup moins susceptible d’être contaminée et aura
+    une meilleure réponse immunitaire (donc un taux de mortalité moins élevé).
     <br> <br>
-    Pour déterminer la valeur de β, nous l'avons calculé à partir d’un paramètre très important et
-    extrêmement bien documenté : le nombre de reproduction Re. D’après notre modèle, β se calcule de la
-    manière suivante : β = Re / λ.
+    Pour déterminer la valeur de β, nous avons utilisé un paramètre très important et extrêmement bien
+    documenté : le nombre de reproduction Re. D’après notre modèle, β se calcule de la manière suivante :
+    <b>β = Re / λ</b>.
     <br> <br>
     Pour l’estimation du taux de vaccination, nous avons observé les données trouvées sur le site de la
     confédération suisse et avons effectué une régression linéaire qui nous a donnée une valeur
-    α = 0,0019 % / jour.
+    <b>α = 0,0019 % / jour</b>.
     <br> <br>
-    Une fois le modèle écrit, il ne restait qu'à déterminer les facteurs que l’on souhaitait étudier ainsi
+    Une fois le modèle écrit, il ne restait plus qu'à déterminer les facteurs que l’on souhaitait étudier ainsi
     que les conditions à imposer. Afin de bien pouvoir comparer l'impact des facteurs, nous avons fixé une
-    valeur initiale de Re à 1.5 et une contamination initiale s’élevant à 30%.
+    valeur initiale de <b>Re</b> à <b>1.5</b> et une <b>contamination initiale</b> s’élevant à <b>30%</b>.
   </p>
 </section>
 
@@ -111,8 +111,8 @@
   <ol>
     <li><b>Situation de Contrôle :</b> Cette situation est représentative de l’apparition d’un nouveau virus.
         Cela implique qu’un vaccin n’existe pas encore et qu’il ne sera pas développé dans les premiers mois.
-        Ainsi, initialement personne n’est immunisé, la seule manière de développer une immunité est de
-        tomber malade. Ensuite, on suppose qu’il n’y a pas de gestes barrières car il prend un certain temps
+        Ainsi, initialement personne n’est immunisé et la seule manière de développer une immunité est de
+        tomber malade. Ensuite, on suppose qu’il n’y a pas de gestes barrières car il faut un certain temps
         avant de réaliser qu’il s’agit d’une épidémie d’un nouveau virus et non pas d’une grippe ou autre
         maladie fréquente et bénigne.</li>
     <li><b>Situation avec Port du Masque :</b> Une des premières mesures mise en place suite à la découverte
@@ -121,12 +121,12 @@
         base.</li>
     <li><b>Situation de Confinement :</b> Suite à la hausse des cas, de nombreux gouvernements ont décidé de
         confiner les pays. La population se retrouve alors confinée chez elle et les contacts deviennent
-        amoindris. Cela fait drastiquement baisser le Re initiale de 80%.</li>
+        amoindris. Cela fait drastiquement baisser le Re initial de 80%.</li>
   </ol>
   <p>Dans le cas de notre programme, nous initions les conditions avec une proportion de population saine
     de 100% et d’un taux de vaccination nul (ie. α = 0).
     <br><br>
-    Ces trois situations nous ont donné les graphs suivants : </p>
+    Ces trois situations nous ont donné les graphes suivants : </p>
   <div class="graph">
     <div>
       <div class="animation">
@@ -147,16 +147,16 @@
         <h3>Figure 3 : Evolution des personnes décédées</h3>
     </div>
   </div>
-  <p>Si on trace la situation de contrôle avec respectivement les deux autres, nous obtenons les graphs
+  <p>Si on trace la situation de contrôle avec respectivement les deux autres, nous obtenons les graphes
     suivants :</p>
   <div class="graph">
     <div>
         <img src="/Users/mahepricam/Documents/Cours/projetprog/site/graph/plot4.png">
-        <h3>Figure 4 : Comparaison situation avec contôle avec port du masque</h3>
+        <h3>Figure 4 : Comparaison des situation de contôle et avec port du masque</h3>
     </div>
     <div>
         <img src="/Users/mahepricam/Documents/Cours/projetprog/site/graph/plot5.png">
-        <h3>Figure 5 : Comparaison situation contrôle avec le confinement</h3>
+        <h3>Figure 5 : Comparaison des situation de contrôle et de confinement</h3>
     </div>
   </div>
   <p>On remarque une nette différence entre chacune de ces situations. Soit on observe un pic dans
@@ -165,20 +165,20 @@
     <br><br>
     Le port du masque permet de réduire la propagation de l’épidémie de manière significative. On observe
     une baisse de 5% de la population infectée par rapport à la situation contrôle. Cela peut sembler être
-    une faible proportion, néanmoins comparé au maximum de  20% de population touchée dans notre situation
+    une faible proportion, néanmoins comparé au maximum de 20% de population touchée dans notre situation
     contrôle, cela représente une baisse non négligeable. Une baisse de la proportion de personnes infectées
-    est un élément primordial qui  a un impact direct sur la proportion de personnes décédées. On remarque
+    est un élément primordial qui a un impact direct sur la proportion de personnes décédées. On remarque
     une diminution finale de 2% de la population décédée ce qui représente à l'échelle d’un pays un nombre
     non négligeable.
     <br><br>
-    Le confinement permet de garder une population saine plus ou moins stable  lors du pic de l’épidémie.
+    Le confinement permet de garder une population saine plus ou moins stable lors du pic de l’épidémie.
     On observe même une légère augmentation de la population saine après le 20ème jour car le confinement
-    permet de limiter largement les contacts entre les personnes, prévenant ainsi contre de nouvelles
+    permet de limiter largement les contacts entre les personnes, préservant ainsi contre de nouvelles
     contaminations. Ceci n’explique pas pourquoi la population saine augmente mais plutôt pourquoi elle est
     plus stable lors du pic. La population saine augmente car certaines personnes perdent leur immunité
     après une certaine période et donc elles changent de statut en passant de Rétabli à Saint. Il était
     attendu d’observer une forte baisse des personnes infectées car un confinement permet d’éviter un
-    maximum de contacte et les risques de contaminations.  Le pic est moins élevé et il diminue avec une
+    maximum de contact et de risque de contaminations. Le pic est moins élevé et il diminue avec une
     pente beaucoup plus forte que les autres situations. De plus, la part de la population décédée à
     diminuer de 5% ce qui permet de sauver 50% de personnes en plus que dans la situation contrôle.
     <br><br>
@@ -198,13 +198,13 @@
   <ol>
     <li><b>Situation de Contrôle :</b> On réutilise cette situation comme outil de comparaison.</li>
     <li><b>Situation de Début de Vaccination :</b> Un vaccin est finalement trouvé et commercialisé, ce qui permet
-      à la population de devenir immunisée selon un taux de vaccination alpha exprimé précédemment. La
+      à la population de devenir immunisée selon un taux de vaccination α exprimé précédemment. La
       proportion initiale de personnes vaccinées est donc de 0, mais elle va augmenter avec le temps.</li>
     <li><b>Situation Intermédiaire de Vaccination :</b> Le vaccin est déjà commercialisé depuis une certaine durée,
-      ce qui implique qu’une bonne partie de la population est déjà immunisée (30% dans notre exemple) et
-      on suppose que le taux de vaccination reste constant dans le temps (α = 0,019).</li>
+      ce qui implique qu’une bonne partie de la population est déjà immunisée (30% dans notre exemple). On
+      suppose aussi que le taux de vaccination reste constant dans le temps (α = 0,019).</li>
   </ol>
-  <p>Nous avons obtenus les graphs suivants :</p>
+  <p>Nous avons obtenus les graphes suivants :</p>
   <div class="graph">
     <div>
         <img src="/Users/mahepricam/Documents/Cours/projetprog/site/graph/plot6.png">
@@ -218,20 +218,20 @@
   <div class="graph">
     <div>
         <img src="/Users/mahepricam/Documents/Cours/projetprog/site/graph/plot8.png">
-        <h3>Figure 8 : Evolution des personnes rétablis avec vaccination</h3>
+        <h3>Figure 8 : Evolution des personnes rétablies avec vaccination</h3>
     </div>
     <div>
         <img src="/Users/mahepricam/Documents/Cours/projetprog/site/graph/plot9.png">
         <h3>Figure 9 : Evolution des personnes décédées avec vaccination</h3>
     </div>
   </div>
-  <p>On observe grâce aux graphiques que la vaccination à un effet de réduction sur l’impact de l’épidémie.
+  <p>On observe grâce aux graphiques que la vaccination fait réduire l'impact de l’épidémie.
     En effet, les proportions de personnes infectées et décédées ont diminuées en comparaison avec la
     situation de contrôle. On constate que la vaccination est une méthode plus efficace sur le long
-    terme avec une nette diminution pour la Situation 3 comparée à la situation 2. C’est un constat qui
-    semble plutôt logique car plus il y a un pourcentage élevé de population vaccinée et donc immunisée
-    (Rétabli selon notre modèle), moins la proportion de personnes susceptible de contracter le virus est
-    grande. Ce qui implique que le virus se propage moins et qu’il est moins dévastateur (beaucoup moins
+    terme avec une nette diminution pour la Situation 3 comparée à la Situation 2. C’est un constat qui
+    semble plutôt logique car plus le pourcentage de la population vaccinée est élevée et donc immunisée
+    (Rétabli selon notre modèle), moins la proportion de personne susceptible de contracter le virus est
+    grande. Ceci implique donc que le virus se propage moins et qu’il est moins dévastateur (beaucoup moins
     de personnes décédées).
 </p>
 </section>
@@ -242,7 +242,7 @@
   <h2>Simulation 3 : Variants</h2>
   <p>Finalement, on étudie l'impact de variants qui peuvent apparaître dans la population. Les variants
     qui nous intéressent sont ceux qui ont un impact négatif sur l’évolution de l’épidémie, c'est-à-dire
-    qui augmentent la valeur de Re initial.
+    qui augmentent la valeur du Re initial.
     <br><br>
     Nous avons donc à nouveau comparé trois situations:
   </p>
@@ -251,7 +251,7 @@
     <li><b>Situation avec le Variant Alpha :</b> Le variant alpha augmente la valeur Re de 50 %.</li>
     <li><b>Situation avec le Variant Delta :</b> Le variant delta augmente la valeur Re de 70 %.</li>
   </ol>
-  <p>Ce qui nous donne les graphs suivants : </p>
+  <p>Ce qui nous donne les graphes suivants : </p>
   <div class="graph">
     <div>
       <div class="animation">
@@ -273,7 +273,7 @@
     </div>
   </div>
   <p>On observe que les variants ont un impact totalement opposé à celui des vaccins. Les variants utilisés
-    dans notre modèle sont plus virulents que le virus originel, ils contaminent donc plus de personnes et
+    dans notre modèle sont plus virulents que le virus originel. En efet,ils contaminent plus de personnes et
     l’immunité est nettement moins efficace qu’auparavant. Il en résulte une chute des personnes saines qui
     deviennent contaminées puis infectées ainsi qu’une augmentation de la mortalité.
   </p>
@@ -283,7 +283,7 @@
 
 <section class="conclu">
   <h1> Conclusion de la partie 2 </h1>
-  <p>Il ne faut pas négliger l’importance des gestes barrière et de la vaccination car ces deux facteurs
+  <p>Il ne faut pas négliger l’importance des gestes barrières et de la vaccination car ces deux facteurs
     permettent de réduire drastiquement l'impact d’une épidémie sur la population. Ces méthodes permettent
     non seulement de nous protéger nous même mais également de protéger les personnes qui nous entourent,
     en bloquant la chaîne de contamination. </p>
