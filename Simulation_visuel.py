@@ -117,8 +117,8 @@ anim1= FuncAnimation(fig1, update, init_func = initialisation_graph, frames=cas_
 plt.show()
 
 #save image
-#writer= animation.PillowWriter(fps=70)
-#anim1.save(r'C:\Users\gremi\Desktop\Prog_pour_Ingenieur\projet\projetprog\Animated_plots\animation.gif', writer= writer)
+writer= animation.PillowWriter(fps=70)
+anim1.save(r'C:\Users\gremi\Desktop\Prog_pour_Ingenieur\projet\projetprog\Animated_plots\animation.gif', writer= writer)
 
 
 #----------------------------------------------------------------------------
