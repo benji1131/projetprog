@@ -2,7 +2,7 @@ import numpy as np
 import secrets
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-#from matplotlib import animation #if save the gif
+from matplotlib import animation #if save the gif
 from matplotlib.animation import FuncAnimation
 
 
@@ -117,8 +117,8 @@ anim1= FuncAnimation(fig1, update, init_func = initialisation_graph, frames=cas_
 plt.show()
 
 #save image
-writer= animation.PillowWriter(fps=70)
-anim1.save(r'C:\Users\gremi\Desktop\Prog_pour_Ingenieur\projet\projetprog\Animated_plots\animation.gif', writer= writer)
+#writer= animation.PillowWriter(fps=70)
+#anim1.save(r'C:\Users\gremi\Desktop\Prog_pour_Ingenieur\projet\projetprog\site\graph\animation1.gif', writer= writer)
 
 
 #----------------------------------------------------------------------------
